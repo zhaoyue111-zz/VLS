@@ -1,0 +1,3 @@
+stage,state_shape,state_mb,identity_normalized_mse,intermediate_prediction_normalized_mse
+decoder_stage_1_low_to_high,1x1x288x24x24x24,7.59375,0.013785759918391705,0.0026609543710947037
+decoder_stage_2_low_to_high,1x1x160x48x48x48,33.75,0.004466052632778883,0.002125743543729186

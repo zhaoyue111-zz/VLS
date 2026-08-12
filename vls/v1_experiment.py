@@ -34,8 +34,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--prompts", nargs="+", default=DEFAULT_PROMPTS)
     parser.add_argument("--candidate-stages", nargs="+", default=["decoder_stage_1_low_to_high", "decoder_stage_2_low_to_high"])
     parser.add_argument("--selected-stage", default="decoder_stage_1_low_to_high")
-    parser.add_argument("--dev-cases", type=int, default=6)
-    parser.add_argument("--val-cases", type=int, default=2)
+    parser.add_argument("--dev-cases", type=int, default=8)
+    parser.add_argument("--val-cases", type=int, default=4)
     parser.add_argument("--patches-per-case", type=int, default=4)
     parser.add_argument("--foreground-patches-per-case", type=int, default=2)
     parser.add_argument("--foreground-candidate-patches", type=int, default=16)
@@ -43,7 +43,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-train-steps", type=int, default=300)
     parser.add_argument("--eval-steps", nargs="+", type=int, default=DEFAULT_EVAL_STEPS)
     parser.add_argument("--gamma-strengths", nargs="+", type=float, default=DEFAULT_STRENGTHS)
-    parser.add_argument("--hidden-channels", type=int, default=32)
+    parser.add_argument("--hidden-channels", type=int, default=16)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--seed", type=int, default=2026)
     parser.add_argument("--device", default="cuda")
@@ -446,8 +446,36 @@ def append_group_evals(
     selected_stage: str,
     batch_size: int,
 ) -> None:
+    rows.extend(compute_eval_records(
+        step,
+        split_name,
+        group_name,
+        group_value,
+        data,
+        models,
+        use_action,
+        interface,
+        selected_stage,
+        batch_size,
+    ))
+
+
+@torch.inference_mode()
+def compute_eval_records(
+    step: int,
+    split_name: str,
+    group_name: str,
+    group_value: str,
+    data: dict[str, Any],
+    models: dict[str, nn.Module],
+    use_action: dict[str, bool],
+    interface: VoxTellStateInterface,
+    selected_stage: str,
+    batch_size: int,
+) -> list[dict[str, float | int | str]]:
+    records = []
     identity = evaluate_identity(data, interface, selected_stage, batch_size)
-    rows.append({
+    records.append({
         "step": step,
         "split": split_name,
         "group": group_name,
@@ -457,7 +485,7 @@ def append_group_evals(
     })
     for model_name, model in models.items():
         metrics = evaluate_model(model, data, use_action[model_name], interface, selected_stage, batch_size)
-        rows.append({
+        records.append({
             "step": step,
             "split": split_name,
             "group": group_name,
@@ -466,7 +494,7 @@ def append_group_evals(
             **metrics,
         })
     wrong = evaluate_wrong_action(models["action_conditioned"], data, interface, selected_stage, batch_size)
-    rows.append({
+    records.append({
         "step": step,
         "split": split_name,
         "group": group_name,
@@ -474,6 +502,123 @@ def append_group_evals(
         "model": "action_conditioned_wrong_action",
         **wrong,
     })
+    return records
+
+
+def macro_records_from_case_records(
+    step: int,
+    split_name: str,
+    case_records: list[dict[str, float | int | str]],
+) -> list[dict[str, float | int | str]]:
+    models = sorted({str(row["model"]) for row in case_records})
+    macro_rows = []
+    for model_name in models:
+        model_rows = [row for row in case_records if row["model"] == model_name]
+        macro_rows.append({
+            "step": step,
+            "split": split_name,
+            "group": "overall_macro",
+            "group_value": "case_mean",
+            "model": model_name,
+            "state_normalized_mse": float(np.mean([float(row["state_normalized_mse"]) for row in model_rows])),
+            "mask_logit_normalized_mse": float(np.mean([float(row["mask_logit_normalized_mse"]) for row in model_rows])),
+        })
+    return macro_rows
+
+
+def records_by_model(rows: list[dict[str, float | int | str]]) -> dict[str, dict[str, float | int | str]]:
+    return {str(row["model"]): row for row in rows}
+
+
+def v13_pass_summary(
+    final_rows: list[dict[str, float | int | str]],
+    final_group_rows: list[dict[str, float | int | str]],
+) -> dict[str, Any]:
+    val_micro = records_by_model([
+        row for row in final_rows
+        if row["split"] == "val" and row["group"] == "overall_micro"
+    ])
+    val_macro = records_by_model([
+        row for row in final_rows
+        if row["split"] == "val" and row["group"] == "overall_macro"
+    ])
+
+    def state(model_rows: dict[str, dict[str, float | int | str]], model: str) -> float:
+        return float(model_rows[model]["state_normalized_mse"])
+
+    micro_conditioned_lt_agnostic = state(val_micro, "action_conditioned") < state(val_micro, "action_agnostic")
+    micro_correct_lt_wrong = state(val_micro, "action_conditioned") < state(val_micro, "action_conditioned_wrong_action")
+    macro_conditioned_lt_agnostic = state(val_macro, "action_conditioned") < state(val_macro, "action_agnostic")
+    macro_correct_lt_wrong = state(val_macro, "action_conditioned") < state(val_macro, "action_conditioned_wrong_action")
+
+    val_case_groups = sorted({
+        str(row["group_value"])
+        for row in final_group_rows
+        if row["split"] == "val" and row["group"] == "case_names"
+    })
+    case_wins = []
+    for case_name in val_case_groups:
+        rows = records_by_model([
+            row for row in final_group_rows
+            if row["split"] == "val" and row["group"] == "case_names" and row["group_value"] == case_name
+        ])
+        case_wins.append({
+            "case": case_name,
+            "conditioned_lt_agnostic": state(rows, "action_conditioned") < state(rows, "action_agnostic"),
+        })
+
+    val_action_groups = sorted({
+        str(row["group_value"])
+        for row in final_group_rows
+        if row["split"] == "val" and row["group"] == "strengths"
+    })
+    action_wins = []
+    for strength in val_action_groups:
+        rows = records_by_model([
+            row for row in final_group_rows
+            if row["split"] == "val" and row["group"] == "strengths" and row["group_value"] == strength
+        ])
+        action_wins.append({
+            "strength": strength,
+            "conditioned_lt_agnostic": state(rows, "action_conditioned") < state(rows, "action_agnostic"),
+            "correct_lt_wrong": state(rows, "action_conditioned") < state(rows, "action_conditioned_wrong_action"),
+            "conditioned_lt_identity": state(rows, "action_conditioned") < state(rows, "identity"),
+        })
+
+    case_win_count = sum(1 for item in case_wins if item["conditioned_lt_agnostic"])
+    action_win_count = sum(
+        1 for item in action_wins
+        if item["conditioned_lt_agnostic"] and item["correct_lt_wrong"]
+    )
+    strong_intervention_conditioned_lt_identity = any(
+        item["strength"] in {"+0.30", "-0.30"} and item["conditioned_lt_identity"]
+        for item in action_wins
+    )
+    passed = (
+        micro_conditioned_lt_agnostic
+        and micro_correct_lt_wrong
+        and macro_conditioned_lt_agnostic
+        and macro_correct_lt_wrong
+        and case_win_count >= 3
+        and action_win_count >= 3
+        and strong_intervention_conditioned_lt_identity
+    )
+
+    return {
+        "passed": passed,
+        "micro_conditioned_lt_agnostic": micro_conditioned_lt_agnostic,
+        "micro_correct_lt_wrong": micro_correct_lt_wrong,
+        "macro_conditioned_lt_agnostic": macro_conditioned_lt_agnostic,
+        "macro_correct_lt_wrong": macro_correct_lt_wrong,
+        "case_win_count": case_win_count,
+        "case_total": len(case_wins),
+        "action_win_count": action_win_count,
+        "action_total": len(action_wins),
+        "strong_intervention_conditioned_lt_identity": strong_intervention_conditioned_lt_identity,
+        "case_wins": case_wins,
+        "action_wins": action_wins,
+        "criterion": "micro and macro conditioned < agnostic and correct < wrong; >=3/4 val cases; >=3/4 actions; at least one strong intervention conditioned < identity",
+    }
 
 
 def train_models(
@@ -504,7 +649,7 @@ def train_models(
                 step,
                 split_name,
                 data,
-                "overall",
+                "overall_micro",
                 "all",
                 models,
                 use_action,
@@ -512,21 +657,25 @@ def train_models(
                 selected_stage,
                 batch_size,
             )
+            case_records_for_macro = []
             for group_name in ["strengths", "case_names"]:
                 for group_value, indices in grouped_indices(data, group_name):
-                    append_group_evals(
-                        group_rows,
+                    records = compute_eval_records(
                         step,
                         split_name,
-                        subset_data(data, indices),
                         group_name,
                         group_value,
+                        subset_data(data, indices),
                         models,
                         use_action,
                         interface,
                         selected_stage,
                         batch_size,
                     )
+                    group_rows.extend(records)
+                    if group_name == "case_names":
+                        case_records_for_macro.extend(records)
+            rows.extend(macro_records_from_case_records(step, split_name, case_records_for_macro))
 
     append_eval(0)
     device = next(agnostic.parameters()).device
@@ -534,13 +683,16 @@ def train_models(
     targets = train_data["targets"]
     actions = train_data["actions"]
     num_samples = states.shape[0]
+    generator = torch.Generator()
+    generator.manual_seed(torch.initial_seed())
+    permutation = torch.randperm(num_samples, generator=generator)
+    cursor = 0
     for step in range(1, max_steps + 1):
-        start = ((step - 1) * batch_size) % num_samples
-        if start + batch_size <= num_samples:
-            batch_indices = list(range(start, start + batch_size))
-        else:
-            batch_indices = list(range(start, num_samples)) + list(range(0, (start + batch_size) % num_samples))
-        index_tensor = torch.tensor(batch_indices, dtype=torch.long)
+        if cursor + batch_size > num_samples:
+            permutation = torch.randperm(num_samples, generator=generator)
+            cursor = 0
+        index_tensor = permutation[cursor : cursor + batch_size]
+        cursor += batch_size
         state_batch = states.index_select(0, index_tensor).to(device)
         target_batch = targets.index_select(0, index_tensor).to(device)
         action_batch = actions.index_select(0, index_tensor).to(device)
@@ -692,6 +844,7 @@ def run(args: argparse.Namespace) -> None:
 
     final_rows = [row for row in curve_rows if row["step"] == args.max_train_steps]
     final_group_rows = [row for row in group_rows if row["step"] == args.max_train_steps]
+    pass_summary = v13_pass_summary(final_rows, final_group_rows)
     summary = {
         "args": vars(args),
         "train_cases": [case.case for case in train_cases],
@@ -705,6 +858,7 @@ def run(args: argparse.Namespace) -> None:
         "transition_diagnostics_csv": str(diagnostic_path),
         "final_metrics": final_rows,
         "final_group_metrics": final_group_rows,
+        "v1_3_pass_summary": pass_summary,
         "expected_sanity_order": "action_conditioned < action_agnostic < identity, plus correct action < wrong action",
     }
     summary_path = output_dir / "v1_summary.json"

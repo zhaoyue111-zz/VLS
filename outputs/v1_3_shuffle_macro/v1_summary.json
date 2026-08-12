@@ -1,0 +1,990 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "output_dir": "outputs/v1_3_shuffle_macro",
+    "prompts": [
+      "liver"
+    ],
+    "candidate_stages": [
+      "decoder_stage_1_low_to_high",
+      "decoder_stage_2_low_to_high"
+    ],
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 8,
+    "val_cases": 4,
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "max_train_steps": 300,
+    "eval_steps": [
+      0,
+      30,
+      100,
+      300
+    ],
+    "gamma_strengths": [
+      -0.3,
+      -0.15,
+      0.15,
+      0.3
+    ],
+    "hidden_channels": 16,
+    "batch_size": 8,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz"
+  ],
+  "val_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "train_samples": 128,
+  "val_samples": 64,
+  "candidate_stage_csv": "outputs/v1_3_shuffle_macro/candidate_stage_metrics.csv",
+  "training_curve_csv": "outputs/v1_3_shuffle_macro/training_curve.csv",
+  "grouped_training_curve_csv": "outputs/v1_3_shuffle_macro/grouped_training_curve.csv",
+  "transition_diagnostics_csv": "outputs/v1_3_shuffle_macro/transition_diagnostics.csv",
+  "final_metrics": [
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.031149378067527714,
+      "mask_logit_normalized_mse": 0.016253609020945404
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.026236559410856338,
+      "mask_logit_normalized_mse": 0.01282913738727256
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.02362729581929226,
+      "mask_logit_normalized_mse": 0.010526120799058089
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.02968871595663309,
+      "mask_logit_normalized_mse": 0.01540019663124479
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.02420890471973212,
+      "mask_logit_normalized_mse": 0.011518390209011638
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.021712279456979545,
+      "mask_logit_normalized_mse": 0.009432295138920428
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.027614157888245117,
+      "mask_logit_normalized_mse": 0.013993811317291705
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.02804059992102969,
+      "mask_logit_normalized_mse": 0.014002966603389524
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.04164362062658564,
+      "mask_logit_normalized_mse": 0.020430356087558766
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.03935611293202177,
+      "mask_logit_normalized_mse": 0.01897206071782264
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.03780104931878641,
+      "mask_logit_normalized_mse": 0.01778693300045345
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.042852346718683765,
+      "mask_logit_normalized_mse": 0.021470221346141787
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.04285113203299816,
+      "mask_logit_normalized_mse": 0.01989511837972286
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.04123679476437362,
+      "mask_logit_normalized_mse": 0.01871595395387353
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.04679587663333319,
+      "mask_logit_normalized_mse": 0.02253596105919194
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.045534922865552996,
+      "mask_logit_normalized_mse": 0.02145674779692967
+    }
+  ],
+  "final_group_metrics": [
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "identity",
+      "state_normalized_mse": 0.005408630742020104,
+      "mask_logit_normalized_mse": 0.002626692258392013
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.009146464423474197,
+      "mask_logit_normalized_mse": 0.0056079464734039505
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.006363393694232343,
+      "mask_logit_normalized_mse": 0.003333051178426797
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.009379613437808647,
+      "mask_logit_normalized_mse": 0.005835024394465733
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "identity",
+      "state_normalized_mse": 0.02674223959215058,
+      "mask_logit_normalized_mse": 0.015125110998819507
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.025854564758270946,
+      "mask_logit_normalized_mse": 0.014556802279036989
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.022984346551125,
+      "mask_logit_normalized_mse": 0.011787808201132713
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.028634539049023633,
+      "mask_logit_normalized_mse": 0.01682292082127896
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "identity",
+      "state_normalized_mse": 0.018548776709891558,
+      "mask_logit_normalized_mse": 0.011836353370716375
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.012109932063234935,
+      "mask_logit_normalized_mse": 0.00646309155758732
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.011815299892747176,
+      "mask_logit_normalized_mse": 0.006035226298662511
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.013717853321250459,
+      "mask_logit_normalized_mse": 0.0078027271623914655
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "identity",
+      "state_normalized_mse": 0.06948434223753758,
+      "mask_logit_normalized_mse": 0.03273922654276944
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.054802630391657677,
+      "mask_logit_normalized_mse": 0.0232925624508498
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.050410267581231454,
+      "mask_logit_normalized_mse": 0.01962645847160407
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.0634092402565026,
+      "mask_logit_normalized_mse": 0.0292337660648143
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA20.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.011636649849291152,
+      "mask_logit_normalized_mse": 0.0074595548184105635
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA20.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.010751364479619082,
+      "mask_logit_normalized_mse": 0.006408410135584855
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA20.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.008752381836451315,
+      "mask_logit_normalized_mse": 0.004509181290172383
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA20.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.01321693688085667,
+      "mask_logit_normalized_mse": 0.0085318780591178
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA56.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.0038943511423280086,
+      "mask_logit_normalized_mse": 0.0007082403764490862
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA56.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.00449667619761147,
+      "mask_logit_normalized_mse": 0.0010256127343266285
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA56.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.00464715891348481,
+      "mask_logit_normalized_mse": 0.0012179832057763102
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA56.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.004681954313940162,
+      "mask_logit_normalized_mse": 0.0011058111573897054
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA69.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.010089707462695158,
+      "mask_logit_normalized_mse": 0.0021995319521160785
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA69.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.010681270578142697,
+      "mask_logit_normalized_mse": 0.002394983885612793
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA69.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.010528209903485308,
+      "mask_logit_normalized_mse": 0.0023246591832460106
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "CYST_PA69.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.011094594962140223,
+      "mask_logit_normalized_mse": 0.002718560338808317
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10076307_20130925.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.012430184272232383,
+      "mask_logit_normalized_mse": 0.0049285797701893305
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10076307_20130925.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.013168600727857962,
+      "mask_logit_normalized_mse": 0.005351810759102805
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10076307_20130925.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.011343604012744568,
+      "mask_logit_normalized_mse": 0.0037694426432420434
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10076307_20130925.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.016281951565000813,
+      "mask_logit_normalized_mse": 0.00796441452073368
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10136895_20170421.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.06370336617378293,
+      "mask_logit_normalized_mse": 0.04174723982523591
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10136895_20170421.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.05752726338179647,
+      "mask_logit_normalized_mse": 0.038354067862033624
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10136895_20170421.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.04746537732428427,
+      "mask_logit_normalized_mse": 0.029903223524361932
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10136895_20170421.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.07121862696543689,
+      "mask_logit_normalized_mse": 0.04888497579577894
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.007577638673592403,
+      "mask_logit_normalized_mse": 0.0015587756504156108
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.008872818053629543,
+      "mask_logit_normalized_mse": 0.002481933827603983
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.00930861818390278,
+      "mask_logit_normalized_mse": 0.0029004531010842255
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.009272352972010067,
+      "mask_logit_normalized_mse": 0.002819792642377975
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA97.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.10034327691231061,
+      "mask_logit_normalized_mse": 0.05053803629059434
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA97.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.07296161435968239,
+      "mask_logit_normalized_mse": 0.0328208918408588
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA97.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.06639015670776614,
+      "mask_logit_normalized_mse": 0.027403043422536938
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA97.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.07998390460329462,
+      "mask_logit_normalized_mse": 0.0367137323317309
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.014649624882004888,
+      "mask_logit_normalized_mse": 0.0028837741437052673
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.015211629979517364,
+      "mask_logit_normalized_mse": 0.0033094106269696204
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.015262728773717144,
+      "mask_logit_normalized_mse": 0.0034303747409435755
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.015162940843281477,
+      "mask_logit_normalized_mse": 0.0032113256923963253
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "identity",
+      "state_normalized_mse": 0.00519715777309595,
+      "mask_logit_normalized_mse": 0.0014288552509921682
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.008967892319833857,
+      "mask_logit_normalized_mse": 0.004437233519625811
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.005936094185984223,
+      "mask_logit_normalized_mse": 0.002077871498569432
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.00797089659282673,
+      "mask_logit_normalized_mse": 0.003673771573888508
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "identity",
+      "state_normalized_mse": 0.016556537960158393,
+      "mask_logit_normalized_mse": 0.004342120049228324
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.020926278940701648,
+      "mask_logit_normalized_mse": 0.008023617839272223
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.01709613210031231,
+      "mask_logit_normalized_mse": 0.00488185651413296
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.023125806059247026,
+      "mask_logit_normalized_mse": 0.00986340053700731
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "identity",
+      "state_normalized_mse": 0.034408469427417925,
+      "mask_logit_normalized_mse": 0.018661463308455663
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.029903349486980774,
+      "mask_logit_normalized_mse": 0.015259271400162444
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.03165361948355546,
+      "mask_logit_normalized_mse": 0.016674704040834498
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.03302781005788929,
+      "mask_logit_normalized_mse": 0.017619420129008904
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "identity",
+      "state_normalized_mse": 0.1021646298659151,
+      "mask_logit_normalized_mse": 0.05117521539282002
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.0908223700917917,
+      "mask_logit_normalized_mse": 0.0435070973561095
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.08947626820225112,
+      "mask_logit_normalized_mse": 0.042559516318628206
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.09972884070081575,
+      "mask_logit_normalized_mse": 0.049391855130854354
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.01096239067503937,
+      "mask_logit_normalized_mse": 0.0020156075539856174
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.01191131688006805,
+      "mask_logit_normalized_mse": 0.002586278381121859
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.01176532609059394,
+      "mask_logit_normalized_mse": 0.002568686733848965
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.01198633099197085,
+      "mask_logit_normalized_mse": 0.0026809391841839357
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA107.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.0105209388336383,
+      "mask_logit_normalized_mse": 0.0024628264178335004
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA107.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.011531617953079693,
+      "mask_logit_normalized_mse": 0.003228494228028329
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA107.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.011215965617559687,
+      "mask_logit_normalized_mse": 0.0029574817937393625
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA107.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.011722283072981335,
+      "mask_logit_normalized_mse": 0.0035197082048775527
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA29.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.04657069691513766,
+      "mask_logit_normalized_mse": 0.026360968592908644
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA29.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.043595410504367056,
+      "mask_logit_normalized_mse": 0.023950230840319206
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA29.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.04064873524460897,
+      "mask_logit_normalized_mse": 0.021458095701436856
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEM_PA29.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.047351400385360225,
+      "mask_logit_normalized_mse": 0.027005097230974034
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEP_PA28.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.11408566503839665,
+      "mask_logit_normalized_mse": 0.05498758862299091
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEP_PA28.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.10436618279447785,
+      "mask_logit_normalized_mse": 0.04981547006942205
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEP_PA28.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.10131715210473188,
+      "mask_logit_normalized_mse": 0.04787955158646894
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "HEP_PA28.nii.gz",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.11612349208302035,
+      "mask_logit_normalized_mse": 0.05693809961673224
+    }
+  ],
+  "v1_3_pass_summary": {
+    "passed": true,
+    "micro_conditioned_lt_agnostic": true,
+    "micro_correct_lt_wrong": true,
+    "macro_conditioned_lt_agnostic": true,
+    "macro_correct_lt_wrong": true,
+    "case_win_count": 4,
+    "case_total": 4,
+    "action_win_count": 3,
+    "action_total": 4,
+    "strong_intervention_conditioned_lt_identity": true,
+    "case_wins": [
+      {
+        "case": "CYST_PA62.nii.gz",
+        "conditioned_lt_agnostic": true
+      },
+      {
+        "case": "HEM_PA107.nii.gz",
+        "conditioned_lt_agnostic": true
+      },
+      {
+        "case": "HEM_PA29.nii.gz",
+        "conditioned_lt_agnostic": true
+      },
+      {
+        "case": "HEP_PA28.nii.gz",
+        "conditioned_lt_agnostic": true
+      }
+    ],
+    "action_wins": [
+      {
+        "strength": "+0.15",
+        "conditioned_lt_agnostic": true,
+        "correct_lt_wrong": true,
+        "conditioned_lt_identity": false
+      },
+      {
+        "strength": "+0.30",
+        "conditioned_lt_agnostic": true,
+        "correct_lt_wrong": true,
+        "conditioned_lt_identity": false
+      },
+      {
+        "strength": "-0.15",
+        "conditioned_lt_agnostic": false,
+        "correct_lt_wrong": true,
+        "conditioned_lt_identity": true
+      },
+      {
+        "strength": "-0.30",
+        "conditioned_lt_agnostic": true,
+        "correct_lt_wrong": true,
+        "conditioned_lt_identity": true
+      }
+    ],
+    "criterion": "micro and macro conditioned < agnostic and correct < wrong; >=3/4 val cases; >=3/4 actions; at least one strong intervention conditioned < identity"
+  },
+  "expected_sanity_order": "action_conditioned < action_agnostic < identity, plus correct action < wrong action"
+}
