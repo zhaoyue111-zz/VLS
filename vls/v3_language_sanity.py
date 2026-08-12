@@ -24,8 +24,10 @@ from vls.world_model import normalized_mse
 
 DEFAULT_PROMPT_PAIRS = [
     ("liver", "the liver"),
-    ("liver", "human liver"),
-    ("liver", "hepatic organ"),
+    ("the liver", "liver"),
+    ("liver", "liver organ"),
+    ("liver", "the liver organ"),
+    ("liver", "segment the liver"),
 ]
 
 
@@ -49,8 +51,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default="outputs/v3_0_language_sanity")
     parser.add_argument("--prompt-pairs", nargs="+", type=parse_prompt_pair, default=DEFAULT_PROMPT_PAIRS)
     parser.add_argument("--selected-stage", default="decoder_stage_1_low_to_high")
-    parser.add_argument("--dev-cases", type=int, default=2)
-    parser.add_argument("--val-cases", type=int, default=2)
+    parser.add_argument("--dev-cases", type=int, default=4)
+    parser.add_argument("--val-cases", type=int, default=4)
     parser.add_argument("--patches-per-case", type=int, default=4)
     parser.add_argument("--foreground-patches-per-case", type=int, default=2)
     parser.add_argument("--foreground-candidate-patches", type=int, default=12)
@@ -122,14 +124,20 @@ def binary_dice(source_probability: torch.Tensor, target_probability: torch.Tens
 def probability_agreement(source_logits: torch.Tensor, target_logits: torch.Tensor, threshold: float) -> dict[str, float]:
     source_probability = torch.sigmoid(source_logits.detach().float())
     target_probability = torch.sigmoid(target_logits.detach().float())
+    source_foreground_voxels = float((source_probability > threshold).sum().detach().cpu())
+    target_foreground_voxels = float((target_probability > threshold).sum().detach().cpu())
+    foreground_denominator = max(source_foreground_voxels, 1.0)
     return {
         "soft_dice": soft_dice(source_probability, target_probability),
         "binary_dice": binary_dice(source_probability, target_probability, threshold),
         "probability_mae": float((source_probability - target_probability).abs().mean().detach().cpu()),
         "source_probability_mean": float(source_probability.mean().detach().cpu()),
         "target_probability_mean": float(target_probability.mean().detach().cpu()),
-        "source_foreground_voxels": float((source_probability > threshold).sum().detach().cpu()),
-        "target_foreground_voxels": float((target_probability > threshold).sum().detach().cpu()),
+        "source_foreground_voxels": source_foreground_voxels,
+        "target_foreground_voxels": target_foreground_voxels,
+        "target_to_source_foreground_ratio": target_foreground_voxels / foreground_denominator,
+        "both_empty": source_foreground_voxels == 0.0 and target_foreground_voxels == 0.0,
+        "source_to_empty_collapse": source_foreground_voxels > 0.0 and target_foreground_voxels == 0.0,
     }
 
 
@@ -201,6 +209,9 @@ def evaluate_case(
                 "intermediate_target_probability_mean": intermediate_agreement["target_probability_mean"],
                 "intermediate_source_foreground_voxels": intermediate_agreement["source_foreground_voxels"],
                 "intermediate_target_foreground_voxels": intermediate_agreement["target_foreground_voxels"],
+                "intermediate_target_to_source_foreground_ratio": intermediate_agreement["target_to_source_foreground_ratio"],
+                "intermediate_both_empty": int(intermediate_agreement["both_empty"]),
+                "intermediate_source_to_empty_collapse": int(intermediate_agreement["source_to_empty_collapse"]),
                 "final_soft_dice": final_agreement["soft_dice"],
                 "final_binary_dice": final_agreement["binary_dice"],
                 "final_probability_mae": final_agreement["probability_mae"],
@@ -208,12 +219,19 @@ def evaluate_case(
                 "final_target_probability_mean": final_agreement["target_probability_mean"],
                 "final_source_foreground_voxels": final_agreement["source_foreground_voxels"],
                 "final_target_foreground_voxels": final_agreement["target_foreground_voxels"],
+                "final_target_to_source_foreground_ratio": final_agreement["target_to_source_foreground_ratio"],
+                "final_both_empty": int(final_agreement["both_empty"]),
+                "final_source_to_empty_collapse": int(final_agreement["source_to_empty_collapse"]),
             })
     return rows
 
 
 def mean_metric(rows: list[dict[str, Any]], key: str) -> float:
     return float(np.mean([float(row[key]) for row in rows])) if rows else 0.0
+
+
+def sum_metric(rows: list[dict[str, Any]], key: str) -> int:
+    return int(np.sum([int(row[key]) for row in rows])) if rows else 0
 
 
 def aggregate_rows(rows: list[dict[str, Any]], group_keys: list[str]) -> list[dict[str, float | int | str]]:
@@ -229,9 +247,11 @@ def aggregate_rows(rows: list[dict[str, Any]], group_keys: list[str]) -> list[di
         "intermediate_soft_dice",
         "intermediate_binary_dice",
         "intermediate_probability_mae",
+        "intermediate_target_to_source_foreground_ratio",
         "final_soft_dice",
         "final_binary_dice",
         "final_probability_mae",
+        "final_target_to_source_foreground_ratio",
     ]
     summaries = []
     for key, group_rows in sorted(groups.items()):
@@ -240,8 +260,22 @@ def aggregate_rows(rows: list[dict[str, Any]], group_keys: list[str]) -> list[di
             summary[group_key] = group_value
         for metric_key in metric_keys:
             summary[f"mean_{metric_key}"] = mean_metric(group_rows, metric_key)
+        summary["intermediate_both_empty_count"] = sum_metric(group_rows, "intermediate_both_empty")
+        summary["intermediate_source_to_empty_collapse_count"] = sum_metric(
+            group_rows,
+            "intermediate_source_to_empty_collapse",
+        )
+        summary["final_both_empty_count"] = sum_metric(group_rows, "final_both_empty")
+        summary["final_source_to_empty_collapse_count"] = sum_metric(group_rows, "final_source_to_empty_collapse")
         summaries.append(summary)
     return summaries
+
+
+def foreground_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        row for row in rows
+        if int(row["final_both_empty"]) == 0 or int(row["intermediate_both_empty"]) == 0
+    ]
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
@@ -293,15 +327,26 @@ def run(args: argparse.Namespace) -> None:
     per_case = aggregate_rows(rows, ["split", "case", "prompt_pair"])
     per_patch = aggregate_rows(rows, ["split", "case", "patch_index", "patch_kind", "prompt_pair"])
     overall = aggregate_rows(rows, ["prompt_pair"])
+    fg_rows = foreground_rows(rows)
+    foreground_per_pair = aggregate_rows(fg_rows, ["split", "prompt_pair"])
+    foreground_per_case = aggregate_rows(fg_rows, ["split", "case", "prompt_pair"])
+    foreground_per_patch = aggregate_rows(fg_rows, ["split", "case", "patch_index", "patch_kind", "prompt_pair"])
+    foreground_overall = aggregate_rows(fg_rows, ["prompt_pair"])
 
     detail_path = output_dir / "language_action_sanity.csv"
     per_pair_path = output_dir / "language_action_sanity_by_pair.csv"
     per_case_path = output_dir / "language_action_sanity_by_case.csv"
     per_patch_path = output_dir / "language_action_sanity_by_patch.csv"
+    foreground_per_pair_path = output_dir / "language_action_sanity_foreground_by_pair.csv"
+    foreground_per_case_path = output_dir / "language_action_sanity_foreground_by_case.csv"
+    foreground_per_patch_path = output_dir / "language_action_sanity_foreground_by_patch.csv"
     write_csv(detail_path, rows)
     write_csv(per_pair_path, per_pair)
     write_csv(per_case_path, per_case)
     write_csv(per_patch_path, per_patch)
+    write_csv(foreground_per_pair_path, foreground_per_pair)
+    write_csv(foreground_per_case_path, foreground_per_case)
+    write_csv(foreground_per_patch_path, foreground_per_patch)
 
     summary = {
         "args": {
@@ -317,9 +362,14 @@ def run(args: argparse.Namespace) -> None:
         "per_pair_csv": str(per_pair_path),
         "per_case_csv": str(per_case_path),
         "per_patch_csv": str(per_patch_path),
+        "foreground_per_pair_csv": str(foreground_per_pair_path),
+        "foreground_per_case_csv": str(foreground_per_case_path),
+        "foreground_per_patch_csv": str(foreground_per_patch_path),
         "overall_by_prompt_pair": overall,
         "split_by_prompt_pair": per_pair,
-        "interpretation_note": "Sanity only: nonzero text/latent transition plus stable prediction agreement is required before designing a V3 language action encoder.",
+        "foreground_overall_by_prompt_pair": foreground_overall,
+        "foreground_split_by_prompt_pair": foreground_per_pair,
+        "interpretation_note": "Sanity only: nonzero text/latent transition plus foreground-stable prediction agreement is required before designing a V3 language action encoder. Empty source/target patches are counted but should not be used as binary Dice evidence for semantic consistency.",
     }
     summary_path = output_dir / "language_action_sanity_summary.json"
     summary_path.write_text(json.dumps(summary, indent=2))
