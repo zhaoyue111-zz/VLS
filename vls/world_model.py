@@ -54,6 +54,42 @@ class VisualWorldPredictor3D(nn.Module):
         return state + delta
 
 
+class LanguageWorldPredictor3D(nn.Module):
+    def __init__(
+        self,
+        in_channels: int,
+        text_delta_dim: int,
+        hidden_channels: int = 64,
+        action_dim: int = 3,
+        num_blocks: int = 2,
+        use_language: bool = True,
+    ) -> None:
+        super().__init__()
+        self.use_language = use_language
+        self.input_projection = nn.Conv3d(in_channels, hidden_channels, 1)
+        self.action_mlp = nn.Sequential(
+            nn.Linear(action_dim, hidden_channels * 2),
+            nn.GELU(),
+            nn.Linear(hidden_channels * 2, hidden_channels * 2),
+        )
+        self.language_action_encoder = nn.Linear(text_delta_dim, hidden_channels * 2)
+        self.blocks = nn.Sequential(*[ResidualConvBlock3D(hidden_channels) for _ in range(num_blocks)])
+        self.output_projection = nn.Conv3d(hidden_channels, in_channels, 1)
+        nn.init.zeros_(self.output_projection.weight)
+        nn.init.zeros_(self.output_projection.bias)
+
+    def forward(self, state: torch.Tensor, text_delta: torch.Tensor | None = None) -> torch.Tensor:
+        x = self.input_projection(state)
+        if self.use_language:
+            if text_delta is None:
+                raise ValueError("text_delta is required when use_language=True")
+            scale_bias = self.language_action_encoder(text_delta).type_as(x)
+            scale, bias = scale_bias.chunk(2, dim=1)
+            x = x * (1.0 + scale[:, :, None, None, None]) + bias[:, :, None, None, None]
+        delta = self.output_projection(self.blocks(x))
+        return state + delta
+
+
 def gamma_action(strength: float, device: torch.device) -> torch.Tensor:
     return torch.tensor([[1.0, float(strength)]], dtype=torch.float32, device=device)
 

@@ -1,0 +1,9 @@
+split,case,patch_index,patch_kind,direction,state_normalized_mse,mask_logit_normalized_mse
+train,HEM_PA99.nii.gz,0,context,liver_to_the_liver,0.00014263918274082243,3.9409074815921485e-05
+train,HEM_PA99.nii.gz,0,context,the_liver_to_liver,0.00014216457202564925,3.910574741894379e-05
+train,HEM_PA99.nii.gz,1,foreground,liver_to_the_liver,0.002707105129957199,0.001923251897096634
+train,HEM_PA99.nii.gz,1,foreground,the_liver_to_liver,0.0026430278085172176,0.0017894322518259287
+val,CYST_PA62.nii.gz,0,context,liver_to_the_liver,0.0002988889464177191,9.160378976957873e-05
+val,CYST_PA62.nii.gz,0,context,the_liver_to_liver,0.0002966138126794249,9.039435826707631e-05
+val,CYST_PA62.nii.gz,1,foreground,liver_to_the_liver,0.0022141537629067898,0.001567065715789795
+val,CYST_PA62.nii.gz,1,foreground,the_liver_to_liver,0.002168480772525072,0.0014639211585745215

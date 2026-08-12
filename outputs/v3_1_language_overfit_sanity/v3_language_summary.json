@@ -1,0 +1,435 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "output_dir": "outputs/v3_1_language_overfit_sanity",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 1,
+    "val_cases": 1,
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 4,
+    "foreground_threshold": 0.5,
+    "hidden_channels": 16,
+    "batch_size": 4,
+    "max_train_steps": 300,
+    "eval_steps": [
+      0,
+      100,
+      200,
+      300
+    ],
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz"
+  ],
+  "val_cases": [
+    "CYST_PA62.nii.gz"
+  ],
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "train_samples": 4,
+  "val_samples": 4,
+  "text_delta_dim": 2560,
+  "text_delta_norm": 18.44923210144043,
+  "training_curve_csv": "outputs/v3_1_language_overfit_sanity/training_curve.csv",
+  "grouped_training_curve_csv": "outputs/v3_1_language_overfit_sanity/grouped_training_curve.csv",
+  "transition_diagnostics_csv": "outputs/v3_1_language_overfit_sanity/transition_diagnostics.csv",
+  "checkpoint_path": "outputs/v3_1_language_overfit_sanity/language_world_predictor_step300.pt",
+  "final_metrics": [
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.0007634298532135422,
+      "mask_logit_normalized_mse": 0.00036025850665232894
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.00031432541305805316,
+      "mask_logit_normalized_mse": 5.825957386450203e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0001732107341707985,
+      "mask_logit_normalized_mse": 1.0264490785329471e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0025198790573546996,
+      "mask_logit_normalized_mse": 0.0014107723082927767
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.0007634298532135422,
+      "mask_logit_normalized_mse": 0.00036025850665232894
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.00031432541305805316,
+      "mask_logit_normalized_mse": 5.825957386450203e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0001732107341707985,
+      "mask_logit_normalized_mse": 1.0264490785329471e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0025198790573546996,
+      "mask_logit_normalized_mse": 0.0014107723082927767
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.0007335536586800006,
+      "mask_logit_normalized_mse": 0.00030636138781720766
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.0009521852782371655,
+      "mask_logit_normalized_mse": 0.0004088567950720469
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0003225997264982978,
+      "mask_logit_normalized_mse": 3.6357985058430066e-05
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0022143154628876138,
+      "mask_logit_normalized_mse": 0.001194884512926325
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.0007335536586800006,
+      "mask_logit_normalized_mse": 0.00030636138781720766
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.0009521852782371655,
+      "mask_logit_normalized_mse": 0.0004088567950720469
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0003225997264982978,
+      "mask_logit_normalized_mse": 3.6357985058430066e-05
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0022143154628876138,
+      "mask_logit_normalized_mse": 0.001194884512926325
+    }
+  ],
+  "final_group_metrics": [
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007666459853871346,
+      "mask_logit_normalized_mse": 0.00036078880093477035
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.0003251173586555718,
+      "mask_logit_normalized_mse": 5.948351340221728e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.00017260597746990422,
+      "mask_logit_normalized_mse": 9.861858233955565e-06
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0025291266112815376,
+      "mask_logit_normalized_mse": 0.001439473999784852
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007602406540721939,
+      "mask_logit_normalized_mse": 0.0003597382142222873
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.00030362369964800353,
+      "mask_logit_normalized_mse": 5.70588112139255e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.00017381049204749353,
+      "mask_logit_normalized_mse": 1.0659500070659348e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.002510708972197478,
+      "mask_logit_normalized_mse": 0.001382613821185426
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.0007634298532135422,
+      "mask_logit_normalized_mse": 0.00036025850665232894
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.00031432541305805316,
+      "mask_logit_normalized_mse": 5.825957386450203e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0001732107341707985,
+      "mask_logit_normalized_mse": 1.0264490785329471e-05
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0025198790573546996,
+      "mask_logit_normalized_mse": 0.0014107723082927767
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007374917293047684,
+      "mask_logit_normalized_mse": 0.0003080496199200171
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.0005839066100153022,
+      "mask_logit_normalized_mse": 0.00015643907277719917
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0003224971917472766,
+      "mask_logit_normalized_mse": 3.355849241353596e-05
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.002236958117819748,
+      "mask_logit_normalized_mse": 0.0012303183067161698
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007296574218208762,
+      "mask_logit_normalized_mse": 0.0003047092779728298
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.0013165518320620029,
+      "mask_logit_normalized_mse": 0.0006558855288841138
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0003227011720319957,
+      "mask_logit_normalized_mse": 3.909771046645905e-05
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0021919136442560944,
+      "mask_logit_normalized_mse": 0.0011602075302610166
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.0007335536586800006,
+      "mask_logit_normalized_mse": 0.00030636138781720766
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "language_agnostic",
+      "state_normalized_mse": 0.0009521852782371655,
+      "mask_logit_normalized_mse": 0.0004088567950720469
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0003225997264982978,
+      "mask_logit_normalized_mse": 3.6357985058430066e-05
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0022143154628876138,
+      "mask_logit_normalized_mse": 0.001194884512926325
+    }
+  ],
+  "pass_summary": {
+    "passed": true,
+    "micro_conditioned_lt_agnostic": true,
+    "micro_correct_lt_wrong_direction": true,
+    "macro_conditioned_lt_agnostic": true,
+    "macro_correct_lt_wrong_direction": true,
+    "case_wins": [
+      {
+        "case": "CYST_PA62.nii.gz",
+        "conditioned_lt_agnostic": true,
+        "correct_lt_wrong_direction": true
+      }
+    ],
+    "direction_wins": [
+      {
+        "direction": "liver_to_the_liver",
+        "conditioned_lt_agnostic": true,
+        "correct_lt_wrong_direction": true
+      },
+      {
+        "direction": "the_liver_to_liver",
+        "conditioned_lt_agnostic": true,
+        "correct_lt_wrong_direction": true
+      }
+    ],
+    "criterion": "V3.1 sanity: unseen micro/macro conditioned < agnostic and correct delta < wrong-direction."
+  },
+  "scope_note": "V3.1 minimal language world prediction only; VoxTell is frozen and no V3.1 visual rollout, SFDA, or extra loss is implemented."
+}
