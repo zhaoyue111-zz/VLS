@@ -28,26 +28,49 @@ class VisualWorldPredictor3D(nn.Module):
         action_dim: int = 2,
         num_blocks: int = 2,
         use_action: bool = True,
+        text_delta_dim: int | None = None,
+        use_language: bool = False,
+        allow_unconditioned: bool = False,
     ) -> None:
         super().__init__()
         self.use_action = use_action
+        self.use_language = use_language
+        self.allow_unconditioned = allow_unconditioned
         self.input_projection = nn.Conv3d(in_channels, hidden_channels, 1)
         self.action_mlp = nn.Sequential(
             nn.Linear(action_dim, hidden_channels * 2),
             nn.GELU(),
             nn.Linear(hidden_channels * 2, hidden_channels * 2),
         )
+        if text_delta_dim is not None:
+            self.language_action_encoder = nn.Linear(text_delta_dim, hidden_channels * 2)
+            nn.init.zeros_(self.language_action_encoder.weight)
+            nn.init.zeros_(self.language_action_encoder.bias)
         self.blocks = nn.Sequential(*[ResidualConvBlock3D(hidden_channels) for _ in range(num_blocks)])
         self.output_projection = nn.Conv3d(hidden_channels, in_channels, 1)
         nn.init.zeros_(self.output_projection.weight)
         nn.init.zeros_(self.output_projection.bias)
 
-    def forward(self, state: torch.Tensor, action: torch.Tensor | None = None) -> torch.Tensor:
+    def forward(
+        self,
+        state: torch.Tensor,
+        action: torch.Tensor | None = None,
+        text_delta: torch.Tensor | None = None,
+    ) -> torch.Tensor:
         x = self.input_projection(state)
-        if self.use_action:
-            if action is None:
-                raise ValueError("action is required when use_action=True")
+        if text_delta is not None:
+            if not hasattr(self, "language_action_encoder"):
+                raise ValueError("text_delta_dim is required for language conditioning")
+            scale_bias = self.language_action_encoder(text_delta).type_as(x)
+        elif action is not None:
+            if not self.use_action:
+                raise ValueError("action conditioning is disabled")
             scale_bias = self.action_mlp(action).type_as(x)
+        elif not self.allow_unconditioned and (self.use_action or self.use_language):
+            raise ValueError("action or text_delta is required when conditioning is enabled")
+        else:
+            scale_bias = None
+        if scale_bias is not None:
             scale, bias = scale_bias.chunk(2, dim=1)
             x = x * (1.0 + scale[:, :, None, None, None]) + bias[:, :, None, None, None]
         delta = self.output_projection(self.blocks(x))

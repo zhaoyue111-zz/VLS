@@ -49,10 +49,11 @@
   "training_curve_csv": "outputs/v3_1_language_formal/training_curve.csv",
   "grouped_training_curve_csv": "outputs/v3_1_language_formal/grouped_training_curve.csv",
   "transition_diagnostics_csv": "outputs/v3_1_language_formal/transition_diagnostics.csv",
-  "checkpoint_path": "outputs/v3_1_language_formal/language_world_predictor_step300.pt",
+  "checkpoint_path": "outputs/v3_1_language_formal/language_world_predictor_step200.pt",
+  "selected_step": 200,
   "final_metrics": [
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_micro",
       "group_value": "all",
@@ -61,34 +62,34 @@
       "mask_logit_normalized_mse": 0.0022172224620205885
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_micro",
       "group_value": "all",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0028779426263178874,
-      "mask_logit_normalized_mse": 0.002214578929301886
+      "state_normalized_mse": 0.002879289652918992,
+      "mask_logit_normalized_mse": 0.0022163267316084832
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_micro",
       "group_value": "all",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0014297429986142528,
-      "mask_logit_normalized_mse": 0.0007722274410321995
+      "state_normalized_mse": 0.0013078198555428098,
+      "mask_logit_normalized_mse": 0.0006006655065278153
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_micro",
       "group_value": "all",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.006510909245585098,
-      "mask_logit_normalized_mse": 0.005726711739024859
+      "state_normalized_mse": 0.006852119461159048,
+      "mask_logit_normalized_mse": 0.006187562340302677
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_macro",
       "group_value": "case_mean",
@@ -97,34 +98,34 @@
       "mask_logit_normalized_mse": 0.002480571251091924
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_macro",
       "group_value": "case_mean",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.003194681418519897,
-      "mask_logit_normalized_mse": 0.002477554725953726
+      "state_normalized_mse": 0.003196276704800706,
+      "mask_logit_normalized_mse": 0.0024795708122399753
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_macro",
       "group_value": "case_mean",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0015639613869477139,
-      "mask_logit_normalized_mse": 0.0008538956841560568
+      "state_normalized_mse": 0.0014242556207267488,
+      "mask_logit_normalized_mse": 0.0006633326286118299
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "overall_macro",
       "group_value": "case_mean",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.007197988465202186,
-      "mask_logit_normalized_mse": 0.006357214321108171
+      "state_normalized_mse": 0.007586455655234192,
+      "mask_logit_normalized_mse": 0.006871422195677971
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_micro",
       "group_value": "all",
@@ -133,34 +134,34 @@
       "mask_logit_normalized_mse": 0.0007546728910131191
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_micro",
       "group_value": "all",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0015709185653789207,
-      "mask_logit_normalized_mse": 0.000754429543851161
+      "state_normalized_mse": 0.0015708592405517545,
+      "mask_logit_normalized_mse": 0.00075437433520519
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_micro",
       "group_value": "all",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0010257214983978215,
-      "mask_logit_normalized_mse": 0.00042353977503241743
+      "state_normalized_mse": 0.0009803188441294649,
+      "mask_logit_normalized_mse": 0.0003646147856671804
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_micro",
       "group_value": "all",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.00337220279611944,
-      "mask_logit_normalized_mse": 0.002096636028033457
+      "state_normalized_mse": 0.0034891530323190654,
+      "mask_logit_normalized_mse": 0.0022271817038899988
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_macro",
       "group_value": "case_mean",
@@ -169,36 +170,36 @@
       "mask_logit_normalized_mse": 0.000847097820801653
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_macro",
       "group_value": "case_mean",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0017124656139416601,
-      "mask_logit_normalized_mse": 0.0008467089368125423
+      "state_normalized_mse": 0.0017125135141894945,
+      "mask_logit_normalized_mse": 0.0008467621842405044
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_macro",
       "group_value": "case_mean",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0010581461573532336,
-      "mask_logit_normalized_mse": 0.00040936906883196116
+      "state_normalized_mse": 0.0010064172583938214,
+      "mask_logit_normalized_mse": 0.0003426761370164096
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "overall_macro",
       "group_value": "case_mean",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.0038004941369744983,
-      "mask_logit_normalized_mse": 0.0024787785750097022
+      "state_normalized_mse": 0.003947766348446181,
+      "mask_logit_normalized_mse": 0.0026462036138351175
     }
   ],
   "final_group_metrics": [
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "liver_to_the_liver",
@@ -207,34 +208,34 @@
       "mask_logit_normalized_mse": 0.0022769496977639602
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "liver_to_the_liver",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0028926039364540897,
-      "mask_logit_normalized_mse": 0.002234086927029239
+      "state_normalized_mse": 0.002921853160385728,
+      "mask_logit_normalized_mse": 0.0022720853786048598
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "liver_to_the_liver",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0015988013562716551,
-      "mask_logit_normalized_mse": 0.0009897780072292343
+      "state_normalized_mse": 0.0013345384021975996,
+      "mask_logit_normalized_mse": 0.0006215609081997971
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "liver_to_the_liver",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.007739180209167861,
-      "mask_logit_normalized_mse": 0.0075843413507178875
+      "state_normalized_mse": 0.007432307004783042,
+      "mask_logit_normalized_mse": 0.007020586924759865
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "the_liver_to_liver",
@@ -243,34 +244,34 @@
       "mask_logit_normalized_mse": 0.0021608914084508897
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "the_liver_to_liver",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.002863693481776846,
-      "mask_logit_normalized_mse": 0.0021961804627226972
+      "state_normalized_mse": 0.002837923998927769,
+      "mask_logit_normalized_mse": 0.0021637387071673873
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "the_liver_to_liver",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0012654416818856623,
-      "mask_logit_normalized_mse": 0.0005670470795593424
+      "state_normalized_mse": 0.0012818529529706477,
+      "mask_logit_normalized_mse": 0.0005809582163902101
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "directions",
       "group_value": "the_liver_to_liver",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.005317199691053044,
-      "mask_logit_normalized_mse": 0.003974709184000334
+      "state_normalized_mse": 0.006288257296705928,
+      "mask_logit_normalized_mse": 0.005401904422775563
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA20.nii.gz",
@@ -279,34 +280,34 @@
       "mask_logit_normalized_mse": 0.0021398761171634645
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA20.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.003201716977821444,
-      "mask_logit_normalized_mse": 0.0021374759091946755
+      "state_normalized_mse": 0.0032029296571295953,
+      "mask_logit_normalized_mse": 0.0021389685064712068
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA20.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0012615930218667427,
-      "mask_logit_normalized_mse": 0.00033720129251558123
+      "state_normalized_mse": 0.0011218856878181984,
+      "mask_logit_normalized_mse": 0.00015260155366782446
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA20.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.00870781525678868,
-      "mask_logit_normalized_mse": 0.00770904872865292
+      "state_normalized_mse": 0.009337337920228532,
+      "mask_logit_normalized_mse": 0.008588021042069368
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA56.nii.gz",
@@ -315,34 +316,34 @@
       "mask_logit_normalized_mse": 0.0007904049221914533
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA56.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0014434094602389393,
-      "mask_logit_normalized_mse": 0.0007894042455266443
+      "state_normalized_mse": 0.0014438151062981088,
+      "mask_logit_normalized_mse": 0.000789985631940805
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA56.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.000709424503758515,
-      "mask_logit_normalized_mse": 0.00019927543740865534
+      "state_normalized_mse": 0.0006693062525230129,
+      "mask_logit_normalized_mse": 0.0001254177792000497
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA56.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.004056342690306941,
-      "mask_logit_normalized_mse": 0.0031532488099430007
+      "state_normalized_mse": 0.004331914716192144,
+      "mask_logit_normalized_mse": 0.003540843521956762
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA69.nii.gz",
@@ -351,34 +352,34 @@
       "mask_logit_normalized_mse": 0.000314869170716075
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA69.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0008960283271627847,
-      "mask_logit_normalized_mse": 0.0003148019321271234
+      "state_normalized_mse": 0.0008958538244061598,
+      "mask_logit_normalized_mse": 0.0003146860528568025
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA69.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0005330341444342928,
-      "mask_logit_normalized_mse": 0.0001245647841330324
+      "state_normalized_mse": 0.0005124657925714024,
+      "mask_logit_normalized_mse": 0.00010092519475918922
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "CYST_PA69.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.002075567688209624,
-      "mask_logit_normalized_mse": 0.000942370671242784
+      "state_normalized_mse": 0.0020922040938075627,
+      "mask_logit_normalized_mse": 0.0009184219977386248
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10076307_20130925.nii.gz",
@@ -387,34 +388,34 @@
       "mask_logit_normalized_mse": 0.002964628157758129
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10076307_20130925.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.003955512895169598,
-      "mask_logit_normalized_mse": 0.002961179355856117
+      "state_normalized_mse": 0.003957479869191218,
+      "mask_logit_normalized_mse": 0.0029633970508403454
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10076307_20130925.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0014575441756905466,
-      "mask_logit_normalized_mse": 0.0005146921112674175
+      "state_normalized_mse": 0.001244241960734895,
+      "mask_logit_normalized_mse": 0.0002451472838665173
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10076307_20130925.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.009884925285210412,
-      "mask_logit_normalized_mse": 0.008842860756854991
+      "state_normalized_mse": 0.01057853822572143,
+      "mask_logit_normalized_mse": 0.009731364180969001
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10136895_20170421.nii.gz",
@@ -423,34 +424,34 @@
       "mask_logit_normalized_mse": 0.010188233535227078
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10136895_20170421.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.010101541609058044,
-      "mask_logit_normalized_mse": 0.010176336678395704
+      "state_normalized_mse": 0.010108664523286147,
+      "mask_logit_normalized_mse": 0.010185044363862816
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10136895_20170421.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.005468643597253592,
-      "mask_logit_normalized_mse": 0.004640644133798981
+      "state_normalized_mse": 0.005000804572849096,
+      "mask_logit_normalized_mse": 0.0040028826913200925
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10136895_20170421.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.017965784678409584,
-      "mask_logit_normalized_mse": 0.01894547991766807
+      "state_normalized_mse": 0.018765767320287827,
+      "mask_logit_normalized_mse": 0.02000110117065907
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10140276_20170721.nii.gz",
@@ -459,34 +460,34 @@
       "mask_logit_normalized_mse": 0.0022697097492768424
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10140276_20170721.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.003134456510309604,
-      "mask_logit_normalized_mse": 0.0022658429802455368
+      "state_normalized_mse": 0.0031363050215455057,
+      "mask_logit_normalized_mse": 0.0022683625202775007
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10140276_20170721.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0013431105912696554,
-      "mask_logit_normalized_mse": 0.0004069067971289737
+      "state_normalized_mse": 0.001174951224843327,
+      "mask_logit_normalized_mse": 0.00017291602382811167
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HCC_10140276_20170721.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.008187952157535112,
-      "mask_logit_normalized_mse": 0.007561666914413021
+      "state_normalized_mse": 0.008718439821809925,
+      "mask_logit_normalized_mse": 0.008331104722153234
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA97.nii.gz",
@@ -495,34 +496,34 @@
       "mask_logit_normalized_mse": 0.0006008071113111718
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA97.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0016131474405628335,
-      "mask_logit_normalized_mse": 0.0006004062566742769
+      "state_normalized_mse": 0.0016131811772197961,
+      "mask_logit_normalized_mse": 0.0006005091525185277
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA97.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0010611126273653566,
-      "mask_logit_normalized_mse": 0.0003488871769194566
+      "state_normalized_mse": 0.0010171863628093158,
+      "mask_logit_normalized_mse": 0.0002685926188772688
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA97.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.0036732942139737993,
-      "mask_logit_normalized_mse": 0.002115518767995644
+      "state_normalized_mse": 0.0038208151382823873,
+      "mask_logit_normalized_mse": 0.0023007137214197215
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA99.nii.gz",
@@ -531,34 +532,34 @@
       "mask_logit_normalized_mse": 0.0005760412450911821
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA99.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0012116381278359292,
-      "mask_logit_normalized_mse": 0.0005749904496097296
+      "state_normalized_mse": 0.0012119844593291174,
+      "mask_logit_normalized_mse": 0.0005756132191517999
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA99.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0006772284339430106,
-      "mask_logit_normalized_mse": 0.000258993740076358
+      "state_normalized_mse": 0.0006532031116647433,
+      "mask_logit_normalized_mse": 0.00023817788337558533
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "train",
       "group": "case_names",
       "group_value": "HEM_PA99.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.003032225751183335,
-      "mask_logit_normalized_mse": 0.0015875200020949328
+      "state_normalized_mse": 0.0030466280055437265,
+      "mask_logit_normalized_mse": 0.0015598072084579866
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "liver_to_the_liver",
@@ -567,34 +568,34 @@
       "mask_logit_normalized_mse": 0.0007587492169563805
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "liver_to_the_liver",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0015665501739759288,
-      "mask_logit_normalized_mse": 0.0007455275104408945
+      "state_normalized_mse": 0.001579921869454749,
+      "mask_logit_normalized_mse": 0.0007576879096620493
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "liver_to_the_liver",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.001050956975102159,
-      "mask_logit_normalized_mse": 0.0004319776921535044
+      "state_normalized_mse": 0.000987108745685384,
+      "mask_logit_normalized_mse": 0.0003436873945749408
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "liver_to_the_liver",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.0039179310553477,
-      "mask_logit_normalized_mse": 0.002824724630191172
+      "state_normalized_mse": 0.003783859211464181,
+      "mask_logit_normalized_mse": 0.0025410022499461156
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "the_liver_to_liver",
@@ -603,34 +604,34 @@
       "mask_logit_normalized_mse": 0.0007506760623670993
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "the_liver_to_liver",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0015752451106236204,
-      "mask_logit_normalized_mse": 0.0007631581004909604
+      "state_normalized_mse": 0.0015618836041537442,
+      "mask_logit_normalized_mse": 0.0007511254184098644
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "the_liver_to_liver",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0010007282148587167,
-      "mask_logit_normalized_mse": 0.00041526632352909085
+      "state_normalized_mse": 0.0009735941621808927,
+      "mask_logit_normalized_mse": 0.0003851344024483648
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "directions",
       "group_value": "the_liver_to_liver",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.0028317128299521215,
-      "mask_logit_normalized_mse": 0.0013827373553246189
+      "state_normalized_mse": 0.0031972757485234796,
+      "mask_logit_normalized_mse": 0.0019194776015769353
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "CYST_PA62.nii.gz",
@@ -639,34 +640,34 @@
       "mask_logit_normalized_mse": 0.00029694150690048746
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "CYST_PA62.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0007882981278549314,
-      "mask_logit_normalized_mse": 0.00029699123127765813
+      "state_normalized_mse": 0.0007880065162753988,
+      "mask_logit_normalized_mse": 0.0002967731866076345
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "CYST_PA62.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0004803306208771147,
-      "mask_logit_normalized_mse": 0.00010932194319165655
+      "state_normalized_mse": 0.0004608098968785133,
+      "mask_logit_normalized_mse": 9.015577422822875e-05
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "CYST_PA62.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.0018865855658717296,
-      "mask_logit_normalized_mse": 0.0009128543369309586
+      "state_normalized_mse": 0.001903472483976564,
+      "mask_logit_normalized_mse": 0.0009021907513190409
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA107.nii.gz",
@@ -675,34 +676,34 @@
       "mask_logit_normalized_mse": 0.0003771721192427912
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA107.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0008859285645507018,
-      "mask_logit_normalized_mse": 0.0003773431512674347
+      "state_normalized_mse": 0.0008855677818184765,
+      "mask_logit_normalized_mse": 0.0003769428717530112
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA107.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0005016317223074831,
-      "mask_logit_normalized_mse": 0.00011882788458169497
+      "state_normalized_mse": 0.0004732410800815394,
+      "mask_logit_normalized_mse": 9.436229320247546e-05
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA107.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.0021564656793533503,
-      "mask_logit_normalized_mse": 0.0012319358182747275
+      "state_normalized_mse": 0.002218530490113937,
+      "mask_logit_normalized_mse": 0.0012856901860538506
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA29.nii.gz",
@@ -711,34 +712,34 @@
       "mask_logit_normalized_mse": 0.0007841569444808613
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA29.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0019766904675623588,
-      "mask_logit_normalized_mse": 0.0007843946973238736
+      "state_normalized_mse": 0.00197640173767671,
+      "mask_logit_normalized_mse": 0.0007839650413307472
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA29.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0017995643586513428,
-      "mask_logit_normalized_mse": 0.001070179808030708
+      "state_normalized_mse": 0.0017571004750723453,
+      "mask_logit_normalized_mse": 0.0010052569202035969
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEM_PA29.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.0029849295000946427,
-      "mask_logit_normalized_mse": 0.0009935999131009292
+      "state_normalized_mse": 0.0030407706340538757,
+      "mask_logit_normalized_mse": 0.0010350740108109198
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEP_PA28.nii.gz",
@@ -747,33 +748,207 @@
       "mask_logit_normalized_mse": 0.0019301207125824722
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEP_PA28.nii.gz",
       "model": "language_agnostic",
-      "state_normalized_mse": 0.0031989452957986485,
-      "mask_logit_normalized_mse": 0.001928106667381203
+      "state_normalized_mse": 0.0032000780209873927,
+      "mask_logit_normalized_mse": 0.0019293676372706245
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEP_PA28.nii.gz",
       "model": "language_conditioned",
-      "state_normalized_mse": 0.0014510579275769941,
-      "mask_logit_normalized_mse": 0.000339146639523785
+      "state_normalized_mse": 0.001334517581542888,
+      "mask_logit_normalized_mse": 0.00018092956043133746
     },
     {
-      "step": 300,
+      "step": 200,
       "split": "val",
       "group": "case_names",
       "group_value": "HEP_PA28.nii.gz",
       "model": "language_conditioned_wrong_direction",
-      "state_normalized_mse": 0.008173995802578271,
-      "mask_logit_normalized_mse": 0.006776724231732193
+      "state_normalized_mse": 0.008628291785640348,
+      "mask_logit_normalized_mse": 0.007361859507156658
     }
   ],
+  "step_pass_summaries": {
+    "0": {
+      "passed": false,
+      "micro_conditioned_lt_agnostic": false,
+      "micro_correct_lt_wrong_direction": false,
+      "macro_conditioned_lt_agnostic": false,
+      "macro_correct_lt_wrong_direction": false,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_direction": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_direction": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_direction": false
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_direction": false
+        }
+      ],
+      "direction_wins": [
+        {
+          "direction": "liver_to_the_liver",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_direction": false
+        },
+        {
+          "direction": "the_liver_to_liver",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_direction": false
+        }
+      ],
+      "criterion": "V3.1 sanity: unseen micro/macro conditioned < agnostic and correct delta < wrong-direction.",
+      "val_macro_conditioned_state_normalized_mse": 0.001712919614603685
+    },
+    "100": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_direction": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_direction": true,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        }
+      ],
+      "direction_wins": [
+        {
+          "direction": "liver_to_the_liver",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "direction": "the_liver_to_liver",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        }
+      ],
+      "criterion": "V3.1 sanity: unseen micro/macro conditioned < agnostic and correct delta < wrong-direction.",
+      "val_macro_conditioned_state_normalized_mse": 0.001091358476903608
+    },
+    "200": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_direction": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_direction": true,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        }
+      ],
+      "direction_wins": [
+        {
+          "direction": "liver_to_the_liver",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "direction": "the_liver_to_liver",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        }
+      ],
+      "criterion": "V3.1 sanity: unseen micro/macro conditioned < agnostic and correct delta < wrong-direction.",
+      "val_macro_conditioned_state_normalized_mse": 0.0010064172583938214
+    },
+    "300": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_direction": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_direction": true,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        }
+      ],
+      "direction_wins": [
+        {
+          "direction": "liver_to_the_liver",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        },
+        {
+          "direction": "the_liver_to_liver",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_direction": true
+        }
+      ],
+      "criterion": "V3.1 sanity: unseen micro/macro conditioned < agnostic and correct delta < wrong-direction.",
+      "val_macro_conditioned_state_normalized_mse": 0.0010581461573532336
+    }
+  },
   "pass_summary": {
     "passed": true,
     "micro_conditioned_lt_agnostic": true,
@@ -814,7 +989,8 @@
         "correct_lt_wrong_direction": true
       }
     ],
-    "criterion": "V3.1 sanity: unseen micro/macro conditioned < agnostic and correct delta < wrong-direction."
+    "criterion": "V3.1 sanity: unseen micro/macro conditioned < agnostic and correct delta < wrong-direction.",
+    "val_macro_conditioned_state_normalized_mse": 0.0010064172583938214
   },
   "scope_note": "V3.1 minimal language world prediction only; VoxTell is frozen and no V3.1 visual rollout, SFDA, or extra loss is implemented."
 }

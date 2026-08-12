@@ -1,0 +1,1102 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "v2_checkpoint": "outputs/v2_final/world_predictor_step200.pt",
+    "output_dir": "outputs/v3_2a_unified_smoke",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 1,
+    "val_cases": 1,
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 4,
+    "foreground_threshold": 0.5,
+    "hidden_channels": 16,
+    "batch_size": 4,
+    "max_train_steps": 100,
+    "eval_steps": [
+      0,
+      100
+    ],
+    "gamma_strengths": [
+      -0.3,
+      -0.15,
+      0.15,
+      0.3
+    ],
+    "blur_sigmas": [
+      0.5,
+      1.5
+    ],
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz"
+  ],
+  "val_cases": [
+    "CYST_PA62.nii.gz"
+  ],
+  "train_language_samples": 4,
+  "val_language_samples": 4,
+  "val_visual_samples": 12,
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "v2_checkpoint": "outputs/v2_final/world_predictor_step200.pt",
+  "text_delta_dim": 2560,
+  "text_delta_norm": 18.44923210144043,
+  "language_training_curve_csv": "outputs/v3_2a_unified_smoke/language_training_curve.csv",
+  "language_grouped_training_curve_csv": "outputs/v3_2a_unified_smoke/language_grouped_training_curve.csv",
+  "visual_validation_curve_csv": "outputs/v3_2a_unified_smoke/visual_validation_curve.csv",
+  "visual_grouped_validation_curve_csv": "outputs/v3_2a_unified_smoke/visual_grouped_validation_curve.csv",
+  "language_transition_diagnostics_csv": "outputs/v3_2a_unified_smoke/language_transition_diagnostics.csv",
+  "checkpoint_path": "outputs/v3_2a_unified_smoke/unified_world_predictor_step100.pt",
+  "language_final_metrics": [
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.0007634259812928202,
+      "mask_logit_normalized_mse": 0.00036024577038563867
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.001445184176990421,
+      "mask_logit_normalized_mse": 0.0011676524924494746
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0009348115574877669,
+      "mask_logit_normalized_mse": 0.000331853717851833
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0013780171600695978,
+      "mask_logit_normalized_mse": 0.0011154217593475613
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.0007634259812928202,
+      "mask_logit_normalized_mse": 0.00036024577038563867
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0009348115574877669,
+      "mask_logit_normalized_mse": 0.000331853717851833
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0013780171600695978,
+      "mask_logit_normalized_mse": 0.0011154217593475613
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.001445184176990421,
+      "mask_logit_normalized_mse": 0.0011676524924494746
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.0007335548675013888,
+      "mask_logit_normalized_mse": 0.0003063574678104942
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.001395464459506806,
+      "mask_logit_normalized_mse": 0.001084577134307304
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0009046025544768788,
+      "mask_logit_normalized_mse": 0.00027176600528468474
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0013397912787921646,
+      "mask_logit_normalized_mse": 0.0010181715211396711
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.0007335548675013888,
+      "mask_logit_normalized_mse": 0.0003063574678104942
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0009046025544768788,
+      "mask_logit_normalized_mse": 0.00027176600528468474
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0013397912787921646,
+      "mask_logit_normalized_mse": 0.0010181715211396711
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.001395464459506806,
+      "mask_logit_normalized_mse": 0.001084577134307304
+    }
+  ],
+  "language_final_group_metrics": [
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007666419086265458,
+      "mask_logit_normalized_mse": 0.00036079647808619046
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.0010441018034529118,
+      "mask_logit_normalized_mse": 0.00047677082130191336
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0009224458695944346,
+      "mask_logit_normalized_mse": 0.0002993617150564908
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0011397405063011499,
+      "mask_logit_normalized_mse": 0.0006789013936814045
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007602369217472309,
+      "mask_logit_normalized_mse": 0.00035970545053957596
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.001842915587922038,
+      "mask_logit_normalized_mse": 0.001845455668568267
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.000947073934998743,
+      "mask_logit_normalized_mse": 0.00036373055853698217
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.001614302948377092,
+      "mask_logit_normalized_mse": 0.001543678776586057
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.0007634259812928202,
+      "mask_logit_normalized_mse": 0.00036024577038563867
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.001445184176990421,
+      "mask_logit_normalized_mse": 0.0011676524924494746
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0009348115574877669,
+      "mask_logit_normalized_mse": 0.000331853717851833
+    },
+    {
+      "step": 100,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0013780171600695978,
+      "mask_logit_normalized_mse": 0.0011154217593475613
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007374928853964937,
+      "mask_logit_normalized_mse": 0.0003080584638083311
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.0009776870072062114,
+      "mask_logit_normalized_mse": 0.00037508697856310745
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.00091146896868632,
+      "mask_logit_normalized_mse": 0.00025933443289869373
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "liver_to_the_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.001100972821695959,
+      "mask_logit_normalized_mse": 0.0005725941504398065
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "identity",
+      "state_normalized_mse": 0.0007296586821893967,
+      "mask_logit_normalized_mse": 0.00030469278631016055
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.0018088041187223423,
+      "mask_logit_normalized_mse": 0.0017789202771834856
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0008978090041153444,
+      "mask_logit_normalized_mse": 0.0002839321765145612
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "directions",
+      "group_value": "the_liver_to_liver",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0015760729796294713,
+      "mask_logit_normalized_mse": 0.0014542361877991313
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.0007335548675013888,
+      "mask_logit_normalized_mse": 0.0003063574678104942
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "shared_trunk_no_language",
+      "state_normalized_mse": 0.001395464459506806,
+      "mask_logit_normalized_mse": 0.001084577134307304
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "language_conditioned",
+      "state_normalized_mse": 0.0009046025544768788,
+      "mask_logit_normalized_mse": 0.00027176600528468474
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "language_conditioned_wrong_direction",
+      "state_normalized_mse": 0.0013397912787921646,
+      "mask_logit_normalized_mse": 0.0010181715211396711
+    }
+  ],
+  "language_pass_summary": {
+    "passed": false,
+    "micro_conditioned_lt_no_language": true,
+    "micro_correct_lt_wrong_direction": true,
+    "macro_conditioned_lt_no_language": true,
+    "macro_correct_lt_wrong_direction": true,
+    "micro_mask_improved": true,
+    "macro_mask_improved": true,
+    "case_win_count": 1,
+    "case_total": 1,
+    "direction_wins": [
+      {
+        "direction": "liver_to_the_liver",
+        "conditioned_lt_no_language": true,
+        "correct_lt_wrong_direction": true
+      },
+      {
+        "direction": "the_liver_to_liver",
+        "conditioned_lt_no_language": true,
+        "correct_lt_wrong_direction": true
+      }
+    ],
+    "case_wins": [
+      {
+        "case": "CYST_PA62.nii.gz",
+        "conditioned_lt_no_language": true,
+        "correct_lt_wrong_direction": true
+      }
+    ],
+    "criterion": "V3.2a language-only encoder: micro/macro state and correct-vs-wrong direction, 2/2 directions, at least 3/4 cases, and overall mask improvement."
+  },
+  "visual_final_metrics": [
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.017867800166848656,
+      "mask_logit_normalized_mse": 0.003041093501029845
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.018377747905847702,
+      "mask_logit_normalized_mse": 0.003856114174196072
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.018610240352678935,
+      "mask_logit_normalized_mse": 0.004068324263629253
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.020293941842282913,
+      "mask_logit_normalized_mse": 0.0044313520302023445
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.021554429904637587,
+      "mask_logit_normalized_mse": 0.006358976706437844
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.018377747905847702,
+      "mask_logit_normalized_mse": 0.003856114174196072
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.020293941842282913,
+      "mask_logit_normalized_mse": 0.0044313520302023445
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.018610240352678935,
+      "mask_logit_normalized_mse": 0.004068324263629253
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.021554429904637587,
+      "mask_logit_normalized_mse": 0.006358976706437844
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.017867800166848656,
+      "mask_logit_normalized_mse": 0.003041093501029845
+    }
+  ],
+  "visual_final_group_metrics": [
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "identity",
+      "state_normalized_mse": 0.028882183349537984,
+      "mask_logit_normalized_mse": 0.004786422461026257
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.03001047481055764,
+      "mask_logit_normalized_mse": 0.006792203221745328
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.031059228042379837,
+      "mask_logit_normalized_mse": 0.00809658775829483
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.03001047481055764,
+      "mask_logit_normalized_mse": 0.006792203221745328
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.02878790619344014,
+      "mask_logit_normalized_mse": 0.004591649134272835
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "gamma",
+      "model": "identity",
+      "state_normalized_mse": 0.012426607502717171,
+      "mask_logit_normalized_mse": 0.0021915889684360167
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "gamma",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.012631087917015452,
+      "mask_logit_normalized_mse": 0.0024270301747983895
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "gamma",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.012460340428347339,
+      "mask_logit_normalized_mse": 0.002107646234397528
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "gamma",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.01078509283572608,
+      "mask_logit_normalized_mse": 0.0021763647053100713
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "gamma",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.014475564511778541,
+      "mask_logit_normalized_mse": 0.008047052385427335
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "identity",
+      "state_normalized_mse": 0.004946801814612497,
+      "mask_logit_normalized_mse": 0.0008922189577407624
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.005089941523449659,
+      "mask_logit_normalized_mse": 0.0010160317105891942
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.004992206308387021,
+      "mask_logit_normalized_mse": 0.0008357951264328532
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.005089941523449659,
+      "mask_logit_normalized_mse": 0.0010160317105891942
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.15",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.006587808244161677,
+      "mask_logit_normalized_mse": 0.0033419516655356224
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "identity",
+      "state_normalized_mse": 0.016185216897669778,
+      "mask_logit_normalized_mse": 0.002977575032699458
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.0164547521612509,
+      "mask_logit_normalized_mse": 0.003327102474140243
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.0161889217417827,
+      "mask_logit_normalized_mse": 0.002801369150874928
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.0164547521612509,
+      "mask_logit_normalized_mse": 0.003327102474140243
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.30",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.02232801519112723,
+      "mask_logit_normalized_mse": 0.012713244150480443
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "identity",
+      "state_normalized_mse": 0.0025109623260546,
+      "mask_logit_normalized_mse": 0.00043953631616539386
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.0036679298775508474,
+      "mask_logit_normalized_mse": 0.001963776946410811
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.007252130991474465,
+      "mask_logit_normalized_mse": 0.00750448604578793
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.0036679298775508474,
+      "mask_logit_normalized_mse": 0.001963776946410811
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.002613200072530037,
+      "mask_logit_normalized_mse": 0.00048474546700277366
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "identity",
+      "state_normalized_mse": 0.055767216290476734,
+      "mask_logit_normalized_mse": 0.00933150089925006
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.05686627297460075,
+      "mask_logit_normalized_mse": 0.011840778202760286
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.05533017775083214,
+      "mask_logit_normalized_mse": 0.008715684278394245
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.05686627297460075,
+      "mask_logit_normalized_mse": 0.011840778202760286
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.055472600022280535,
+      "mask_logit_normalized_mse": 0.008885804028931129
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "identity",
+      "state_normalized_mse": 0.006208040647526013,
+      "mask_logit_normalized_mse": 0.0010453506868257686
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.006351687877441088,
+      "mask_logit_normalized_mse": 0.0011851574345624488
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.15",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.006282565166365293,
+      "mask_logit_normalized_mse": 0.0010434214602964256
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "identity",
+      "state_normalized_mse": 0.022464568507998398,
+      "mask_logit_normalized_mse": 0.003878009439054018
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.022726178806587997,
+      "mask_logit_normalized_mse": 0.004206606684441514
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "-0.30",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.02247611862608851,
+      "mask_logit_normalized_mse": 0.0037793067975190582
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.017867800166848656,
+      "mask_logit_normalized_mse": 0.003041093501029845
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.018377747905847702,
+      "mask_logit_normalized_mse": 0.003856114174196072
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.018610240352678935,
+      "mask_logit_normalized_mse": 0.004068324263629253
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned_correct_for_wrong_type",
+      "state_normalized_mse": 0.020293941842282913,
+      "mask_logit_normalized_mse": 0.0044313520302023445
+    },
+    {
+      "step": 100,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.021554429904637587,
+      "mask_logit_normalized_mse": 0.006358976706437844
+    }
+  ],
+  "visual_comparison": {
+    "max_abs_overall_micro_metric_difference": 0.0,
+    "baseline_overall_micro": [
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "identity",
+        "state_normalized_mse": 0.017867800166848656,
+        "mask_logit_normalized_mse": 0.003041093501029845
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "v2_loaded_baseline",
+        "state_normalized_mse": 0.018377747905847702,
+        "mask_logit_normalized_mse": 0.003856114174196072
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "v2_loaded_baseline_wrong_strength",
+        "state_normalized_mse": 0.018610240352678935,
+        "mask_logit_normalized_mse": 0.004068324263629253
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "v2_loaded_baseline_correct_for_wrong_type",
+        "state_normalized_mse": 0.020293941842282913,
+        "mask_logit_normalized_mse": 0.0044313520302023445
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "v2_loaded_baseline_wrong_type",
+        "state_normalized_mse": 0.021554429904637587,
+        "mask_logit_normalized_mse": 0.006358976706437844
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "v2_loaded_baseline",
+        "state_normalized_mse": 0.018377747905847702,
+        "mask_logit_normalized_mse": 0.003856114174196072
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "v2_loaded_baseline_correct_for_wrong_type",
+        "state_normalized_mse": 0.020293941842282913,
+        "mask_logit_normalized_mse": 0.0044313520302023445
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "v2_loaded_baseline_wrong_strength",
+        "state_normalized_mse": 0.018610240352678935,
+        "mask_logit_normalized_mse": 0.004068324263629253
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "v2_loaded_baseline_wrong_type",
+        "state_normalized_mse": 0.021554429904637587,
+        "mask_logit_normalized_mse": 0.006358976706437844
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "identity",
+        "state_normalized_mse": 0.017867800166848656,
+        "mask_logit_normalized_mse": 0.003041093501029845
+      }
+    ],
+    "unified_overall_micro": [
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "identity",
+        "state_normalized_mse": 0.017867800166848656,
+        "mask_logit_normalized_mse": 0.003041093501029845
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "action_conditioned",
+        "state_normalized_mse": 0.018377747905847702,
+        "mask_logit_normalized_mse": 0.003856114174196072
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "action_conditioned_wrong_strength",
+        "state_normalized_mse": 0.018610240352678935,
+        "mask_logit_normalized_mse": 0.004068324263629253
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "action_conditioned_correct_for_wrong_type",
+        "state_normalized_mse": 0.020293941842282913,
+        "mask_logit_normalized_mse": 0.0044313520302023445
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_micro",
+        "group_value": "all",
+        "model": "action_conditioned_wrong_type",
+        "state_normalized_mse": 0.021554429904637587,
+        "mask_logit_normalized_mse": 0.006358976706437844
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "action_conditioned",
+        "state_normalized_mse": 0.018377747905847702,
+        "mask_logit_normalized_mse": 0.003856114174196072
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "action_conditioned_correct_for_wrong_type",
+        "state_normalized_mse": 0.020293941842282913,
+        "mask_logit_normalized_mse": 0.0044313520302023445
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "action_conditioned_wrong_strength",
+        "state_normalized_mse": 0.018610240352678935,
+        "mask_logit_normalized_mse": 0.004068324263629253
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "action_conditioned_wrong_type",
+        "state_normalized_mse": 0.021554429904637587,
+        "mask_logit_normalized_mse": 0.006358976706437844
+      },
+      {
+        "step": 100,
+        "split": "val",
+        "group": "overall_macro",
+        "group_value": "case_mean",
+        "model": "identity",
+        "state_normalized_mse": 0.017867800166848656,
+        "mask_logit_normalized_mse": 0.003041093501029845
+      }
+    ]
+  },
+  "scope_note": "V3.2a unified predictor only: V2 trunk/action/output frozen; only zero-initialized language_action_encoder is trained; no new loss or V4 functionality."
+}

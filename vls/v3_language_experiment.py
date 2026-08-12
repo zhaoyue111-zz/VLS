@@ -439,6 +439,47 @@ def pass_summary(
     }
 
 
+def val_macro_conditioned_state(
+    rows: list[dict[str, float | int | str]],
+) -> float:
+    for row in rows:
+        if (
+            row["split"] == "val"
+            and row["group"] == "overall_macro"
+            and row["model"] == "language_conditioned"
+        ):
+            return float(row["state_normalized_mse"])
+    raise ValueError("Missing val overall_macro language_conditioned metric")
+
+
+def pass_summaries_by_step(
+    curve_rows: list[dict[str, float | int | str]],
+    group_rows: list[dict[str, float | int | str]],
+) -> dict[str, dict[str, Any]]:
+    summaries = {}
+    for step in sorted({int(row["step"]) for row in curve_rows}):
+        step_rows = [row for row in curve_rows if int(row["step"]) == step]
+        step_group_rows = [row for row in group_rows if int(row["step"]) == step]
+        summary = pass_summary(step_rows, step_group_rows)
+        summary["val_macro_conditioned_state_normalized_mse"] = val_macro_conditioned_state(step_rows)
+        summaries[str(step)] = summary
+    return summaries
+
+
+def select_language_checkpoint_step(
+    step_summaries: dict[str, dict[str, Any]],
+    fallback_step: int,
+) -> int:
+    passing_steps = [
+        (int(step), float(summary["val_macro_conditioned_state_normalized_mse"]))
+        for step, summary in step_summaries.items()
+        if summary["passed"]
+    ]
+    if not passing_steps:
+        return fallback_step
+    return min(passing_steps, key=lambda item: (item[1], item[0]))[0]
+
+
 def cpu_state_dict(model: nn.Module) -> dict[str, torch.Tensor]:
     return {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
 
@@ -631,14 +672,15 @@ def run(args: argparse.Namespace) -> None:
         ],
     )
 
-    final_step = args.max_train_steps
-    final_rows = [row for row in curve_rows if int(row["step"]) == final_step]
-    final_group_rows = [row for row in group_rows if int(row["step"]) == final_step]
-    final_pass_summary = pass_summary(final_rows, final_group_rows)
-    checkpoint_path = output_dir / f"language_world_predictor_step{final_step}.pt"
+    step_summaries = pass_summaries_by_step(curve_rows, group_rows)
+    selected_step = select_language_checkpoint_step(step_summaries, args.max_train_steps)
+    final_rows = [row for row in curve_rows if int(row["step"]) == selected_step]
+    final_group_rows = [row for row in group_rows if int(row["step"]) == selected_step]
+    final_pass_summary = step_summaries[str(selected_step)]
+    checkpoint_path = output_dir / f"language_world_predictor_step{selected_step}.pt"
     torch.save(
         {
-            "selected_step": final_step,
+            "selected_step": selected_step,
             "selected_stage": args.selected_stage,
             "hidden_channels": args.hidden_channels,
             "text_delta_dim": train_data["text_delta_dim"],
@@ -646,8 +688,8 @@ def run(args: argparse.Namespace) -> None:
                 "liver -> the liver: delta_text = E(the liver) - E(liver)",
                 "the liver -> liver: delta_text = E(liver) - E(the liver)",
             ],
-            "conditioned_state_dict": checkpoints[final_step]["language_conditioned"],
-            "agnostic_state_dict": checkpoints[final_step]["language_agnostic"],
+            "conditioned_state_dict": checkpoints[selected_step]["language_conditioned"],
+            "agnostic_state_dict": checkpoints[selected_step]["language_agnostic"],
             "args": vars(args),
         },
         checkpoint_path,
@@ -665,8 +707,10 @@ def run(args: argparse.Namespace) -> None:
         "grouped_training_curve_csv": str(group_curve_path),
         "transition_diagnostics_csv": str(diagnostic_path),
         "checkpoint_path": str(checkpoint_path),
+        "selected_step": selected_step,
         "final_metrics": final_rows,
         "final_group_metrics": final_group_rows,
+        "step_pass_summaries": step_summaries,
         "pass_summary": final_pass_summary,
         "scope_note": "V3.1 minimal language world prediction only; VoxTell is frozen and no V3.1 visual rollout, SFDA, or extra loss is implemented.",
     }
