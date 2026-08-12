@@ -1,0 +1,109 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "output_dir": "outputs/v1_overfit_sanity",
+    "prompts": [
+      "liver"
+    ],
+    "candidate_stages": [
+      "decoder_stage_1_low_to_high",
+      "decoder_stage_2_low_to_high"
+    ],
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 1,
+    "val_cases": 0,
+    "patches_per_case": 1,
+    "foreground_patches_per_case": 0,
+    "foreground_candidate_patches": 12,
+    "max_train_steps": 300,
+    "eval_steps": [
+      0,
+      30,
+      100,
+      300
+    ],
+    "gamma_strengths": [
+      -0.3,
+      -0.15,
+      0.15,
+      0.3
+    ],
+    "hidden_channels": 16,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz"
+  ],
+  "val_cases": [
+    "HEM_PA99.nii.gz"
+  ],
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "train_samples": 4,
+  "val_samples": 4,
+  "candidate_stage_csv": "outputs/v1_overfit_sanity/candidate_stage_metrics.csv",
+  "training_curve_csv": "outputs/v1_overfit_sanity/training_curve.csv",
+  "final_metrics": [
+    {
+      "step": 300,
+      "split": "train",
+      "model": "identity",
+      "state_normalized_mse": 0.007079434115439653,
+      "mask_logit_normalized_mse": 0.0012795799411833286
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.006453005596995354,
+      "mask_logit_normalized_mse": 0.001058627967722714
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.004761307034641504,
+      "mask_logit_normalized_mse": 0.00029289544909261167
+    },
+    {
+      "step": 300,
+      "split": "train",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.01178186759352684,
+      "mask_logit_normalized_mse": 0.003241399535909295
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "model": "identity",
+      "state_normalized_mse": 0.007079434115439653,
+      "mask_logit_normalized_mse": 0.0012795799411833286
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.006453005596995354,
+      "mask_logit_normalized_mse": 0.001058627967722714
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.004761307034641504,
+      "mask_logit_normalized_mse": 0.00029289544909261167
+    },
+    {
+      "step": 300,
+      "split": "val",
+      "model": "action_conditioned_wrong_action",
+      "state_normalized_mse": 0.01178186759352684,
+      "mask_logit_normalized_mse": 0.003241399535909295
+    }
+  ],
+  "expected_sanity_order": "action_conditioned < action_agnostic < identity, plus correct action < wrong action"
+}

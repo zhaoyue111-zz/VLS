@@ -39,6 +39,8 @@ class VisualWorldPredictor3D(nn.Module):
         )
         self.blocks = nn.Sequential(*[ResidualConvBlock3D(hidden_channels) for _ in range(num_blocks)])
         self.output_projection = nn.Conv3d(hidden_channels, in_channels, 1)
+        nn.init.zeros_(self.output_projection.weight)
+        nn.init.zeros_(self.output_projection.bias)
 
     def forward(self, state: torch.Tensor, action: torch.Tensor | None = None) -> torch.Tensor:
         x = self.input_projection(state)
