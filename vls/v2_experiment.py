@@ -13,20 +13,21 @@ import torch
 from acvl_utils.cropping_and_padding.padding import pad_nd_image
 from torch import nn
 
-from vls.augmentations import contrast_augment, gamma_augment
+from vls.augmentations import gamma_augment, gaussian_blur_augment
 from vls.config import DEFAULT_PROMPTS, ProjectPaths
 from vls.data import iter_cases, read_image_and_label
 from vls.voxtell_states import VoxTellStateInterface
 from vls.world_model import VisualWorldPredictor3D, normalized_mse
 
 
-DEFAULT_STRENGTHS = [-0.3, -0.15, 0.15, 0.3]
+DEFAULT_GAMMA_STRENGTHS = [-0.3, -0.15, 0.15, 0.3]
+DEFAULT_BLUR_SIGMAS = [0.5, 1.5]
 DEFAULT_EVAL_STEPS = [0, 30, 100, 300]
-DEFAULT_ACTION_FAMILIES = ["gamma", "contrast"]
+DEFAULT_ACTION_FAMILIES = ["gamma", "blur"]
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="V2 visual world model experiment with gamma and contrast actions.")
+    parser = argparse.ArgumentParser(description="V2 visual world model experiment with gamma and blur actions.")
     parser.add_argument("--model-dir", default=str(ProjectPaths().voxtell_model_dir))
     parser.add_argument("--voxtell-root", default=str(ProjectPaths().voxtell_root))
     parser.add_argument("--data-root", default=str(ProjectPaths().data_root))
@@ -43,7 +44,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--foreground-threshold", type=float, default=0.5)
     parser.add_argument("--max-train-steps", type=int, default=300)
     parser.add_argument("--eval-steps", nargs="+", type=int, default=DEFAULT_EVAL_STEPS)
-    parser.add_argument("--strengths", nargs="+", type=float, default=DEFAULT_STRENGTHS)
+    parser.add_argument("--gamma-strengths", nargs="+", type=float, default=DEFAULT_GAMMA_STRENGTHS)
+    parser.add_argument("--blur-sigmas", nargs="+", type=float, default=DEFAULT_BLUR_SIGMAS)
     parser.add_argument("--action-families", nargs="+", default=DEFAULT_ACTION_FAMILIES)
     parser.add_argument("--hidden-channels", type=int, default=16)
     parser.add_argument("--batch-size", type=int, default=8)
@@ -87,17 +89,17 @@ def padded_visual_action_and_slicers(
 ) -> tuple[torch.Tensor, list[tuple]]:
     if action_family == "gamma":
         return padded_image_and_slicers(predictor, gamma_augment(image, 1.0 + strength))
-    if action_family == "contrast":
+    if action_family == "blur":
         preprocessed, _, _ = predictor.preprocess(image)
-        contrasted = contrast_augment(preprocessed.numpy(), strength)
-        return padded_preprocessed_and_slicers(predictor, torch.from_numpy(contrasted))
+        blurred = gaussian_blur_augment(preprocessed.numpy(), strength)
+        return padded_preprocessed_and_slicers(predictor, torch.from_numpy(blurred))
     raise ValueError(f"Unsupported action family: {action_family}")
 
 
 def visual_action(action_family: str, strength: float, device: torch.device) -> torch.Tensor:
     if action_family == "gamma":
         values = [1.0, 0.0, float(strength)]
-    elif action_family == "contrast":
+    elif action_family == "blur":
         values = [0.0, 1.0, float(strength)]
     else:
         raise ValueError(f"Unsupported action family: {action_family}")
@@ -106,10 +108,21 @@ def visual_action(action_family: str, strength: float, device: torch.device) -> 
 
 def swapped_action_family(action_family: str) -> str:
     if action_family == "gamma":
-        return "contrast"
-    if action_family == "contrast":
+        return "blur"
+    if action_family == "blur":
         return "gamma"
     raise ValueError(f"Unsupported action family: {action_family}")
+
+
+def action_values_by_family(args: argparse.Namespace) -> dict[str, list[float]]:
+    values = {
+        "gamma": [float(value) for value in args.gamma_strengths],
+        "blur": [float(value) for value in args.blur_sigmas],
+    }
+    unsupported = sorted(set(args.action_families) - set(values))
+    if unsupported:
+        raise ValueError(f"Unsupported action families: {unsupported}")
+    return values
 
 
 def uniform_slicer_candidates(slicers: list[tuple], num_candidates: int) -> list[tuple]:
@@ -254,7 +267,7 @@ def build_dataset(
     cases: list[Any],
     prompts: list[str],
     action_families: list[str],
-    strengths: list[float],
+    action_values_by_family: dict[str, list[float]],
     selected_stage: str,
     patches_per_case: int,
     foreground_patches_per_case: int,
@@ -291,13 +304,13 @@ def build_dataset(
                 strength,
             )[0]
             for action_family in action_families
-            for strength in strengths
+            for strength in action_values_by_family[action_family]
         }
         for patch_index, slicer in enumerate(slicers):
             original_patch = torch.clone(original_padded[slicer][None], memory_format=torch.contiguous_format)
             original = interface.forward_with_states(original_patch, prompts)
             for action_family in action_families:
-                for strength in strengths:
+                for strength in action_values_by_family[action_family]:
                     pair = extract_patch_pair(
                         interface,
                         original_padded,
@@ -445,7 +458,14 @@ def evaluate_identity(
 
 def wrong_strength_actions(actions: torch.Tensor) -> torch.Tensor:
     wrong_actions = actions.clone()
-    wrong_actions[:, 2] = -wrong_actions[:, 2]
+    gamma_mask = actions[:, 0] > actions[:, 1]
+    blur_mask = actions[:, 1] > actions[:, 0]
+    wrong_actions[gamma_mask, 2] = -wrong_actions[gamma_mask, 2]
+    wrong_actions[blur_mask, 2] = torch.where(
+        actions[blur_mask, 2] < 1.0,
+        torch.full_like(actions[blur_mask, 2], 1.5),
+        torch.full_like(actions[blur_mask, 2], 0.5),
+    )
     return wrong_actions
 
 
@@ -733,7 +753,7 @@ def v2_pass_summary(
         "case_wins": case_wins,
         "action_family_wins": family_wins,
         "strength_wins": strength_wins,
-        "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and contrast families each conditioned < agnostic; case and strength win rates must be majority",
+        "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
     }
 
 
@@ -840,6 +860,7 @@ def run(args: argparse.Namespace) -> None:
     interface = VoxTellStateInterface.from_model_dir(paths.voxtell_model_dir, device=device, voxtell_root=paths.voxtell_root)
     train_cases = iter_cases(paths, split="train", limit=args.dev_cases)
     val_cases = iter_cases(paths, split="test", limit=args.val_cases) if args.val_cases else train_cases
+    family_values = action_values_by_family(args)
 
     first_image, _, _ = read_image_and_label(train_cases[0])
     padded, slicers, _ = select_patch_slicers(
@@ -851,7 +872,7 @@ def run(args: argparse.Namespace) -> None:
         foreground_candidate_patches=args.foreground_candidate_patches,
         foreground_threshold=args.foreground_threshold,
     )
-    gamma_padded, _ = padded_image_and_slicers(interface.predictor, gamma_augment(first_image, 1.0 + args.strengths[0]))
+    gamma_padded, _ = padded_image_and_slicers(interface.predictor, gamma_augment(first_image, 1.0 + family_values["gamma"][0]))
     first_pair = extract_patch_pair(interface, padded, gamma_padded, slicers[0], args.prompts)
     candidate_rows = compare_candidate_stages(first_pair, args.candidate_stages)
 
@@ -860,7 +881,7 @@ def run(args: argparse.Namespace) -> None:
         train_cases,
         args.prompts,
         args.action_families,
-        args.strengths,
+        family_values,
         args.selected_stage,
         args.patches_per_case,
         args.foreground_patches_per_case,
@@ -872,7 +893,7 @@ def run(args: argparse.Namespace) -> None:
         val_cases,
         args.prompts,
         args.action_families,
-        args.strengths,
+        family_values,
         args.selected_stage,
         args.patches_per_case,
         args.foreground_patches_per_case,

@@ -1,0 +1,693 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "output_dir": "outputs/v2_2_blur_sanity",
+    "prompts": [
+      "liver"
+    ],
+    "candidate_stages": [
+      "decoder_stage_1_low_to_high",
+      "decoder_stage_2_low_to_high"
+    ],
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 2,
+    "val_cases": 1,
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 8,
+    "foreground_threshold": 0.5,
+    "max_train_steps": 0,
+    "eval_steps": [
+      0
+    ],
+    "gamma_strengths": [
+      -0.3,
+      -0.15,
+      0.15,
+      0.3
+    ],
+    "blur_sigmas": [
+      0.5,
+      1.5
+    ],
+    "action_families": [
+      "blur"
+    ],
+    "hidden_channels": 16,
+    "batch_size": 8,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz"
+  ],
+  "val_cases": [
+    "CYST_PA62.nii.gz"
+  ],
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "train_samples": 16,
+  "val_samples": 8,
+  "candidate_stage_csv": "outputs/v2_2_blur_sanity/candidate_stage_metrics.csv",
+  "training_curve_csv": "outputs/v2_2_blur_sanity/training_curve.csv",
+  "grouped_training_curve_csv": "outputs/v2_2_blur_sanity/grouped_training_curve.csv",
+  "transition_diagnostics_csv": "outputs/v2_2_blur_sanity/transition_diagnostics.csv",
+  "final_metrics": [
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.05479489995270732,
+      "mask_logit_normalized_mse": 0.01436001365985438
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.05479489995270732,
+      "mask_logit_normalized_mse": 0.01436001365985438
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.05479489995270732,
+      "mask_logit_normalized_mse": 0.01436001365985438
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.05479489995270732,
+      "mask_logit_normalized_mse": 0.01436001365985438
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.05479489995270732,
+      "mask_logit_normalized_mse": 0.01436001365985438
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "identity",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_micro",
+      "group_value": "all",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "overall_macro",
+      "group_value": "case_mean",
+      "model": "identity",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    }
+  ],
+  "final_group_metrics": [
+    {
+      "step": 0,
+      "split": "train",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "identity",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.054064589362339086,
+      "mask_logit_normalized_mse": 0.01383994487429687
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "identity",
+      "state_normalized_mse": 0.003962193120051306,
+      "mask_logit_normalized_mse": 0.000751571329370396
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.003962193120051306,
+      "mask_logit_normalized_mse": 0.000751571329370396
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.003962193120051306,
+      "mask_logit_normalized_mse": 0.000751571329370396
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.003962193120051306,
+      "mask_logit_normalized_mse": 0.000751571329370396
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.003962193120051306,
+      "mask_logit_normalized_mse": 0.000751571329370396
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "identity",
+      "state_normalized_mse": 0.1049270002467749,
+      "mask_logit_normalized_mse": 0.027378796278938355
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.1049270002467749,
+      "mask_logit_normalized_mse": 0.027378796278938355
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.1049270002467749,
+      "mask_logit_normalized_mse": 0.027378796278938355
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.1049270002467749,
+      "mask_logit_normalized_mse": 0.027378796278938355
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.1049270002467749,
+      "mask_logit_normalized_mse": 0.027378796278938355
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.059175265392813356,
+      "mask_logit_normalized_mse": 0.017630273101730314
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.059175265392813356,
+      "mask_logit_normalized_mse": 0.017630273101730314
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.059175265392813356,
+      "mask_logit_normalized_mse": 0.017630273101730314
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.059175265392813356,
+      "mask_logit_normalized_mse": 0.017630273101730314
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HCC_10140276_20170721.nii.gz",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.059175265392813356,
+      "mask_logit_normalized_mse": 0.017630273101730314
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.05041453451260128,
+      "mask_logit_normalized_mse": 0.011089754217978446
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.05041453451260128,
+      "mask_logit_normalized_mse": 0.011089754217978446
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.05041453451260128,
+      "mask_logit_normalized_mse": 0.011089754217978446
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.05041453451260128,
+      "mask_logit_normalized_mse": 0.011089754217978446
+    },
+    {
+      "step": 0,
+      "split": "train",
+      "group": "case_names",
+      "group_value": "HEM_PA99.nii.gz",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.05041453451260128,
+      "mask_logit_normalized_mse": 0.011089754217978446
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "identity",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "action_families",
+      "group_value": "blur",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "identity",
+      "state_normalized_mse": 0.010131251153015752,
+      "mask_logit_normalized_mse": 0.004964589486161418
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.010131251153015752,
+      "mask_logit_normalized_mse": 0.004964589486161418
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.010131251153015752,
+      "mask_logit_normalized_mse": 0.004964589486161418
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.010131251153015752,
+      "mask_logit_normalized_mse": 0.004964589486161418
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+0.50",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.010131251153015752,
+      "mask_logit_normalized_mse": 0.004964589486161418
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "identity",
+      "state_normalized_mse": 0.10423026340876315,
+      "mask_logit_normalized_mse": 0.03648877129809502
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.10423026340876315,
+      "mask_logit_normalized_mse": 0.03648877129809502
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.10423026340876315,
+      "mask_logit_normalized_mse": 0.03648877129809502
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.10423026340876315,
+      "mask_logit_normalized_mse": 0.03648877129809502
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "strengths",
+      "group_value": "+1.50",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.10423026340876315,
+      "mask_logit_normalized_mse": 0.03648877129809502
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "identity",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_agnostic",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned_wrong_strength",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    },
+    {
+      "step": 0,
+      "split": "val",
+      "group": "case_names",
+      "group_value": "CYST_PA62.nii.gz",
+      "model": "action_conditioned_wrong_type",
+      "state_normalized_mse": 0.056978469159362485,
+      "mask_logit_normalized_mse": 0.020514788720601185
+    }
+  ],
+  "v2_pass_summary": {
+    "passed": false,
+    "micro_conditioned_lt_agnostic": false,
+    "micro_correct_lt_wrong_strength": false,
+    "micro_correct_lt_wrong_type": false,
+    "macro_conditioned_lt_agnostic": false,
+    "macro_correct_lt_wrong_strength": false,
+    "macro_correct_lt_wrong_type": false,
+    "case_win_count": 0,
+    "case_total": 1,
+    "action_family_win_count": 0,
+    "action_family_total": 1,
+    "strength_win_count": 0,
+    "strength_total": 2,
+    "case_wins": [
+      {
+        "case": "CYST_PA62.nii.gz",
+        "conditioned_lt_agnostic": false
+      }
+    ],
+    "action_family_wins": [
+      {
+        "action_family": "blur",
+        "conditioned_lt_agnostic": false,
+        "correct_lt_wrong_strength": false,
+        "correct_lt_wrong_type": false
+      }
+    ],
+    "strength_wins": [
+      {
+        "strength": "+0.50",
+        "conditioned_lt_agnostic": false,
+        "correct_lt_wrong_strength": false,
+        "correct_lt_wrong_type": false
+      },
+      {
+        "strength": "+1.50",
+        "conditioned_lt_agnostic": false,
+        "correct_lt_wrong_strength": false,
+        "correct_lt_wrong_type": false
+      }
+    ],
+    "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority"
+  },
+  "expected_sanity_order": "action_conditioned < action_agnostic; correct action < wrong-strength and wrong-type"
+}
