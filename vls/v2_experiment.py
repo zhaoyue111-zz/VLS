@@ -22,7 +22,7 @@ from vls.world_model import VisualWorldPredictor3D, normalized_mse
 
 DEFAULT_GAMMA_STRENGTHS = [-0.3, -0.15, 0.15, 0.3]
 DEFAULT_BLUR_SIGMAS = [0.5, 1.5]
-DEFAULT_EVAL_STEPS = [0, 30, 100, 300]
+DEFAULT_EVAL_STEPS = [0, 100, 200, 300]
 DEFAULT_ACTION_FAMILIES = ["gamma", "blur"]
 
 
@@ -47,6 +47,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--gamma-strengths", nargs="+", type=float, default=DEFAULT_GAMMA_STRENGTHS)
     parser.add_argument("--blur-sigmas", nargs="+", type=float, default=DEFAULT_BLUR_SIGMAS)
     parser.add_argument("--action-families", nargs="+", default=DEFAULT_ACTION_FAMILIES)
+    parser.add_argument("--identity-action-anchors", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--hidden-channels", type=int, default=16)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--seed", type=int, default=2026)
@@ -273,6 +274,7 @@ def build_dataset(
     foreground_patches_per_case: int,
     foreground_candidate_patches: int,
     foreground_threshold: float,
+    include_identity_anchors: bool = False,
 ) -> dict[str, torch.Tensor | list[str] | list[float]]:
     states = []
     targets = []
@@ -309,6 +311,30 @@ def build_dataset(
         for patch_index, slicer in enumerate(slicers):
             original_patch = torch.clone(original_padded[slicer][None], memory_format=torch.contiguous_format)
             original = interface.forward_with_states(original_patch, prompts)
+            original_state = original["decoder_states"][selected_stage][:, 0].detach().float()
+            source_prediction = original["intermediate_predictions"][selected_stage][:, 0:1].detach().float()
+            if include_identity_anchors:
+                for action_family in action_families:
+                    states.append(original_state.cpu())
+                    targets.append(original_state.cpu())
+                    actions.append(visual_action(action_family, 0.0, torch.device("cpu")))
+                    target_predictions.append(source_prediction.cpu())
+                    case_ids.append(f"{case.case}:patch{patch_index}:{action_family}+0.00_anchor")
+                    case_names.append(case.case)
+                    patch_indices.append(patch_index)
+                    patch_kinds_all.append(patch_kinds[patch_index])
+                    action_families_all.append(action_family)
+                    strengths_all.append(0.0)
+                    diagnostic_rows.append({
+                        "case": case.case,
+                        "patch_index": patch_index,
+                        "patch_kind": patch_kinds[patch_index],
+                        "action_family": action_family,
+                        "strength": 0.0,
+                        "input_normalized_mse": 0.0,
+                        "state_normalized_mse": 0.0,
+                        "mask_logit_normalized_mse": 0.0,
+                    })
             for action_family in action_families:
                 for strength in action_values_by_family[action_family]:
                     pair = extract_patch_pair(
@@ -332,7 +358,6 @@ def build_dataset(
                     patch_kinds_all.append(patch_kinds[patch_index])
                     action_families_all.append(action_family)
                     strengths_all.append(float(strength))
-                    source_prediction = pair["original"]["intermediate_predictions"][selected_stage][:, 0:1].detach().float()
                     diagnostic_rows.append({
                         "case": case.case,
                         "patch_index": patch_index,
@@ -469,11 +494,28 @@ def wrong_strength_actions(actions: torch.Tensor) -> torch.Tensor:
     return wrong_actions
 
 
-def wrong_type_actions(actions: torch.Tensor) -> torch.Tensor:
-    wrong_actions = actions.clone()
-    wrong_actions[:, 0] = actions[:, 1]
-    wrong_actions[:, 1] = actions[:, 0]
-    return wrong_actions
+def wrong_type_matched_data(data: dict[str, Any]) -> tuple[dict[str, Any], torch.Tensor] | None:
+    indices = []
+    replacement_actions = []
+    for index, (action_family, strength) in enumerate(zip(data["action_families"], data["strengths"], strict=True)):
+        strength_value = float(strength)
+        if action_family == "gamma" and np.isclose(strength_value, 0.15):
+            indices.append(index)
+            replacement_actions.append([0.0, 1.0, 0.5])
+        elif action_family == "gamma" and np.isclose(strength_value, 0.30):
+            indices.append(index)
+            replacement_actions.append([0.0, 1.0, 1.5])
+        elif action_family == "blur" and np.isclose(strength_value, 0.5):
+            indices.append(index)
+            replacement_actions.append([1.0, 0.0, 0.15])
+        elif action_family == "blur" and np.isclose(strength_value, 1.5):
+            indices.append(index)
+            replacement_actions.append([1.0, 0.0, 0.30])
+    if not indices:
+        return None
+    matched_data = subset_data(data, indices)
+    actions = torch.tensor(replacement_actions, dtype=torch.float32, device=matched_data["actions"].device)
+    return matched_data, actions
 
 
 @torch.inference_mode()
@@ -594,22 +636,41 @@ def compute_eval_records(
         "model": "action_conditioned_wrong_strength",
         **wrong_strength,
     })
-    wrong_type = evaluate_with_replaced_actions(
-        models["action_conditioned"],
-        data,
-        wrong_type_actions(data["actions"]),
-        interface,
-        selected_stage,
-        batch_size,
-    )
-    records.append({
-        "step": step,
-        "split": split_name,
-        "group": group_name,
-        "group_value": group_value,
-        "model": "action_conditioned_wrong_type",
-        **wrong_type,
-    })
+    wrong_type_pair = wrong_type_matched_data(data)
+    if wrong_type_pair is not None:
+        wrong_type_data, wrong_type_actions = wrong_type_pair
+        correct_for_wrong_type = evaluate_model(
+            models["action_conditioned"],
+            wrong_type_data,
+            True,
+            interface,
+            selected_stage,
+            batch_size,
+        )
+        records.append({
+            "step": step,
+            "split": split_name,
+            "group": group_name,
+            "group_value": group_value,
+            "model": "action_conditioned_correct_for_wrong_type",
+            **correct_for_wrong_type,
+        })
+        wrong_type = evaluate_with_replaced_actions(
+            models["action_conditioned"],
+            wrong_type_data,
+            wrong_type_actions,
+            interface,
+            selected_stage,
+            batch_size,
+        )
+        records.append({
+            "step": step,
+            "split": split_name,
+            "group": group_name,
+            "group_value": group_value,
+            "model": "action_conditioned_wrong_type",
+            **wrong_type,
+        })
     return records
 
 
@@ -654,12 +715,25 @@ def v2_pass_summary(
     def state(model_rows: dict[str, dict[str, float | int | str]], model: str) -> float:
         return float(model_rows[model]["state_normalized_mse"])
 
+    def optional_state(model_rows: dict[str, dict[str, float | int | str]], model: str) -> float | None:
+        if model not in model_rows:
+            return None
+        return float(model_rows[model]["state_normalized_mse"])
+
     micro_conditioned_lt_agnostic = state(val_micro, "action_conditioned") < state(val_micro, "action_agnostic")
     micro_correct_lt_wrong_strength = state(val_micro, "action_conditioned") < state(val_micro, "action_conditioned_wrong_strength")
-    micro_correct_lt_wrong_type = state(val_micro, "action_conditioned") < state(val_micro, "action_conditioned_wrong_type")
+    micro_wrong_type_correct = optional_state(val_micro, "action_conditioned_correct_for_wrong_type")
+    micro_correct_lt_wrong_type = (
+        micro_wrong_type_correct is not None
+        and micro_wrong_type_correct < state(val_micro, "action_conditioned_wrong_type")
+    )
     macro_conditioned_lt_agnostic = state(val_macro, "action_conditioned") < state(val_macro, "action_agnostic")
     macro_correct_lt_wrong_strength = state(val_macro, "action_conditioned") < state(val_macro, "action_conditioned_wrong_strength")
-    macro_correct_lt_wrong_type = state(val_macro, "action_conditioned") < state(val_macro, "action_conditioned_wrong_type")
+    macro_wrong_type_correct = optional_state(val_macro, "action_conditioned_correct_for_wrong_type")
+    macro_correct_lt_wrong_type = (
+        macro_wrong_type_correct is not None
+        and macro_wrong_type_correct < state(val_macro, "action_conditioned_wrong_type")
+    )
 
     val_case_groups = sorted({
         str(row["group_value"])
@@ -692,7 +766,10 @@ def v2_pass_summary(
             "action_family": family,
             "conditioned_lt_agnostic": state(rows, "action_conditioned") < state(rows, "action_agnostic"),
             "correct_lt_wrong_strength": state(rows, "action_conditioned") < state(rows, "action_conditioned_wrong_strength"),
-            "correct_lt_wrong_type": state(rows, "action_conditioned") < state(rows, "action_conditioned_wrong_type"),
+            "correct_lt_wrong_type": (
+                optional_state(rows, "action_conditioned_correct_for_wrong_type") is not None
+                and optional_state(rows, "action_conditioned_correct_for_wrong_type") < state(rows, "action_conditioned_wrong_type")
+            ),
         })
 
     val_strength_groups = sorted({
@@ -706,11 +783,16 @@ def v2_pass_summary(
             row for row in final_group_rows
             if row["split"] == "val" and row["group"] == "strengths" and row["group_value"] == strength
         ])
+        wrong_type_state = optional_state(rows, "action_conditioned_wrong_type")
+        wrong_type_correct_state = optional_state(rows, "action_conditioned_correct_for_wrong_type")
         strength_wins.append({
             "strength": strength,
             "conditioned_lt_agnostic": state(rows, "action_conditioned") < state(rows, "action_agnostic"),
             "correct_lt_wrong_strength": state(rows, "action_conditioned") < state(rows, "action_conditioned_wrong_strength"),
-            "correct_lt_wrong_type": state(rows, "action_conditioned") < state(rows, "action_conditioned_wrong_type"),
+            "correct_lt_wrong_type": (
+                True if wrong_type_state is None else wrong_type_correct_state is not None and wrong_type_correct_state < wrong_type_state
+            ),
+            "wrong_type_applicable": wrong_type_state is not None,
         })
 
     case_win_count = sum(1 for item in case_wins if item["conditioned_lt_agnostic"])
@@ -761,6 +843,7 @@ def train_models(
     agnostic: nn.Module,
     conditioned: nn.Module,
     train_data: dict[str, torch.Tensor | list[str]],
+    train_eval_data: dict[str, torch.Tensor | list[str]],
     val_data: dict[str, torch.Tensor | list[str]],
     interface: VoxTellStateInterface,
     selected_stage: str,
@@ -779,7 +862,7 @@ def train_models(
     group_rows: list[dict[str, float | int | str]] = []
 
     def append_eval(step: int) -> None:
-        for split_name, data in [("train", train_data), ("val", val_data)]:
+        for split_name, data in [("train", train_eval_data), ("val", val_data)]:
             append_group_evals(
                 rows,
                 step,
@@ -876,6 +959,18 @@ def run(args: argparse.Namespace) -> None:
     first_pair = extract_patch_pair(interface, padded, gamma_padded, slicers[0], args.prompts)
     candidate_rows = compare_candidate_stages(first_pair, args.candidate_stages)
 
+    train_eval_data = build_dataset(
+        interface,
+        train_cases,
+        args.prompts,
+        args.action_families,
+        family_values,
+        args.selected_stage,
+        args.patches_per_case,
+        args.foreground_patches_per_case,
+        args.foreground_candidate_patches,
+        args.foreground_threshold,
+    )
     train_data = build_dataset(
         interface,
         train_cases,
@@ -887,6 +982,7 @@ def run(args: argparse.Namespace) -> None:
         args.foreground_patches_per_case,
         args.foreground_candidate_patches,
         args.foreground_threshold,
+        include_identity_anchors=args.identity_action_anchors,
     )
     val_data = build_dataset(
         interface,
@@ -911,6 +1007,7 @@ def run(args: argparse.Namespace) -> None:
         agnostic,
         conditioned,
         train_data,
+        train_eval_data,
         val_data,
         interface,
         args.selected_stage,
@@ -991,6 +1088,7 @@ def run(args: argparse.Namespace) -> None:
         "val_cases": [case.case for case in val_cases],
         "selected_stage": args.selected_stage,
         "train_samples": len(train_data["case_ids"]),
+        "train_eval_samples": len(train_eval_data["case_ids"]),
         "val_samples": len(val_data["case_ids"]),
         "candidate_stage_csv": str(candidate_path),
         "training_curve_csv": str(curve_path),
