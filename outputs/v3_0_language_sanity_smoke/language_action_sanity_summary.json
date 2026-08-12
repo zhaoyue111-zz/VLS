@@ -1,0 +1,189 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "output_dir": "outputs/v3_0_language_sanity_smoke",
+    "prompt_pairs": [
+      [
+        "liver",
+        "the liver"
+      ],
+      [
+        "liver",
+        "human liver"
+      ],
+      [
+        "liver",
+        "hepatic organ"
+      ]
+    ],
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 1,
+    "val_cases": 1,
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 4,
+    "foreground_threshold": 0.5,
+    "prediction_threshold": 0.5,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz"
+  ],
+  "val_cases": [
+    "CYST_PA62.nii.gz"
+  ],
+  "prompts": [
+    "liver",
+    "the liver",
+    "human liver",
+    "hepatic organ"
+  ],
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "num_rows": 12,
+  "detail_csv": "outputs/v3_0_language_sanity_smoke/language_action_sanity.csv",
+  "per_pair_csv": "outputs/v3_0_language_sanity_smoke/language_action_sanity_by_pair.csv",
+  "per_case_csv": "outputs/v3_0_language_sanity_smoke/language_action_sanity_by_case.csv",
+  "per_patch_csv": "outputs/v3_0_language_sanity_smoke/language_action_sanity_by_patch.csv",
+  "overall_by_prompt_pair": [
+    {
+      "num_samples": 4,
+      "prompt_pair": "liver -> hepatic organ",
+      "mean_text_embedding_cosine": 0.8965643048286438,
+      "mean_text_embedding_delta_norm": 61.90240478515625,
+      "mean_state_normalized_mse": 0.004436342234839685,
+      "mean_intermediate_mask_logit_normalized_mse": 0.000787375073741714,
+      "mean_intermediate_soft_dice": 0.9678496718406677,
+      "mean_intermediate_binary_dice": 0.9925888776779175,
+      "mean_intermediate_probability_mae": 0.0007011875859761867,
+      "mean_final_soft_dice": 0.962226614356041,
+      "mean_final_binary_dice": 0.9921247065067291,
+      "mean_final_probability_mae": 0.0005800453218398733
+    },
+    {
+      "num_samples": 4,
+      "prompt_pair": "liver -> human liver",
+      "mean_text_embedding_cosine": 0.961371898651123,
+      "mean_text_embedding_delta_norm": 37.537567138671875,
+      "mean_state_normalized_mse": 0.004131712434173096,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0013518082423615851,
+      "mean_intermediate_soft_dice": 0.961859717965126,
+      "mean_intermediate_binary_dice": 0.9830372482538223,
+      "mean_intermediate_probability_mae": 0.0014159026323019137,
+      "mean_final_soft_dice": 0.9540734887123108,
+      "mean_final_binary_dice": 0.9771886467933655,
+      "mean_final_probability_mae": 0.0015220513159874922
+    },
+    {
+      "num_samples": 4,
+      "prompt_pair": "liver -> the liver",
+      "mean_text_embedding_cosine": 0.9906747937202454,
+      "mean_text_embedding_delta_norm": 18.447200775146484,
+      "mean_state_normalized_mse": 0.0013462905189953744,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0009295224535890156,
+      "mean_intermediate_soft_dice": 0.9670717418193817,
+      "mean_intermediate_binary_dice": 0.9900791347026825,
+      "mean_intermediate_probability_mae": 0.0009346687875446415,
+      "mean_final_soft_dice": 0.9612918645143509,
+      "mean_final_binary_dice": 0.9924278408288956,
+      "mean_final_probability_mae": 0.0005769515992142375
+    }
+  ],
+  "split_by_prompt_pair": [
+    {
+      "num_samples": 2,
+      "split": "train",
+      "prompt_pair": "liver -> hepatic organ",
+      "mean_text_embedding_cosine": 0.8965643048286438,
+      "mean_text_embedding_delta_norm": 61.90240478515625,
+      "mean_state_normalized_mse": 0.004435820184880868,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0010372829437983455,
+      "mean_intermediate_soft_dice": 0.9720188081264496,
+      "mean_intermediate_binary_dice": 0.9959409534931183,
+      "mean_intermediate_probability_mae": 0.0005389379803640567,
+      "mean_final_soft_dice": 0.9783540368080139,
+      "mean_final_binary_dice": 0.9964848160743713,
+      "mean_final_probability_mae": 0.00033197362790817056
+    },
+    {
+      "num_samples": 2,
+      "split": "train",
+      "prompt_pair": "liver -> human liver",
+      "mean_text_embedding_cosine": 0.961371898651123,
+      "mean_text_embedding_delta_norm": 37.537567138671875,
+      "mean_state_normalized_mse": 0.004257208624039777,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0015237520910886815,
+      "mean_intermediate_soft_dice": 0.9694351851940155,
+      "mean_intermediate_binary_dice": 0.9906646609306335,
+      "mean_intermediate_probability_mae": 0.0011007483117525551,
+      "mean_final_soft_dice": 0.9773799180984497,
+      "mean_final_binary_dice": 0.9937463998794556,
+      "mean_final_probability_mae": 0.0006023189635016157
+    },
+    {
+      "num_samples": 2,
+      "split": "train",
+      "prompt_pair": "liver -> the liver",
+      "mean_text_embedding_cosine": 0.9906747937202454,
+      "mean_text_embedding_delta_norm": 18.447200775146484,
+      "mean_state_normalized_mse": 0.0014319781184894964,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0010009285724663641,
+      "mean_intermediate_soft_dice": 0.971050500869751,
+      "mean_intermediate_binary_dice": 0.9916967451572418,
+      "mean_intermediate_probability_mae": 0.0009754222119644303,
+      "mean_final_soft_dice": 0.9777489900588989,
+      "mean_final_binary_dice": 0.9963250160217285,
+      "mean_final_probability_mae": 0.00034262612462045513
+    },
+    {
+      "num_samples": 2,
+      "split": "val",
+      "prompt_pair": "liver -> hepatic organ",
+      "mean_text_embedding_cosine": 0.8965643048286438,
+      "mean_text_embedding_delta_norm": 61.90240478515625,
+      "mean_state_normalized_mse": 0.004436864284798503,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0005374672036850825,
+      "mean_intermediate_soft_dice": 0.9636805355548859,
+      "mean_intermediate_binary_dice": 0.9892368018627167,
+      "mean_intermediate_probability_mae": 0.0008634371915883166,
+      "mean_final_soft_dice": 0.946099191904068,
+      "mean_final_binary_dice": 0.9877645969390869,
+      "mean_final_probability_mae": 0.0008281170157715761
+    },
+    {
+      "num_samples": 2,
+      "split": "val",
+      "prompt_pair": "liver -> human liver",
+      "mean_text_embedding_cosine": 0.961371898651123,
+      "mean_text_embedding_delta_norm": 37.537567138671875,
+      "mean_state_normalized_mse": 0.004006216244306415,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0011798643936344888,
+      "mean_intermediate_soft_dice": 0.9542842507362366,
+      "mean_intermediate_binary_dice": 0.9754098355770111,
+      "mean_intermediate_probability_mae": 0.0017310569528512724,
+      "mean_final_soft_dice": 0.9307670593261719,
+      "mean_final_binary_dice": 0.9606308937072754,
+      "mean_final_probability_mae": 0.002441783668473369
+    },
+    {
+      "num_samples": 2,
+      "split": "val",
+      "prompt_pair": "liver -> the liver",
+      "mean_text_embedding_cosine": 0.9906747937202454,
+      "mean_text_embedding_delta_norm": 18.447200775146484,
+      "mean_state_normalized_mse": 0.0012606029195012525,
+      "mean_intermediate_mask_logit_normalized_mse": 0.0008581163347116672,
+      "mean_intermediate_soft_dice": 0.9630929827690125,
+      "mean_intermediate_binary_dice": 0.9884615242481232,
+      "mean_intermediate_probability_mae": 0.0008939153631248528,
+      "mean_final_soft_dice": 0.9448347389698029,
+      "mean_final_binary_dice": 0.9885306656360626,
+      "mean_final_probability_mae": 0.0008112770738080197
+    }
+  ],
+  "interpretation_note": "Sanity only: nonzero text/latent transition plus stable prediction agreement is required before designing a V3 language action encoder."
+}
