@@ -839,6 +839,45 @@ def v2_pass_summary(
     }
 
 
+def val_macro_conditioned_state(rows: list[dict[str, float | int | str]]) -> float:
+    for row in rows:
+        if row["split"] == "val" and row["group"] == "overall_macro" and row["model"] == "action_conditioned":
+            return float(row["state_normalized_mse"])
+    raise ValueError("Missing val overall_macro action_conditioned metric")
+
+
+def pass_summaries_by_step(
+    curve_rows: list[dict[str, float | int | str]],
+    group_rows: list[dict[str, float | int | str]],
+) -> dict[str, dict[str, Any]]:
+    steps = sorted({int(row["step"]) for row in curve_rows})
+    summaries = {}
+    for step in steps:
+        step_rows = [row for row in curve_rows if int(row["step"]) == step]
+        step_group_rows = [row for row in group_rows if int(row["step"]) == step]
+        if not step_rows or not step_group_rows:
+            continue
+        summary = v2_pass_summary(step_rows, step_group_rows)
+        summary["val_macro_conditioned_state_normalized_mse"] = val_macro_conditioned_state(step_rows)
+        summaries[str(step)] = summary
+    return summaries
+
+
+def select_v2_checkpoint_step(step_summaries: dict[str, dict[str, Any]], fallback_step: int) -> int:
+    passing_steps = [
+        (int(step), float(summary["val_macro_conditioned_state_normalized_mse"]))
+        for step, summary in step_summaries.items()
+        if summary["passed"]
+    ]
+    if not passing_steps:
+        return fallback_step
+    return min(passing_steps, key=lambda item: (item[1], item[0]))[0]
+
+
+def cpu_state_dict(model: nn.Module) -> dict[str, torch.Tensor]:
+    return {key: value.detach().cpu().clone() for key, value in model.state_dict().items()}
+
+
 def train_models(
     agnostic: nn.Module,
     conditioned: nn.Module,
@@ -850,7 +889,11 @@ def train_models(
     max_steps: int,
     eval_steps: list[int],
     batch_size: int,
-) -> tuple[list[dict[str, float | int | str]], list[dict[str, float | int | str]]]:
+) -> tuple[
+    list[dict[str, float | int | str]],
+    list[dict[str, float | int | str]],
+    dict[int, dict[str, dict[str, torch.Tensor]]],
+]:
     optimizers = {
         "action_agnostic": torch.optim.AdamW(agnostic.parameters(), lr=1e-3, weight_decay=1e-4),
         "action_conditioned": torch.optim.AdamW(conditioned.parameters(), lr=1e-3, weight_decay=1e-4),
@@ -860,6 +903,7 @@ def train_models(
     eval_set = sorted(set([0, max_steps, *eval_steps]))
     rows: list[dict[str, float | int | str]] = []
     group_rows: list[dict[str, float | int | str]] = []
+    checkpoints: dict[int, dict[str, dict[str, torch.Tensor]]] = {}
 
     def append_eval(step: int) -> None:
         for split_name, data in [("train", train_eval_data), ("val", val_data)]:
@@ -895,6 +939,10 @@ def train_models(
                     if group_name == "case_names":
                         case_records_for_macro.extend(records)
             rows.extend(macro_records_from_case_records(step, split_name, case_records_for_macro))
+        checkpoints[step] = {
+            "action_agnostic": cpu_state_dict(agnostic),
+            "action_conditioned": cpu_state_dict(conditioned),
+        }
 
     append_eval(0)
     device = next(agnostic.parameters()).device
@@ -925,7 +973,7 @@ def train_models(
             model.eval()
         if step in eval_set:
             append_eval(step)
-    return rows, group_rows
+    return rows, group_rows, checkpoints
 
 
 def run(args: argparse.Namespace) -> None:
@@ -1003,7 +1051,7 @@ def run(args: argparse.Namespace) -> None:
         hidden_channels=args.hidden_channels,
         device=device,
     )
-    curve_rows, group_rows = train_models(
+    curve_rows, group_rows, checkpoints = train_models(
         agnostic,
         conditioned,
         train_data,
@@ -1079,9 +1127,29 @@ def run(args: argparse.Namespace) -> None:
         writer.writeheader()
         writer.writerows(diagnostic_rows)
 
-    final_rows = [row for row in curve_rows if row["step"] == args.max_train_steps]
-    final_group_rows = [row for row in group_rows if row["step"] == args.max_train_steps]
-    pass_summary = v2_pass_summary(final_rows, final_group_rows)
+    step_summaries = pass_summaries_by_step(curve_rows, group_rows)
+    selected_step = select_v2_checkpoint_step(step_summaries, args.max_train_steps)
+    final_rows = [row for row in curve_rows if int(row["step"]) == selected_step]
+    final_group_rows = [row for row in group_rows if int(row["step"]) == selected_step]
+    pass_summary = step_summaries[str(selected_step)]
+    checkpoint_path = output_dir / f"world_predictor_step{selected_step}.pt"
+    checkpoint = {
+        "selected_step": selected_step,
+        "selected_stage": args.selected_stage,
+        "action_dim": 3,
+        "hidden_channels": args.hidden_channels,
+        "action_encoding": {
+            "gamma": "[1, 0, strength]",
+            "blur": "[0, 1, sigma]",
+        },
+        "gamma_strengths": [float(value) for value in args.gamma_strengths],
+        "blur_sigmas": [float(value) for value in args.blur_sigmas],
+        "identity_action_anchors": bool(args.identity_action_anchors),
+        "conditioned_state_dict": checkpoints[selected_step]["action_conditioned"],
+        "agnostic_state_dict": checkpoints[selected_step]["action_agnostic"],
+        "args": vars(args),
+    }
+    torch.save(checkpoint, checkpoint_path)
     summary = {
         "args": vars(args),
         "train_cases": [case.case for case in train_cases],
@@ -1096,6 +1164,9 @@ def run(args: argparse.Namespace) -> None:
         "transition_diagnostics_csv": str(diagnostic_path),
         "final_metrics": final_rows,
         "final_group_metrics": final_group_rows,
+        "step_pass_summaries": step_summaries,
+        "selected_step": selected_step,
+        "selected_checkpoint_path": str(checkpoint_path),
         "v2_pass_summary": pass_summary,
         "expected_sanity_order": "action_conditioned < action_agnostic; correct action < wrong-strength and wrong-type",
     }
