@@ -71,15 +71,26 @@ def resolve_device(args: argparse.Namespace) -> torch.device:
 
 def padded_image_and_slicers(predictor: Any, image: np.ndarray) -> tuple[torch.Tensor, list[tuple]]:
     preprocessed, _, _ = predictor.preprocess(image)
+    return padded_preprocessed_and_slicers(predictor, preprocessed)
+
+
+def padded_preprocessed_and_slicers(predictor: Any, preprocessed: torch.Tensor) -> tuple[torch.Tensor, list[tuple]]:
     padded, _ = pad_nd_image(preprocessed, predictor.patch_size, "constant", {"value": 0}, True, None)
     return padded, predictor._internal_get_sliding_window_slicers(padded.shape[1:])
 
 
-def apply_visual_action(image: np.ndarray, action_family: str, strength: float) -> np.ndarray:
+def padded_visual_action_and_slicers(
+    predictor: Any,
+    image: np.ndarray,
+    action_family: str,
+    strength: float,
+) -> tuple[torch.Tensor, list[tuple]]:
     if action_family == "gamma":
-        return gamma_augment(image, 1.0 + strength)
+        return padded_image_and_slicers(predictor, gamma_augment(image, 1.0 + strength))
     if action_family == "contrast":
-        return contrast_augment(image, strength)
+        preprocessed, _, _ = predictor.preprocess(image)
+        contrasted = contrast_augment(preprocessed.numpy(), strength)
+        return padded_preprocessed_and_slicers(predictor, torch.from_numpy(contrasted))
     raise ValueError(f"Unsupported action family: {action_family}")
 
 
@@ -273,9 +284,11 @@ def build_dataset(
             foreground_threshold,
         )
         padded_by_action = {
-            (action_family, strength): padded_image_and_slicers(
+            (action_family, strength): padded_visual_action_and_slicers(
                 interface.predictor,
-                apply_visual_action(image, action_family, strength),
+                image,
+                action_family,
+                strength,
             )[0]
             for action_family in action_families
             for strength in strengths
