@@ -1,0 +1,26 @@
+{
+  "args": {
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "split": "test",
+    "output_dir": "outputs/v0_smoke",
+    "baseline": "B2",
+    "prompts": [
+      "liver",
+      "hepatic organ"
+    ],
+    "label_value": 5,
+    "limit_cases": 1,
+    "device": "cuda",
+    "gpu": 0,
+    "gamma": 1.2,
+    "state_smoke": false
+  },
+  "num_cases": 1,
+  "mean_dice": 0.3206603264866341,
+  "mean_iou": 0.19094429289330522,
+  "metrics_csv": "outputs/v0_smoke/b2_metrics.csv",
+  "state_smoke": null
+}

@@ -1,0 +1,38 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "output_dir": "outputs/v1_smoke",
+    "prompts": [
+      "liver"
+    ],
+    "candidate_stages": [
+      "decoder_stage_1_low_to_high",
+      "decoder_stage_2_low_to_high"
+    ],
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 1,
+    "max_train_steps": 30,
+    "gamma_strength": 0.2,
+    "gamma_strengths": [
+      -0.2,
+      0.2
+    ],
+    "hidden_channels": 16,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "dev_case": "HEM_PA99.nii.gz",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "gamma_strengths": [
+    -0.2,
+    0.2
+  ],
+  "identity_normalized_mse": 0.005198382306843996,
+  "action_agnostic_normalized_mse": 0.008624354377388954,
+  "action_conditioned_normalized_mse": 0.009350129403173923,
+  "candidate_stage_csv": "outputs/v1_smoke/candidate_stage_metrics.csv",
+  "note": "Minimal V1 smoke uses one train case and the first sliding-window patch."
+}

@@ -1,0 +1,2 @@
+case,baseline,prompt,dice,iou,pred_voxels,gt_voxels,intersection
+CYST_PA62.nii.gz,B1,liver,0.4468182763260925,0.287679329157457,571037.0,1213326.0,398643.0

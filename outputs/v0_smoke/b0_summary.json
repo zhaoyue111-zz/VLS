@@ -1,0 +1,113 @@
+{
+  "args": {
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "split": "test",
+    "output_dir": "outputs/v0_smoke",
+    "baseline": "B0",
+    "prompts": [
+      "liver"
+    ],
+    "label_value": 5,
+    "limit_cases": 1,
+    "device": "cuda",
+    "gpu": 0,
+    "gamma": 1.2,
+    "state_smoke": true
+  },
+  "num_cases": 1,
+  "mean_dice": 0.42972043596764,
+  "mean_iou": 0.2736585546997701,
+  "metrics_csv": "outputs/v0_smoke/b0_metrics.csv",
+  "state_smoke": {
+    "final_prediction": [
+      1,
+      1,
+      192,
+      192,
+      192
+    ],
+    "decoder_states": {
+      "decoder_stage_0_low_to_high": [
+        1,
+        1,
+        352,
+        12,
+        12,
+        12
+      ],
+      "decoder_stage_1_low_to_high": [
+        1,
+        1,
+        288,
+        24,
+        24,
+        24
+      ],
+      "decoder_stage_2_low_to_high": [
+        1,
+        1,
+        160,
+        48,
+        48,
+        48
+      ],
+      "decoder_stage_3_low_to_high": [
+        1,
+        1,
+        96,
+        96,
+        96,
+        96
+      ],
+      "decoder_stage_4_low_to_high": [
+        1,
+        1,
+        32,
+        192,
+        192,
+        192
+      ]
+    },
+    "intermediate_predictions": {
+      "decoder_stage_0_low_to_high": [
+        1,
+        1,
+        12,
+        12,
+        12
+      ],
+      "decoder_stage_1_low_to_high": [
+        1,
+        1,
+        24,
+        24,
+        24
+      ],
+      "decoder_stage_2_low_to_high": [
+        1,
+        1,
+        48,
+        48,
+        48
+      ],
+      "decoder_stage_3_low_to_high": [
+        1,
+        1,
+        96,
+        96,
+        96
+      ],
+      "decoder_stage_4_low_to_high": [
+        1,
+        1,
+        192,
+        192,
+        192
+      ]
+    },
+    "device": "cuda:0"
+  }
+}
