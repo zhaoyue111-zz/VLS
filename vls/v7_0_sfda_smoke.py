@@ -6,6 +6,7 @@ import csv
 import gc
 import json
 import random
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
 
@@ -41,13 +42,13 @@ VARIANTS = {
 
 def parse_args() -> argparse.Namespace:
     paths = ProjectPaths()
-    parser = argparse.ArgumentParser(description="V7.0b controlled confidence/world/joint SFDA smoke.")
+    parser = argparse.ArgumentParser(description="V7.0c CUDA controlled confidence/world/joint SFDA confirmation.")
     parser.add_argument("--model-dir", default=str(paths.voxtell_model_dir))
     parser.add_argument("--voxtell-root", default=str(paths.voxtell_root))
     parser.add_argument("--data-root", default=str(paths.data_root))
     parser.add_argument("--split-json", default=str(paths.split_json))
     parser.add_argument("--world-checkpoint", default="outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt")
-    parser.add_argument("--output-dir", default="outputs/v7_0b_sfda_smoke")
+    parser.add_argument("--output-dir", default="outputs/v7_0c_sfda_smoke")
     parser.add_argument("--selected-stage", default="decoder_stage_1_low_to_high")
     parser.add_argument("--val-cases", type=int, default=4)
     parser.add_argument("--patches-per-case", type=int, default=2)
@@ -104,6 +105,7 @@ def build_cache(
     world_model: torch.nn.Module,
     cases: list[Any],
     selected_stage: str,
+    prompt_embedding: torch.Tensor,
     patches_per_case: int,
     foreground_patches_per_case: int,
     foreground_candidate_patches: int,
@@ -114,16 +116,16 @@ def build_cache(
 ) -> list[dict[str, Any]]:
     cache: list[dict[str, Any]] = []
     for case in cases:
-        print(f"[V7.0b] cache case={case.case}", flush=True)
+        print(f"[V7.0c] cache case={case.case}", flush=True)
         image, label, _ = read_image_and_label(case)
         original_padded, slicers, patch_kinds = select_patch_slicers(
-            interface, image, [SOURCE_PROMPT], patches_per_case,
+            interface, image, prompt_embedding, patches_per_case,
             foreground_patches_per_case, foreground_candidate_patches, foreground_threshold,
         )
         label_padded = pad_label_like_image(interface, label)
-        embedding = interface.embed_text_prompts([SOURCE_PROMPT])
+        embedding = prompt_embedding
         for patch_index, slicer in enumerate(slicers):
-            print(f"[V7.0b] cache patch case={case.case} index={patch_index} kind={patch_kinds[patch_index]}", flush=True)
+            print(f"[V7.0c] cache patch case={case.case} index={patch_index} kind={patch_kinds[patch_index]}", flush=True)
             patch = torch.clone(original_padded[slicer][None], memory_format=torch.contiguous_format)
             teacher_result = interface.forward_with_states(patch, embedding)
             source_state = teacher_result["decoder_states"][selected_stage][:, 0].detach().float().to(device)
@@ -206,20 +208,22 @@ def train_variant(
     optimizer = torch.optim.AdamW(parameters, lr=args.learning_rate, weight_decay=0.0)
     loss_rows, pseudo_rows, metric_rows = [], [], []
     initial_parameters = [parameter.detach().clone() for parameter in parameters]
-    if device.type == "cuda":
-        torch.cuda.reset_peak_memory_stats(device)
     for step, sample in enumerate(train_samples, start=1):
         # build_cache runs under inference_mode; clone targets and inputs before
         # they participate in an autograd graph.
         patch = sample["image"].to(device).clone()
-        embedding = sample["embedding"].to(device).clone()
+        embedding = sample["embedding"].to(device).clone().float()
         pseudo = sample["pseudo"].to(device).clone()
         weight = torch.from_numpy(sample["weights"][source]).to(device=device, dtype=torch.float32).view_as(pseudo)
         optimizer.zero_grad(set_to_none=True)
-        student_result = interface._network_forward_with_states(student, patch, embedding)
-        logits = student_result["final_prediction"][:, 0:1].float()
-        per_voxel = F.binary_cross_entropy_with_logits(logits, pseudo, reduction="none")
-        loss = (per_voxel * weight).sum() / weight.sum().clamp_min(1e-6)
+        # Keep the adaptation path in FP32.  The teacher cache uses VoxTell's
+        # existing CUDA autocast, but FP16 here can underflow tiny pseudo-label
+        # BCE gradients for confidence-heavy maps.
+        with nullcontext():
+            student_result = interface._network_forward_with_states(student, patch, embedding)
+            logits = student_result["final_prediction"][:, 0:1].float()
+            per_voxel = F.binary_cross_entropy_with_logits(logits, pseudo, reduction="none")
+            loss = (per_voxel * weight).sum() / weight.sum().clamp_min(1e-6)
         loss.backward()
         gradient_norm = float(torch.sqrt(sum(
             parameter.grad.detach().float().pow(2).sum() for parameter in parameters if parameter.grad is not None
@@ -250,9 +254,10 @@ def train_variant(
     student.eval()
     for sample in cache:
         patch = sample["image"].to(device).clone()
-        embedding = sample["embedding"].to(device).clone()
+        embedding = sample["embedding"].to(device).clone().float()
         with torch.inference_mode():
-            result = interface._network_forward_with_states(student, patch, embedding)
+            with nullcontext():
+                result = interface._network_forward_with_states(student, patch, embedding)
             prediction = (torch.sigmoid(result["final_prediction"][:, 0:1]) > args.prediction_threshold).flatten().cpu().numpy()
         metrics = binary_metrics(prediction, sample["gt_np"])
         metric_rows.append({
@@ -292,8 +297,9 @@ def evaluate_network(
     rows = []
     for sample in cache:
         patch = sample["image"].to(device)
-        embedding = sample["embedding"].to(device)
-        result = interface._network_forward_with_states(network, patch, embedding)
+        embedding = sample["embedding"].to(device).float()
+        with nullcontext():
+            result = interface._network_forward_with_states(network, patch, embedding)
         prediction = (torch.sigmoid(result["final_prediction"][:, 0:1]) > args.prediction_threshold).flatten().cpu().numpy()
         rows.append({
             "variant": variant, "case": sample["case"], "patch_index": sample["patch_index"],
@@ -340,6 +346,16 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 def run(args: argparse.Namespace) -> None:
     set_seed(args.seed)
     device = resolve_device(args)
+    if args.device == "cuda" and device.type != "cuda":
+        raise RuntimeError(
+            "V7.0c requires CUDA: --device cuda was requested but resolve_device returned "
+            f"{device}. CUDA availability={torch.cuda.is_available()}"
+        )
+    if device.type == "cuda":
+        gpu_name = torch.cuda.get_device_name(device)
+        torch.cuda.reset_peak_memory_stats(device)
+    else:
+        gpu_name = None
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     paths = ProjectPaths(
@@ -348,6 +364,9 @@ def run(args: argparse.Namespace) -> None:
     )
     teacher = VoxTellStateInterface.from_model_dir(paths.voxtell_model_dir, device=device, voxtell_root=paths.voxtell_root)
     prepare_functional_seg_head(teacher, args.selected_stage)
+    # The text encoder is only needed once.  Precompute while the large VoxTell
+    # network is on CPU so CUDA can hold the network without a text-model peak.
+    prompt_embedding = teacher.embed_text_prompts([SOURCE_PROMPT]).detach().cpu()
     cases = iter_cases(paths, split="test", limit=args.val_cases)
     checkpoint_path = Path(args.world_checkpoint)
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
@@ -355,11 +374,17 @@ def run(args: argparse.Namespace) -> None:
         checkpoint_path, int(checkpoint["state_dict"]["output_projection.bias"].shape[0]), device, args.hidden_channels,
     )
     cache = build_cache(
-        teacher, world_model, cases, args.selected_stage, args.patches_per_case,
+        teacher, world_model, cases, args.selected_stage, prompt_embedding,
+        args.patches_per_case,
         args.foreground_patches_per_case, args.foreground_candidate_patches, args.foreground_threshold,
         args.prediction_threshold, args.label_value, device,
     )
-    print(f"[V7.0b] cache complete patches={len(cache)}", flush=True)
+    print(f"[V7.0c] cache complete patches={len(cache)} device={device} gpu={gpu_name}", flush=True)
+    teacher.network.to("cpu")
+    if hasattr(teacher, "functional_seg_head"):
+        teacher.functional_seg_head.to("cpu")
+    if device.type == "cuda":
+        torch.cuda.empty_cache()
     train_samples = []
     skipped = []
     for case in cases:
@@ -376,21 +401,25 @@ def run(args: argparse.Namespace) -> None:
         else:
             skipped.append({"case": case.case, "reason": "no_nonempty_foreground_patch"})
     train_samples.sort(key=lambda sample: (sample["case"], sample["patch_index"]))
-    base_network = copy.deepcopy(teacher.network).to(device).eval()
+    base_network = copy.deepcopy(teacher.network).cpu().eval()
     for parameter in base_network.parameters():
         parameter.requires_grad = False
+    base_network.to(device)
     initial_patch_rows = evaluate_network("A_init_no_adaptation", base_network, cache, teacher, args, device)
-    print("[V7.0b] initial baseline complete", flush=True)
+    base_network.to("cpu")
+    if device.type == "cuda":
+        torch.cuda.empty_cache()
+    print("[V7.0c] initial baseline complete", flush=True)
     loss_rows, pseudo_rows, patch_rows = [], [], list(initial_patch_rows)
     for variant, source in VARIANTS.items():
-        print(f"[V7.0b] train/evaluate variant={variant} updates={len(train_samples)}", flush=True)
+        print(f"[V7.0c] train/evaluate variant={variant} updates={len(train_samples)}", flush=True)
         variant_loss, variant_pseudo, variant_metrics = train_variant(
             variant, source, base_network, cache, train_samples, teacher, args, device,
         )
         loss_rows.extend(variant_loss)
         pseudo_rows.extend(variant_pseudo)
         patch_rows.extend(variant_metrics)
-        print(f"[V7.0b] variant complete={variant}", flush=True)
+        print(f"[V7.0c] variant complete={variant}", flush=True)
     initial_baseline = pooled_rows(initial_patch_rows, "global") + pooled_rows(initial_patch_rows, "case")
     pooled_global = pooled_rows(patch_rows, "global")
     pooled_by_case = pooled_rows(patch_rows, "case")
@@ -430,12 +459,13 @@ def run(args: argparse.Namespace) -> None:
     peak_allocated = float(torch.cuda.max_memory_allocated(device) / 1024**2) if device.type == "cuda" else 0.0
     peak_reserved = float(torch.cuda.max_memory_reserved(device) / 1024**2) if device.type == "cuda" else 0.0
     summary = {
-        "stage": "V7.0b controlled SFDA smoke",
+        "stage": "V7.0c CUDA controlled confirmation",
         "source_checkpoint": str(checkpoint_path),
         "voxtell_model_dir": str(paths.voxtell_model_dir),
         "selected_stage": args.selected_stage,
         "seed": args.seed,
         "resolved_device": resolved_device,
+        "gpu_name": gpu_name,
         "peak_cuda_allocated_mb": peak_allocated,
         "peak_cuda_reserved_mb": peak_reserved,
         "config": vars(args),
@@ -443,6 +473,8 @@ def run(args: argparse.Namespace) -> None:
         "patches": len(cache),
         "training_updates": len(train_samples),
         "training_order": [{"case": sample["case"], "patch_index": sample["patch_index"], "patch_kind": sample["patch_kind"]} for sample in train_samples],
+        "effective_update_counts": {variant: len(train_samples) for variant in VARIANTS},
+        "effective_case_coverage": {variant: sorted({sample["case"] for sample in train_samples}) for variant in VARIANTS},
         "skipped_cases": skipped,
         "variants": VARIANTS,
         "training": {

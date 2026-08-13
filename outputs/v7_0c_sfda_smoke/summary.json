@@ -1,0 +1,184 @@
+{
+  "stage": "V7.0c CUDA controlled confirmation",
+  "source_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "voxtell_model_dir": "/data/zy/VoxTell_from_disk/model",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "seed": 2026,
+  "resolved_device": "cuda:0",
+  "gpu_name": "NVIDIA GeForce RTX 3080 Ti Laptop GPU",
+  "peak_cuda_allocated_mb": 12898.18505859375,
+  "peak_cuda_reserved_mb": 15474.0,
+  "config": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "world_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+    "output_dir": "outputs/v7_0c_sfda_smoke",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "val_cases": 4,
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "prediction_threshold": 0.5,
+    "hidden_channels": 16,
+    "label_value": 5,
+    "learning_rate": 1e-05,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "patches": 8,
+  "training_updates": 4,
+  "training_order": [
+    {
+      "case": "CYST_PA62.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground"
+    },
+    {
+      "case": "HEM_PA107.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground"
+    },
+    {
+      "case": "HEM_PA29.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground"
+    },
+    {
+      "case": "HEP_PA28.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground"
+    }
+  ],
+  "effective_update_counts": {
+    "A0_confidence_rank": 4,
+    "A1_world": 4,
+    "A2_joint_product": 4
+  },
+  "effective_case_coverage": {
+    "A0_confidence_rank": [
+      "CYST_PA62.nii.gz",
+      "HEM_PA107.nii.gz",
+      "HEM_PA29.nii.gz",
+      "HEP_PA28.nii.gz"
+    ],
+    "A1_world": [
+      "CYST_PA62.nii.gz",
+      "HEM_PA107.nii.gz",
+      "HEM_PA29.nii.gz",
+      "HEP_PA28.nii.gz"
+    ],
+    "A2_joint_product": [
+      "CYST_PA62.nii.gz",
+      "HEM_PA107.nii.gz",
+      "HEM_PA29.nii.gz",
+      "HEP_PA28.nii.gz"
+    ]
+  },
+  "skipped_cases": [],
+  "variants": {
+    "A0_confidence_rank": "confidence_rank",
+    "A1_world": "world_stability",
+    "A2_joint_product": "joint_product"
+  },
+  "training": {
+    "loss": "weighted pseudo-label BCE with fixed VoxTell teacher labels",
+    "student_trainable_scope": "decoder.* and project_to_decoder_channels.* only",
+    "same_initialization_data_steps_and_lr": true,
+    "weight_decay": 0.0,
+    "reliability_maps": {
+      "A0_confidence_rank": "patch-wise tie-aware percentile rank of max(p,1-p)",
+      "A1_world": "1 - patch-wise tie-aware percentile rank of visual-only pairwise_abs",
+      "A2_joint_product": "A0_confidence_rank * A1_world"
+    },
+    "world_predictor_updated": false,
+    "new_loss_or_module": false,
+    "ema_or_sfda_extra": false
+  },
+  "outputs": {
+    "training_loss": "outputs/v7_0c_sfda_smoke/training_loss.csv",
+    "pseudo_label_stats": "outputs/v7_0c_sfda_smoke/pseudo_label_stats.csv",
+    "patch_metrics": "outputs/v7_0c_sfda_smoke/patch_metrics.csv",
+    "initial_baseline": "outputs/v7_0c_sfda_smoke/initial_baseline.csv",
+    "pooled_by_case": "outputs/v7_0c_sfda_smoke/pooled_by_case.csv",
+    "pooled_global": "outputs/v7_0c_sfda_smoke/pooled_global.csv",
+    "summary": "outputs/v7_0c_sfda_smoke/summary.json"
+  },
+  "comparison": "Compare A0/A1/A2 against A_init_no_adaptation using pooled TP/FP/TN/FN metrics and deltas; no patch averaging is used for primary case/global results.",
+  "global_pooled_metrics": {
+    "A0_confidence_rank": {
+      "variant": "A0_confidence_rank",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 1117220,
+      "fp": 261805,
+      "tn": 54815040,
+      "fn": 429039,
+      "dice": 0.763836947113511,
+      "precision": 0.8101521002157321,
+      "recall": 0.7225309602078307,
+      "delta_dice_vs_A_init": 0.055210469419169295,
+      "delta_precision_vs_A_init": -0.004869831084134635,
+      "delta_recall_vs_A_init": 0.09572911135844653
+    },
+    "A1_world": {
+      "variant": "A1_world",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 896746,
+      "fp": 163062,
+      "tn": 54913783,
+      "fn": 649513,
+      "dice": 0.6881987301170691,
+      "precision": 0.846140055557233,
+      "recall": 0.5799455330575278,
+      "delta_dice_vs_A_init": -0.020427747577272615,
+      "delta_precision_vs_A_init": 0.031118124257366264,
+      "delta_recall_vs_A_init": -0.04685631579185634
+    },
+    "A2_joint_product": {
+      "variant": "A2_joint_product",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 939452,
+      "fp": 180831,
+      "tn": 54896014,
+      "fn": 606807,
+      "dice": 0.7046219410757453,
+      "precision": 0.8385845362287921,
+      "recall": 0.6075644507162125,
+      "delta_dice_vs_A_init": -0.004004536618596455,
+      "delta_precision_vs_A_init": 0.023562604928925368,
+      "delta_recall_vs_A_init": -0.019237398133171713
+    },
+    "A_init_no_adaptation": {
+      "variant": "A_init_no_adaptation",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 969198,
+      "fp": 219970,
+      "tn": 54856875,
+      "fn": 577061,
+      "dice": 0.7086264776943417,
+      "precision": 0.8150219312998668,
+      "recall": 0.6268018488493842
+    }
+  },
+  "joint_product_precision_recall_tradeoff": {
+    "cases_with_precision_nonworse_than_A0": 4,
+    "cases_with_recall_nonworse_than_A0": 0,
+    "cases_with_both_precision_and_recall_nonworse_than_A0": 0,
+    "case_count": 4
+  },
+  "interpretation": "Controlled smoke only; joint-product stability is assessed descriptively from pooled and per-case precision/recall, not used to select future routing or hyperparameters.",
+  "status": "smoke_complete; no V7 hyperparameter search or full training performed"
+}
