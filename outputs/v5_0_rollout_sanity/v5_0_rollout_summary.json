@@ -1,0 +1,173 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "world_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+    "output_dir": "outputs/v5_0_rollout_sanity",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "val_cases": 4,
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "batch_size": 8,
+    "hidden_channels": 16,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "world_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "num_rows": 64,
+  "prompt_pair": [
+    "liver",
+    "the liver"
+  ],
+  "text_embedding_cosine": 0.9906773567199707,
+  "text_embedding_delta_norm": 18.44923210144043,
+  "orders": [
+    "gamma_0.30_then_language",
+    "language_then_gamma_0.30",
+    "blur_1.5_then_language",
+    "language_then_blur_1.5"
+  ],
+  "detail_csv": "outputs/v5_0_rollout_sanity/rollout_detail.csv",
+  "per_order_csv": "outputs/v5_0_rollout_sanity/rollout_by_order.csv",
+  "per_case_csv": "outputs/v5_0_rollout_sanity/rollout_by_case.csv",
+  "overall_micro": [
+    {
+      "num_samples": 64,
+      "_overall": "all",
+      "step1_state_normalized_mse": 0.02588623283416879,
+      "step1_mask_logit_normalized_mse": 0.005752015895428679,
+      "step2_free_rollout_state_normalized_mse": 0.060849978235066104,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.015319351487387165,
+      "step2_teacher_forced_state_normalized_mse": 0.031921528577879735,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.009255241119929276,
+      "step2_identity_state_normalized_mse": 0.0666600447042613,
+      "step2_identity_mask_logit_normalized_mse": 0.024700614652766215
+    }
+  ],
+  "overall_macro_by_order": [
+    {
+      "num_cases": 4,
+      "action_order": "blur_1.5_then_language",
+      "step1_state_normalized_mse": 0.09341987291656163,
+      "step1_mask_logit_normalized_mse": 0.023193061886756558,
+      "step2_free_rollout_state_normalized_mse": 0.11595948790679297,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.03451068420339448,
+      "step2_teacher_forced_state_normalized_mse": 0.008547183380699442,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.004575917857318062,
+      "step2_identity_state_normalized_mse": 0.13135811989848165,
+      "step2_identity_mask_logit_normalized_mse": 0.06420308118116674
+    },
+    {
+      "num_cases": 4,
+      "action_order": "gamma_0.30_then_language",
+      "step1_state_normalized_mse": 0.016224482633520356,
+      "step1_mask_logit_normalized_mse": 0.0037630670255938644,
+      "step2_free_rollout_state_normalized_mse": 0.017396459130724445,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.0038008944117893864,
+      "step2_teacher_forced_state_normalized_mse": 0.0013377426514508952,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.0004554034117429535,
+      "step2_identity_state_normalized_mse": 0.017727456375490454,
+      "step2_identity_mask_logit_normalized_mse": 0.004780432552284023
+    },
+    {
+      "num_cases": 4,
+      "action_order": "language_then_blur_1.5",
+      "step1_state_normalized_mse": 0.0015050116249687,
+      "step1_mask_logit_normalized_mse": 0.0005526534365210258,
+      "step2_free_rollout_state_normalized_mse": 0.11582244465835477,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.0341717986360637,
+      "step2_teacher_forced_state_normalized_mse": 0.11296873521059828,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.03588492820817866,
+      "step2_identity_state_normalized_mse": 0.13135811989848165,
+      "step2_identity_mask_logit_normalized_mse": 0.06420308118116674
+    },
+    {
+      "num_cases": 4,
+      "action_order": "language_then_gamma_0.30",
+      "step1_state_normalized_mse": 0.0015050116249687,
+      "step1_mask_logit_normalized_mse": 0.0005526534365210258,
+      "step2_free_rollout_state_normalized_mse": 0.017397922194571983,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.003804710911686055,
+      "step2_teacher_forced_state_normalized_mse": 0.01645672069715949,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.00386528047119298,
+      "step2_identity_state_normalized_mse": 0.017727456375490454,
+      "step2_identity_mask_logit_normalized_mse": 0.004780432552284023
+    }
+  ],
+  "overall_macro": [
+    {
+      "num_cases": 4,
+      "step1_state_normalized_mse": 0.026895463177109624,
+      "step1_mask_logit_normalized_mse": 0.0062002261725137555,
+      "step2_free_rollout_state_normalized_mse": 0.06335080272601293,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.01680843066536396,
+      "step2_teacher_forced_state_normalized_mse": 0.033064960330376224,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.009924549185980553,
+      "step2_identity_state_normalized_mse": 0.07059587544578536,
+      "step2_identity_mask_logit_normalized_mse": 0.029387967245673125
+    }
+  ],
+  "by_order": [
+    {
+      "num_samples": 16,
+      "action_order": "blur_1.5_then_language",
+      "step1_state_normalized_mse": 0.0882621813063096,
+      "step1_mask_logit_normalized_mse": 0.01969343219404555,
+      "step2_free_rollout_state_normalized_mse": 0.1090624837637784,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.029079736101291512,
+      "step2_teacher_forced_state_normalized_mse": 0.008306685200536014,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.0043619203336930056,
+      "step2_identity_state_normalized_mse": 0.12093454195178974,
+      "step2_identity_mask_logit_normalized_mse": 0.048431886463231696
+    },
+    {
+      "num_samples": 16,
+      "action_order": "gamma_0.30_then_language",
+      "step1_state_normalized_mse": 0.015844838285942263,
+      "step1_mask_logit_normalized_mse": 0.003610202169042817,
+      "step2_free_rollout_state_normalized_mse": 0.01691936582346349,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.003667392344917767,
+      "step2_teacher_forced_state_normalized_mse": 0.001244577116558931,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.00044670151179256095,
+      "step2_identity_state_normalized_mse": 0.017166336199223118,
+      "step2_identity_mask_logit_normalized_mse": 0.004490693382574338
+    },
+    {
+      "num_samples": 16,
+      "action_order": "language_then_blur_1.5",
+      "step1_state_normalized_mse": 0.0014386540444814024,
+      "step1_mask_logit_normalized_mse": 0.0005711989298529379,
+      "step2_free_rollout_state_normalized_mse": 0.10898419752770354,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.028919189062660534,
+      "step2_teacher_forced_state_normalized_mse": 0.10662044690388141,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.031030645876891673,
+      "step2_identity_state_normalized_mse": 0.12093454195178974,
+      "step2_identity_mask_logit_normalized_mse": 0.048431886463231696
+    },
+    {
+      "num_samples": 16,
+      "action_order": "language_then_gamma_0.30",
+      "step1_state_normalized_mse": 0.0014386540444814024,
+      "step1_mask_logit_normalized_mse": 0.0005711989298529379,
+      "step2_free_rollout_state_normalized_mse": 0.016920601967728686,
+      "step2_free_rollout_mask_logit_normalized_mse": 0.0036709186072769445,
+      "step2_teacher_forced_state_normalized_mse": 0.016014164329605715,
+      "step2_teacher_forced_mask_logit_normalized_mse": 0.0036867346662244724,
+      "step2_identity_state_normalized_mse": 0.017166336199223118,
+      "step2_identity_mask_logit_normalized_mse": 0.004490693382574338
+    }
+  ],
+  "interpretation_note": "Evaluation only. Free rollout is compared with teacher-forced second step and identity s0->s2; no training or rollout sampling is performed."
+}
