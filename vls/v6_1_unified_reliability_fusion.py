@@ -202,9 +202,10 @@ def metric_row(
     total_fp = int(np.count_nonzero(region == 2))
     total_fn = int(np.count_nonzero(region == 3))
     correct, error = tp + tn, fp + fn
+    filtered_fn = total_fn + (total_tp - tp)
     precision = tp / max(tp + fp, 1)
     recall = tp / max(total_tp, 1)
-    positive_dice = 2 * tp / max(2 * tp + fp + total_fn, 1)
+    positive_dice = 2 * tp / max(2 * tp + fp + filtered_fn, 1)
     return {
         "case": case,
         "method": method,
@@ -223,6 +224,7 @@ def metric_row(
         "positive_dice": positive_dice if scope == "predicted_positive" else None,
         "retained_tn": tn,
         "retained_fn": fn,
+        "filtered_fn": filtered_fn,
         "fn_rejection_rate": (total_fn - fn) / max(total_fn, 1) if scope == "predicted_negative" else None,
         "fn_retention_rate": fn / max(total_fn, 1) if scope == "predicted_negative" else None,
         "total_tp": total_tp,
@@ -251,6 +253,7 @@ def aggregate_metric_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     sum_fields = [
         "eligible_voxels", "retained_voxels", "retained_correct", "retained_error",
         "retained_tp", "retained_fp", "retained_tn", "retained_fn",
+        "filtered_fn",
         "total_tp", "total_tn", "total_fp", "total_fn",
     ]
     for row in rows:
@@ -267,13 +270,15 @@ def aggregate_metric_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         retained = row["retained_voxels"]
         tp, fp, fn = row["retained_tp"], row["retained_fp"], row["retained_fn"]
         total_tp, total_fn = row["total_tp"], row["total_fn"]
+        filtered_fn = total_fn + (total_tp - tp)
         correct, error = row["retained_correct"], row["retained_error"]
         row.update({
             "actual_coverage": retained / max(eligible, 1),
             "pseudo_label_accuracy": correct / max(correct + error, 1),
             "precision": tp / max(tp + fp, 1) if row["scope"] == "predicted_positive" else None,
             "recall": tp / max(total_tp, 1) if row["scope"] == "predicted_positive" else None,
-            "positive_dice": 2 * tp / max(2 * tp + fp + total_fn, 1) if row["scope"] == "predicted_positive" else None,
+            "filtered_fn": filtered_fn,
+            "positive_dice": 2 * tp / max(2 * tp + fp + filtered_fn, 1) if row["scope"] == "predicted_positive" else None,
             "fn_rejection_rate": (total_fn - fn) / max(total_fn, 1) if row["scope"] == "predicted_negative" else None,
             "fn_retention_rate": fn / max(total_fn, 1) if row["scope"] == "predicted_negative" else None,
         })

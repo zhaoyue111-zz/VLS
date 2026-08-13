@@ -1,0 +1,56 @@
+{
+  "stage": "V7.0 minimal SFDA smoke",
+  "source_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "voxtell_model_dir": "/data/zy/VoxTell_from_disk/model",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "seed": 2026,
+  "config": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "world_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+    "output_dir": "outputs/v7_0_sfda_smoke",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "val_cases": 4,
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "prediction_threshold": 0.5,
+    "hidden_channels": 16,
+    "label_value": 5,
+    "steps": 2,
+    "learning_rate": 1e-05,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "patches": 8,
+  "variants": {
+    "A0_confidence": "confidence",
+    "A1_world": "world_stability",
+    "A2_joint_product": "joint_product"
+  },
+  "training": {
+    "loss": "weighted pseudo-label BCE with fixed VoxTell teacher labels",
+    "student_trainable_scope": "decoder.* and project_to_decoder_channels.* only",
+    "same_initialization_data_steps_and_lr": true,
+    "world_predictor_updated": false,
+    "new_loss_or_module": false,
+    "ema_or_sfda_extra": false
+  },
+  "outputs": {
+    "training_loss": "outputs/v7_0_sfda_smoke/training_loss.csv",
+    "pseudo_label_stats": "outputs/v7_0_sfda_smoke/pseudo_label_stats.csv",
+    "metrics": "outputs/v7_0_sfda_smoke/metrics.csv",
+    "by_case": "outputs/v7_0_sfda_smoke/by_case.csv"
+  },
+  "status": "smoke_complete; no V7 hyperparameter search or scale-up performed"
+}
