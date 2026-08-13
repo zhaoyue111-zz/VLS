@@ -1,0 +1,17 @@
+step,split,group,group_value,model,state_normalized_mse,mask_logit_normalized_mse
+0,train,overall_micro,all,identity,0.0015712137924600873,0.0007546878353407266
+0,train,overall_micro,all,shared_trunk_no_language,0.001985117180551636,0.0012772797217842826
+0,train,overall_micro,all,language_conditioned,0.0014768969814126676,0.0005897220336997888
+0,train,overall_micro,all,language_conditioned_wrong_direction,0.0025323889310156808,0.0020571317047253027
+0,train,overall_macro,case_mean,identity,0.0017129138410862813,0.00084711244102301
+0,train,overall_macro,case_mean,language_conditioned,0.0015540313057904338,0.0005880770406505849
+0,train,overall_macro,case_mean,language_conditioned_wrong_direction,0.0028060892637825695,0.0023357857559767846
+0,train,overall_macro,case_mean,shared_trunk_no_language,0.00213901130370477,0.001389661433242582
+0,val,overall_micro,all,identity,0.0015712137924600873,0.0007546878353407266
+0,val,overall_micro,all,shared_trunk_no_language,0.001985117180551636,0.0012772797217842826
+0,val,overall_micro,all,language_conditioned,0.0014768969814126676,0.0005897220336997888
+0,val,overall_micro,all,language_conditioned_wrong_direction,0.0025323889310156808,0.0020571317047253027
+0,val,overall_macro,case_mean,identity,0.0017129138410862813,0.00084711244102301
+0,val,overall_macro,case_mean,language_conditioned,0.0015540313057904338,0.0005880770406505849
+0,val,overall_macro,case_mean,language_conditioned_wrong_direction,0.0028060892637825695,0.0023357857559767846
+0,val,overall_macro,case_mean,shared_trunk_no_language,0.00213901130370477,0.001389661433242582

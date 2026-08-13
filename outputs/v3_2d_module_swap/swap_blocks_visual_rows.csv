@@ -1,0 +1,13 @@
+step,split,group,group_value,model,state_normalized_mse,mask_logit_normalized_mse
+0,val,overall_micro,all,identity,0.04316944298656199,0.01819125230264256
+0,val,overall_micro,all,action_agnostic,0.042942518908528134,0.018121244316817213
+0,val,overall_micro,all,action_conditioned,0.04159810478868536,0.016273707653477836
+0,val,overall_micro,all,action_conditioned_wrong_strength,0.04319389950258129,0.018477139924502506
+0,val,overall_micro,all,action_conditioned_correct_for_wrong_type,0.027399623132072348,0.006268846735808362
+0,val,overall_micro,all,action_conditioned_wrong_type,0.029363052228316377,0.00909218462607768
+0,val,overall_macro,case_mean,action_agnostic,0.046820696583815075,0.019667613960838437
+0,val,overall_macro,case_mean,action_conditioned,0.045263921030692614,0.017593313612302708
+0,val,overall_macro,case_mean,action_conditioned_correct_for_wrong_type,0.02836717582473703,0.006696577801725739
+0,val,overall_macro,case_mean,action_conditioned_wrong_strength,0.04702653442728744,0.019962814993440103
+0,val,overall_macro,case_mean,action_conditioned_wrong_type,0.030618862095650692,0.009944007713065634
+0,val,overall_macro,case_mean,identity,0.047080688656440314,0.01974593250864188
