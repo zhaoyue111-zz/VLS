@@ -1,0 +1,239 @@
+{
+  "stage": "V7.0d protocol sanity",
+  "source_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "seed": 2026,
+  "resolved_device": "cuda:0",
+  "gpu_name": "NVIDIA GeForce RTX 3080 Ti Laptop GPU",
+  "peak_cuda_allocated_mb": 12259.6005859375,
+  "peak_cuda_reserved_mb": 15164.0,
+  "config": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "world_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+    "output_dir": "outputs/v7_0d_protocol_sanity",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "train_cases": 4,
+    "evaluation_cases": 4,
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "prediction_threshold": 0.5,
+    "hidden_channels": 16,
+    "label_value": 5,
+    "learning_rate": 1e-05,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "adaptation_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz"
+  ],
+  "evaluation_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "case_overlap": [],
+  "case_overlap_count": 0,
+  "effective_updates_per_order_variant": 4,
+  "skipped_train_cases": [],
+  "training_order_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz"
+  ],
+  "strong_view_sequence": [
+    {
+      "case": "HEM_PA99.nii.gz",
+      "augmentation": "gamma:0.3"
+    },
+    {
+      "case": "HCC_10140276_20170721.nii.gz",
+      "augmentation": "blur:1.5"
+    },
+    {
+      "case": "HEM_PA97.nii.gz",
+      "augmentation": "gamma:0.3"
+    },
+    {
+      "case": "CYST_PA69.nii.gz",
+      "augmentation": "blur:1.5"
+    }
+  ],
+  "variants": {
+    "A0_confidence_rank": "confidence_rank",
+    "A1_world": "world_stability",
+    "A2_joint_product": "joint_product"
+  },
+  "orders": [
+    "forward",
+    "reverse"
+  ],
+  "training": {
+    "loss": "weighted pseudo-label BCE with fixed teacher pseudo-labels",
+    "student_trainable_scope": "decoder.* and project_to_decoder_channels.* only",
+    "learning_rate": 1e-05,
+    "weight_decay": 0.0,
+    "teacher_train_gt_read": false,
+    "student_view": "fixed label-preserving gamma(+0.30)/blur(1.5) alternating by train-case index",
+    "same_cache_initialization_and_student_view_sequence": true,
+    "world_predictor_updated": false,
+    "new_loss_or_module": false
+  },
+  "reliability_maps": {
+    "A0_confidence_rank": "patch-wise tie-aware percentile rank of max(p,1-p)",
+    "A1_world": "1 - patch-wise tie-aware percentile rank of visual-only pairwise_abs",
+    "A2_joint_product": "A0_confidence_rank * A1_world"
+  },
+  "final_global_metrics": [
+    {
+      "variant": "A_init_no_adaptation",
+      "order": "forward",
+      "case": "__global__",
+      "patches": "8",
+      "tp": "969212",
+      "fp": "219982",
+      "tn": "54856863",
+      "fn": "577047",
+      "dice": "0.708629978288788",
+      "precision": "0.8150158847084664",
+      "recall": "0.6268109029599828",
+      "delta_dice_vs_A_init": "",
+      "delta_precision_vs_A_init": "",
+      "delta_recall_vs_A_init": ""
+    },
+    {
+      "variant": "A0_confidence_rank",
+      "order": "forward",
+      "case": "__global__",
+      "patches": "8",
+      "tp": "914588",
+      "fp": "193642",
+      "tn": "54883203",
+      "fn": "631671",
+      "dice": "0.6890878056002493",
+      "precision": "0.8252691228355125",
+      "recall": "0.5914843502931915",
+      "delta_dice_vs_A_init": "-0.01954217268853875",
+      "delta_precision_vs_A_init": "0.010253238127046038",
+      "delta_recall_vs_A_init": "-0.0353265526667913"
+    },
+    {
+      "variant": "A0_confidence_rank",
+      "order": "reverse",
+      "case": "__global__",
+      "patches": "8",
+      "tp": "753183",
+      "fp": "153144",
+      "tn": "54923701",
+      "fn": "793076",
+      "dice": "0.614194976241404",
+      "precision": "0.8310278740454604",
+      "recall": "0.48710015592471895",
+      "delta_dice_vs_A_init": "",
+      "delta_precision_vs_A_init": "",
+      "delta_recall_vs_A_init": ""
+    },
+    {
+      "variant": "A1_world",
+      "order": "forward",
+      "case": "__global__",
+      "patches": "8",
+      "tp": "597715",
+      "fp": "157643",
+      "tn": "54919202",
+      "fn": "948544",
+      "dice": "0.5193870222543542",
+      "precision": "0.7913002841036966",
+      "recall": "0.3865555511722163",
+      "delta_dice_vs_A_init": "-0.18924295603443386",
+      "delta_precision_vs_A_init": "-0.02371560060476985",
+      "delta_recall_vs_A_init": "-0.24025535178776647"
+    },
+    {
+      "variant": "A1_world",
+      "order": "reverse",
+      "case": "__global__",
+      "patches": "8",
+      "tp": "797722",
+      "fp": "153696",
+      "tn": "54923149",
+      "fn": "748537",
+      "dice": "0.6387711461490017",
+      "precision": "0.838455862722799",
+      "recall": "0.5159045153496277",
+      "delta_dice_vs_A_init": "",
+      "delta_precision_vs_A_init": "",
+      "delta_recall_vs_A_init": ""
+    },
+    {
+      "variant": "A2_joint_product",
+      "order": "forward",
+      "case": "__global__",
+      "patches": "8",
+      "tp": "700638",
+      "fp": "160814",
+      "tn": "54916031",
+      "fn": "845621",
+      "dice": "0.5819950982489177",
+      "precision": "0.8133221584023254",
+      "recall": "0.45311813868181205",
+      "delta_dice_vs_A_init": "-0.12663488003987033",
+      "delta_precision_vs_A_init": "-0.0016937263061410635",
+      "delta_recall_vs_A_init": "-0.1736927642781707"
+    },
+    {
+      "variant": "A2_joint_product",
+      "order": "reverse",
+      "case": "__global__",
+      "patches": "8",
+      "tp": "670981",
+      "fp": "125225",
+      "tn": "54951620",
+      "fn": "875278",
+      "dice": "0.572884546834211",
+      "precision": "0.8427228631786247",
+      "recall": "0.43393829882315965",
+      "delta_dice_vs_A_init": "",
+      "delta_precision_vs_A_init": "",
+      "delta_recall_vs_A_init": ""
+    }
+  ],
+  "order_sensitivity": {
+    "A0_confidence_rank": {
+      "forward_minus_reverse_dice": 0.07489282935884534,
+      "forward_minus_reverse_precision": -0.005758751209947954,
+      "forward_minus_reverse_recall": 0.10438419436847252
+    },
+    "A1_world": {
+      "forward_minus_reverse_dice": -0.11938412389464748,
+      "forward_minus_reverse_precision": -0.04715557861910247,
+      "forward_minus_reverse_recall": -0.12934896417741137
+    },
+    "A2_joint_product": {
+      "forward_minus_reverse_dice": 0.009110551414706736,
+      "forward_minus_reverse_precision": -0.029400704776299302,
+      "forward_minus_reverse_recall": 0.019179839858652403
+    }
+  },
+  "outputs": {
+    "adaptation_cases": "outputs/v7_0d_protocol_sanity/adaptation_cases.json",
+    "evaluation_cases": "outputs/v7_0d_protocol_sanity/evaluation_cases.json",
+    "training_loss": "outputs/v7_0d_protocol_sanity/training_loss.csv",
+    "per_step_eval": "outputs/v7_0d_protocol_sanity/per_step_eval.csv",
+    "pooled_by_case": "outputs/v7_0d_protocol_sanity/pooled_by_case.csv",
+    "pooled_global": "outputs/v7_0d_protocol_sanity/pooled_global.csv",
+    "pseudo_label_stats": "outputs/v7_0d_protocol_sanity/pseudo_label_stats.csv",
+    "summary": "outputs/v7_0d_protocol_sanity/summary.json"
+  },
+  "status": "protocol_sanity_complete; no 10-50 step training, LoRA, EMA, gating, or new loss"
+}
