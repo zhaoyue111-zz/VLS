@@ -33,7 +33,7 @@ from vls.voxtell_states import VoxTellStateInterface
 
 
 VARIANTS = {
-    "A0_confidence": "confidence",
+    "A0_confidence_rank": "confidence_rank",
     "A1_world": "world_stability",
     "A2_joint_product": "joint_product",
 }
@@ -41,13 +41,13 @@ VARIANTS = {
 
 def parse_args() -> argparse.Namespace:
     paths = ProjectPaths()
-    parser = argparse.ArgumentParser(description="V7.0 minimal confidence/world/joint SFDA smoke.")
+    parser = argparse.ArgumentParser(description="V7.0b controlled confidence/world/joint SFDA smoke.")
     parser.add_argument("--model-dir", default=str(paths.voxtell_model_dir))
     parser.add_argument("--voxtell-root", default=str(paths.voxtell_root))
     parser.add_argument("--data-root", default=str(paths.data_root))
     parser.add_argument("--split-json", default=str(paths.split_json))
     parser.add_argument("--world-checkpoint", default="outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt")
-    parser.add_argument("--output-dir", default="outputs/v7_0_sfda_smoke")
+    parser.add_argument("--output-dir", default="outputs/v7_0b_sfda_smoke")
     parser.add_argument("--selected-stage", default="decoder_stage_1_low_to_high")
     parser.add_argument("--val-cases", type=int, default=4)
     parser.add_argument("--patches-per-case", type=int, default=2)
@@ -57,7 +57,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--prediction-threshold", type=float, default=0.5)
     parser.add_argument("--hidden-channels", type=int, default=16)
     parser.add_argument("--label-value", type=int, default=DEFAULT_LABEL_VALUE)
-    parser.add_argument("--steps", type=int, default=2)
     parser.add_argument("--learning-rate", type=float, default=1e-5)
     parser.add_argument("--seed", type=int, default=2026)
     parser.add_argument("--device", default="cuda")
@@ -115,6 +114,7 @@ def build_cache(
 ) -> list[dict[str, Any]]:
     cache: list[dict[str, Any]] = []
     for case in cases:
+        print(f"[V7.0b] cache case={case.case}", flush=True)
         image, label, _ = read_image_and_label(case)
         original_padded, slicers, patch_kinds = select_patch_slicers(
             interface, image, [SOURCE_PROMPT], patches_per_case,
@@ -123,6 +123,7 @@ def build_cache(
         label_padded = pad_label_like_image(interface, label)
         embedding = interface.embed_text_prompts([SOURCE_PROMPT])
         for patch_index, slicer in enumerate(slicers):
+            print(f"[V7.0b] cache patch case={case.case} index={patch_index} kind={patch_kinds[patch_index]}", flush=True)
             patch = torch.clone(original_padded[slicer][None], memory_format=torch.contiguous_format)
             teacher_result = interface.forward_with_states(patch, embedding)
             source_state = teacher_result["decoder_states"][selected_stage][:, 0].detach().float().to(device)
@@ -149,10 +150,13 @@ def build_cache(
             confidence = torch.maximum(source_probability, 1.0 - source_probability)
             c_rank = percentile_rank(confidence.flatten().cpu().numpy())
             d_rank = percentile_rank(pairwise.flatten().cpu().numpy())
+            c_rank = c_rank.astype(np.float32)
+            world_stability = (1.0 - d_rank).astype(np.float32)
             reliability = {
-                "confidence": confidence.flatten().cpu().numpy().astype(np.float32),
-                "world_stability": (1.0 - d_rank).astype(np.float32),
-                "joint_product": (c_rank * (1.0 - d_rank)).astype(np.float32),
+                "confidence_rank": c_rank,
+                "world_stability": world_stability,
+                "joint_product": (c_rank * world_stability).astype(np.float32),
+                "raw_confidence": confidence.flatten().cpu().numpy().astype(np.float32),
             }
             gt = (label_padded[slicer][None].to(device) == label_value).float()
             if tuple(gt.shape[-3:]) != final_shape:
@@ -172,6 +176,7 @@ def build_cache(
                 "pseudo_np": pseudo_np,
                 "weights": reliability,
                 "teacher_metrics": binary_metrics(pseudo_np, gt_np),
+                "has_foreground": bool(np.count_nonzero(pseudo_np)),
             })
     return cache
 
@@ -190,6 +195,7 @@ def train_variant(
     source: str,
     base_network: torch.nn.Module,
     cache: list[dict[str, Any]],
+    train_samples: list[dict[str, Any]],
     interface: VoxTellStateInterface,
     args: argparse.Namespace,
     device: torch.device,
@@ -197,11 +203,12 @@ def train_variant(
     student = copy.deepcopy(base_network).to(device)
     student.train()
     parameters = trainable_parameters(student)
-    optimizer = torch.optim.AdamW(parameters, lr=args.learning_rate)
+    optimizer = torch.optim.AdamW(parameters, lr=args.learning_rate, weight_decay=0.0)
     loss_rows, pseudo_rows, metric_rows = [], [], []
     initial_parameters = [parameter.detach().clone() for parameter in parameters]
-    for step in range(1, args.steps + 1):
-        sample = cache[(step - 1) % len(cache)]
+    if device.type == "cuda":
+        torch.cuda.reset_peak_memory_stats(device)
+    for step, sample in enumerate(train_samples, start=1):
         # build_cache runs under inference_mode; clone targets and inputs before
         # they participate in an autograd graph.
         patch = sample["image"].to(device).clone()
@@ -217,22 +224,33 @@ def train_variant(
         gradient_norm = float(torch.sqrt(sum(
             parameter.grad.detach().float().pow(2).sum() for parameter in parameters if parameter.grad is not None
         )).detach().cpu())
+        before_update = [parameter.detach().clone() for parameter in parameters]
         optimizer.step()
         parameter_delta = float(torch.sqrt(sum(
             (parameter.detach() - initial).float().pow(2).sum()
             for parameter, initial in zip(parameters, initial_parameters, strict=True)
         )).detach().cpu())
+        update_delta = float(torch.sqrt(sum(
+            (parameter.detach() - before).float().pow(2).sum()
+            for parameter, before in zip(parameters, before_update, strict=True)
+        )).detach().cpu())
+        if float(loss.detach().cpu()) <= 1e-12 and gradient_norm <= 1e-10 and update_delta > 1e-9:
+            raise AssertionError(
+                f"zero-loss/zero-gradient update changed parameters: {variant} step={step} delta={update_delta}"
+            )
         loss_rows.append({
             "variant": variant, "step": step, "case": sample["case"], "patch_index": sample["patch_index"],
             "loss": float(loss.detach().cpu()), "gradient_norm": gradient_norm,
-            "student_parameter_delta_norm": parameter_delta,
+            "student_parameter_delta_norm": parameter_delta, "update_delta_norm": update_delta,
+            "weight_decay": 0.0, "training_patch_kind": sample["patch_kind"],
             "trainable_parameter_count": int(sum(parameter.numel() for parameter in parameters)),
-            "max_memory_mb": float(torch.cuda.max_memory_allocated(device) / 1024**2) if device.type == "cuda" else 0.0,
+            "peak_cuda_allocated_mb": float(torch.cuda.max_memory_allocated(device) / 1024**2) if device.type == "cuda" else 0.0,
+            "peak_cuda_reserved_mb": float(torch.cuda.max_memory_reserved(device) / 1024**2) if device.type == "cuda" else 0.0,
         })
     student.eval()
     for sample in cache:
-        patch = sample["image"].to(device)
-        embedding = sample["embedding"].to(device)
+        patch = sample["image"].to(device).clone()
+        embedding = sample["embedding"].to(device).clone()
         with torch.inference_mode():
             result = interface._network_forward_with_states(student, patch, embedding)
             prediction = (torch.sigmoid(result["final_prediction"][:, 0:1]) > args.prediction_threshold).flatten().cpu().numpy()
@@ -245,7 +263,8 @@ def train_variant(
         correct = (sample["pseudo_np"] == sample["gt_np"])
         pseudo_rows.append({
             "variant": variant, "case": sample["case"], "patch_index": sample["patch_index"],
-            "reliability_source": source, "pseudo_label_voxels": int(correct.size),
+            "reliability_source": source, "training_used": int(sample.get("training_used", False)),
+            "patch_kind": sample["patch_kind"], "pseudo_label_voxels": int(correct.size),
             "nonzero_weight_voxels": int(np.count_nonzero(weights > 0)),
             "weight_sum": float(weights.sum()), "weight_mean": float(weights.mean()),
             "weighted_correct_mass": float(weights[correct].sum()),
@@ -258,6 +277,50 @@ def train_variant(
     if device.type == "cuda":
         torch.cuda.empty_cache()
     return loss_rows, pseudo_rows, metric_rows
+
+
+@torch.inference_mode()
+def evaluate_network(
+    variant: str,
+    network: torch.nn.Module,
+    cache: list[dict[str, Any]],
+    interface: VoxTellStateInterface,
+    args: argparse.Namespace,
+    device: torch.device,
+) -> list[dict[str, Any]]:
+    network.eval()
+    rows = []
+    for sample in cache:
+        patch = sample["image"].to(device)
+        embedding = sample["embedding"].to(device)
+        result = interface._network_forward_with_states(network, patch, embedding)
+        prediction = (torch.sigmoid(result["final_prediction"][:, 0:1]) > args.prediction_threshold).flatten().cpu().numpy()
+        rows.append({
+            "variant": variant, "case": sample["case"], "patch_index": sample["patch_index"],
+            "patch_kind": sample["patch_kind"], **binary_metrics(prediction, sample["gt_np"]),
+        })
+    return rows
+
+
+def pooled_rows(patch_rows: list[dict[str, Any]], level: str) -> list[dict[str, Any]]:
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in patch_rows:
+        key = (row["variant"], "__global__" if level == "global" else row["case"])
+        groups.setdefault(key, []).append(row)
+    output = []
+    for (variant, case), rows in sorted(groups.items()):
+        tp = sum(int(row["tp"]) for row in rows)
+        fp = sum(int(row["fp"]) for row in rows)
+        tn = sum(int(row["tn"]) for row in rows)
+        fn = sum(int(row["fn"]) for row in rows)
+        output.append({
+            "variant": variant, "case": case, "patches": len(rows),
+            "tp": tp, "fp": fp, "tn": tn, "fn": fn,
+            "dice": 1.0 if tp + fp + fn == 0 else 2 * tp / max(2 * tp + fp + fn, 1),
+            "precision": tp / max(tp + fp, 1),
+            "recall": tp / max(tp + fn, 1),
+        })
+    return output
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
@@ -296,48 +359,102 @@ def run(args: argparse.Namespace) -> None:
         args.foreground_patches_per_case, args.foreground_candidate_patches, args.foreground_threshold,
         args.prediction_threshold, args.label_value, device,
     )
+    print(f"[V7.0b] cache complete patches={len(cache)}", flush=True)
+    train_samples = []
+    skipped = []
+    for case in cases:
+        candidates = [
+            sample for sample in cache
+            if sample["case"] == case.case
+            and sample["patch_kind"] == "foreground"
+            and sample["has_foreground"]
+        ]
+        if candidates:
+            chosen = sorted(candidates, key=lambda sample: sample["patch_index"])[0]
+            chosen["training_used"] = True
+            train_samples.append(chosen)
+        else:
+            skipped.append({"case": case.case, "reason": "no_nonempty_foreground_patch"})
+    train_samples.sort(key=lambda sample: (sample["case"], sample["patch_index"]))
     base_network = copy.deepcopy(teacher.network).to(device).eval()
     for parameter in base_network.parameters():
         parameter.requires_grad = False
-    loss_rows, pseudo_rows, metric_rows = [], [], []
+    initial_patch_rows = evaluate_network("A_init_no_adaptation", base_network, cache, teacher, args, device)
+    print("[V7.0b] initial baseline complete", flush=True)
+    loss_rows, pseudo_rows, patch_rows = [], [], list(initial_patch_rows)
     for variant, source in VARIANTS.items():
+        print(f"[V7.0b] train/evaluate variant={variant} updates={len(train_samples)}", flush=True)
         variant_loss, variant_pseudo, variant_metrics = train_variant(
-            variant, source, base_network, cache, teacher, args, device,
+            variant, source, base_network, cache, train_samples, teacher, args, device,
         )
         loss_rows.extend(variant_loss)
         pseudo_rows.extend(variant_pseudo)
-        metric_rows.extend(variant_metrics)
+        patch_rows.extend(variant_metrics)
+        print(f"[V7.0b] variant complete={variant}", flush=True)
+    initial_baseline = pooled_rows(initial_patch_rows, "global") + pooled_rows(initial_patch_rows, "case")
+    pooled_global = pooled_rows(patch_rows, "global")
+    pooled_by_case = pooled_rows(patch_rows, "case")
+    initial_lookup = {(row["case"], row["variant"]): row for row in initial_baseline}
+    for row in pooled_global + pooled_by_case:
+        baseline = initial_lookup.get((row["case"], "A_init_no_adaptation"))
+        if baseline and row["variant"] != "A_init_no_adaptation":
+            row["delta_dice_vs_A_init"] = row["dice"] - baseline["dice"]
+            row["delta_precision_vs_A_init"] = row["precision"] - baseline["precision"]
+            row["delta_recall_vs_A_init"] = row["recall"] - baseline["recall"]
+    global_by_variant = {row["variant"]: row for row in pooled_global}
+    case_names = sorted({row["case"] for row in pooled_by_case})
+    case_lookup = {(row["case"], row["variant"]): row for row in pooled_by_case}
+    joint_tradeoff = {
+        "cases_with_precision_nonworse_than_A0": sum(
+            case_lookup[(case, "A2_joint_product")]["precision"] >= case_lookup[(case, "A0_confidence_rank")]["precision"]
+            for case in case_names if (case, "A2_joint_product") in case_lookup and (case, "A0_confidence_rank") in case_lookup
+        ),
+        "cases_with_recall_nonworse_than_A0": sum(
+            case_lookup[(case, "A2_joint_product")]["recall"] >= case_lookup[(case, "A0_confidence_rank")]["recall"]
+            for case in case_names if (case, "A2_joint_product") in case_lookup and (case, "A0_confidence_rank") in case_lookup
+        ),
+        "cases_with_both_precision_and_recall_nonworse_than_A0": sum(
+            case_lookup[(case, "A2_joint_product")]["precision"] >= case_lookup[(case, "A0_confidence_rank")]["precision"]
+            and case_lookup[(case, "A2_joint_product")]["recall"] >= case_lookup[(case, "A0_confidence_rank")]["recall"]
+            for case in case_names if (case, "A2_joint_product") in case_lookup and (case, "A0_confidence_rank") in case_lookup
+        ),
+        "case_count": len(case_names),
+    }
     write_csv(output_dir / "training_loss.csv", loss_rows)
     write_csv(output_dir / "pseudo_label_stats.csv", pseudo_rows)
-    write_csv(output_dir / "metrics.csv", metric_rows)
-    by_case = []
-    for variant in VARIANTS:
-        selected = [row for row in metric_rows if row["variant"] == variant]
-        for case in sorted({row["case"] for row in selected}):
-            case_rows = [row for row in selected if row["case"] == case]
-            by_case.append({
-                "variant": variant, "case": case, "patches": len(case_rows),
-                "dice": float(np.mean([row["dice"] for row in case_rows])),
-                "precision": float(np.mean([row["precision"] for row in case_rows])),
-                "recall": float(np.mean([row["recall"] for row in case_rows])),
-                "tp": int(sum(row["tp"] for row in case_rows)), "fp": int(sum(row["fp"] for row in case_rows)),
-                "tn": int(sum(row["tn"] for row in case_rows)), "fn": int(sum(row["fn"] for row in case_rows)),
-            })
-    write_csv(output_dir / "by_case.csv", by_case)
+    write_csv(output_dir / "patch_metrics.csv", patch_rows)
+    write_csv(output_dir / "initial_baseline.csv", initial_baseline)
+    write_csv(output_dir / "pooled_by_case.csv", pooled_by_case)
+    write_csv(output_dir / "pooled_global.csv", pooled_global)
+    resolved_device = str(device)
+    peak_allocated = float(torch.cuda.max_memory_allocated(device) / 1024**2) if device.type == "cuda" else 0.0
+    peak_reserved = float(torch.cuda.max_memory_reserved(device) / 1024**2) if device.type == "cuda" else 0.0
     summary = {
-        "stage": "V7.0 minimal SFDA smoke",
+        "stage": "V7.0b controlled SFDA smoke",
         "source_checkpoint": str(checkpoint_path),
         "voxtell_model_dir": str(paths.voxtell_model_dir),
         "selected_stage": args.selected_stage,
         "seed": args.seed,
+        "resolved_device": resolved_device,
+        "peak_cuda_allocated_mb": peak_allocated,
+        "peak_cuda_reserved_mb": peak_reserved,
         "config": vars(args),
         "cases": [case.case for case in cases],
         "patches": len(cache),
+        "training_updates": len(train_samples),
+        "training_order": [{"case": sample["case"], "patch_index": sample["patch_index"], "patch_kind": sample["patch_kind"]} for sample in train_samples],
+        "skipped_cases": skipped,
         "variants": VARIANTS,
         "training": {
             "loss": "weighted pseudo-label BCE with fixed VoxTell teacher labels",
             "student_trainable_scope": "decoder.* and project_to_decoder_channels.* only",
             "same_initialization_data_steps_and_lr": True,
+            "weight_decay": 0.0,
+            "reliability_maps": {
+                "A0_confidence_rank": "patch-wise tie-aware percentile rank of max(p,1-p)",
+                "A1_world": "1 - patch-wise tie-aware percentile rank of visual-only pairwise_abs",
+                "A2_joint_product": "A0_confidence_rank * A1_world",
+            },
             "world_predictor_updated": False,
             "new_loss_or_module": False,
             "ema_or_sfda_extra": False,
@@ -345,10 +462,17 @@ def run(args: argparse.Namespace) -> None:
         "outputs": {
             "training_loss": str(output_dir / "training_loss.csv"),
             "pseudo_label_stats": str(output_dir / "pseudo_label_stats.csv"),
-            "metrics": str(output_dir / "metrics.csv"),
-            "by_case": str(output_dir / "by_case.csv"),
+            "patch_metrics": str(output_dir / "patch_metrics.csv"),
+            "initial_baseline": str(output_dir / "initial_baseline.csv"),
+            "pooled_by_case": str(output_dir / "pooled_by_case.csv"),
+            "pooled_global": str(output_dir / "pooled_global.csv"),
+            "summary": str(output_dir / "summary.json"),
         },
-        "status": "smoke_complete; no V7 hyperparameter search or scale-up performed",
+        "comparison": "Compare A0/A1/A2 against A_init_no_adaptation using pooled TP/FP/TN/FN metrics and deltas; no patch averaging is used for primary case/global results.",
+        "global_pooled_metrics": global_by_variant,
+        "joint_product_precision_recall_tradeoff": joint_tradeoff,
+        "interpretation": "Controlled smoke only; joint-product stability is assessed descriptively from pooled and per-case precision/recall, not used to select future routing or hyperparameters.",
+        "status": "smoke_complete; no V7 hyperparameter search or full training performed",
     }
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary, indent=2))

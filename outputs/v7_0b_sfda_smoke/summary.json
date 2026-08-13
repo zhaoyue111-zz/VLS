@@ -1,0 +1,157 @@
+{
+  "stage": "V7.0b controlled SFDA smoke",
+  "source_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "voxtell_model_dir": "/data/zy/VoxTell_from_disk/model",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "seed": 2026,
+  "resolved_device": "cpu",
+  "peak_cuda_allocated_mb": 0.0,
+  "peak_cuda_reserved_mb": 0.0,
+  "config": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "world_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+    "output_dir": "outputs/v7_0b_sfda_smoke",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "val_cases": 4,
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 4,
+    "foreground_threshold": 0.5,
+    "prediction_threshold": 0.5,
+    "hidden_channels": 16,
+    "label_value": 5,
+    "learning_rate": 1e-05,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "patches": 8,
+  "training_updates": 3,
+  "training_order": [
+    {
+      "case": "CYST_PA62.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground"
+    },
+    {
+      "case": "HEM_PA107.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground"
+    },
+    {
+      "case": "HEM_PA29.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground"
+    }
+  ],
+  "skipped_cases": [
+    {
+      "case": "HEP_PA28.nii.gz",
+      "reason": "no_nonempty_foreground_patch"
+    }
+  ],
+  "variants": {
+    "A0_confidence_rank": "confidence_rank",
+    "A1_world": "world_stability",
+    "A2_joint_product": "joint_product"
+  },
+  "training": {
+    "loss": "weighted pseudo-label BCE with fixed VoxTell teacher labels",
+    "student_trainable_scope": "decoder.* and project_to_decoder_channels.* only",
+    "same_initialization_data_steps_and_lr": true,
+    "weight_decay": 0.0,
+    "reliability_maps": {
+      "A0_confidence_rank": "patch-wise tie-aware percentile rank of max(p,1-p)",
+      "A1_world": "1 - patch-wise tie-aware percentile rank of visual-only pairwise_abs",
+      "A2_joint_product": "A0_confidence_rank * A1_world"
+    },
+    "world_predictor_updated": false,
+    "new_loss_or_module": false,
+    "ema_or_sfda_extra": false
+  },
+  "outputs": {
+    "training_loss": "outputs/v7_0b_sfda_smoke/training_loss.csv",
+    "pseudo_label_stats": "outputs/v7_0b_sfda_smoke/pseudo_label_stats.csv",
+    "patch_metrics": "outputs/v7_0b_sfda_smoke/patch_metrics.csv",
+    "initial_baseline": "outputs/v7_0b_sfda_smoke/initial_baseline.csv",
+    "pooled_by_case": "outputs/v7_0b_sfda_smoke/pooled_by_case.csv",
+    "pooled_global": "outputs/v7_0b_sfda_smoke/pooled_global.csv"
+  },
+  "comparison": "Compare A0/A1/A2 against A_init_no_adaptation using pooled TP/FP/TN/FN metrics and deltas; no patch averaging is used for primary case/global results.",
+  "global_pooled_metrics": {
+    "A0_confidence_rank": {
+      "variant": "A0_confidence_rank",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 599048,
+      "fp": 171000,
+      "tn": 55454515,
+      "fn": 398541,
+      "dice": 0.6777952713141895,
+      "precision": 0.7779359208776596,
+      "recall": 0.6004957953626193,
+      "delta_dice_vs_A_init": -0.03393487264666817,
+      "delta_precision_vs_A_init": 0.03426763785032061,
+      "delta_recall_vs_A_init": -0.08192652485141672
+    },
+    "A1_world": {
+      "variant": "A1_world",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 703038,
+      "fp": 215693,
+      "tn": 55409822,
+      "fn": 294551,
+      "dice": 0.7337375803623611,
+      "precision": 0.7652272536792598,
+      "recall": 0.7047371211992113,
+      "delta_dice_vs_A_init": 0.02200743640150349,
+      "delta_precision_vs_A_init": 0.021558970651920806,
+      "delta_recall_vs_A_init": 0.022314800985175243
+    },
+    "A2_joint_product": {
+      "variant": "A2_joint_product",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 672721,
+      "fp": 221461,
+      "tn": 55404054,
+      "fn": 324868,
+      "dice": 0.7112076461685902,
+      "precision": 0.7523311809005325,
+      "recall": 0.6743468502559672,
+      "delta_dice_vs_A_init": -0.000522497792267429,
+      "delta_precision_vs_A_init": 0.00866289787319352,
+      "delta_recall_vs_A_init": -0.008075469958068848
+    },
+    "A_init_no_adaptation": {
+      "variant": "A_init_no_adaptation",
+      "case": "__global__",
+      "patches": 8,
+      "tp": 680777,
+      "fp": 234654,
+      "tn": 55390861,
+      "fn": 316812,
+      "dice": 0.7117301439608577,
+      "precision": 0.743668283027339,
+      "recall": 0.682422320214036
+    }
+  },
+  "joint_product_precision_recall_tradeoff": {
+    "cases_with_precision_nonworse_than_A0": 1,
+    "cases_with_recall_nonworse_than_A0": 4,
+    "cases_with_both_precision_and_recall_nonworse_than_A0": 1,
+    "case_count": 4
+  },
+  "interpretation": "Controlled smoke only; joint-product stability is assessed descriptively from pooled and per-case precision/recall, not used to select future routing or hyperparameters.",
+  "status": "smoke_complete; no V7 hyperparameter search or full training performed"
+}
