@@ -1,0 +1,858 @@
+{
+  "args": {
+    "model_dir": "/data/zy/VoxTell_from_disk/model",
+    "voxtell_root": "/data/zy/VoxTell_from_disk",
+    "data_root": "/data/zy/CT_MRI_DATA_3D",
+    "split_json": "worst_zeroshot_split_p0/worst_zeroshot_split.json",
+    "v2_checkpoint": "outputs/v2_final/world_predictor_step200.pt",
+    "output_dir": "outputs/v3_2e_frozen_input_projection",
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "dev_cases": 8,
+    "val_cases": 4,
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "hidden_channels": 16,
+    "batch_size": 8,
+    "max_train_steps": 200,
+    "eval_steps": [
+      0,
+      50,
+      100,
+      150,
+      200
+    ],
+    "gamma_strengths": [
+      -0.3,
+      -0.15,
+      0.15,
+      0.3
+    ],
+    "blur_sigmas": [
+      0.5,
+      1.5
+    ],
+    "language_lr": 0.001,
+    "shared_lr": 5e-05,
+    "seed": 2026,
+    "device": "cuda",
+    "gpu": 0
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz"
+  ],
+  "val_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "v2_checkpoint": "outputs/v2_final/world_predictor_step200.pt",
+  "train_language_samples": 64,
+  "train_visual_samples": 256,
+  "val_language_samples": 32,
+  "val_visual_samples": 96,
+  "input_projection_frozen": true,
+  "language_encoder_lr": 0.001,
+  "shared_lr": 5e-05,
+  "loss": "0.5 * (language normalized MSE + visual normalized MSE)",
+  "checkpoint_paths": {
+    "0": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step0.pt",
+    "50": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step50.pt",
+    "100": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step100.pt",
+    "150": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step150.pt",
+    "200": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt"
+  },
+  "joint_passing_steps": [
+    200
+  ],
+  "selected_step": 200,
+  "best_checkpoint_path": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "language_training_curve_csv": "outputs/v3_2e_frozen_input_projection/language_training_curve.csv",
+  "language_grouped_training_curve_csv": "outputs/v3_2e_frozen_input_projection/language_grouped_training_curve.csv",
+  "visual_validation_curve_csv": "outputs/v3_2e_frozen_input_projection/visual_validation_curve.csv",
+  "visual_grouped_validation_curve_csv": "outputs/v3_2e_frozen_input_projection/visual_grouped_validation_curve.csv",
+  "language_transition_diagnostics_csv": "outputs/v3_2e_frozen_input_projection/language_transition_diagnostics.csv",
+  "step_pass_summaries": {
+    "0": {
+      "passed": false,
+      "language": {
+        "passed": false,
+        "micro_conditioned_lt_no_language": false,
+        "micro_correct_lt_wrong_direction": false,
+        "macro_conditioned_lt_no_language": false,
+        "macro_correct_lt_wrong_direction": false,
+        "micro_mask_improved": false,
+        "macro_mask_improved": false,
+        "case_win_count": 0,
+        "case_total": 4,
+        "direction_wins": [
+          {
+            "direction": "liver_to_the_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": false
+          },
+          {
+            "direction": "the_liver_to_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": false
+          }
+        ],
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": false
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": false
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": false
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": false
+          }
+        ],
+        "criterion": "V3.2b language: conditioned < identity and shared-trunk no-language at micro/macro, correct < wrong-direction, 2/2 directions, at least 3/4 cases, and mask improves over both baselines.",
+        "micro_conditioned_lt_identity": false,
+        "macro_conditioned_lt_identity": false,
+        "micro_mask_improved_vs_identity": false,
+        "macro_mask_improved_vs_identity": false,
+        "micro_mask_improved_vs_no_language": false,
+        "macro_mask_improved_vs_no_language": false,
+        "case_pass_count": 0
+      },
+      "visual": {
+        "passed": true,
+        "micro_conditioned_lt_agnostic": true,
+        "micro_correct_lt_wrong_strength": true,
+        "micro_correct_lt_wrong_type": true,
+        "macro_conditioned_lt_agnostic": true,
+        "macro_correct_lt_wrong_strength": true,
+        "macro_correct_lt_wrong_type": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "action_family_win_count": 2,
+        "action_family_total": 2,
+        "strength_win_count": 5,
+        "strength_total": 6,
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_agnostic": false
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_agnostic": true
+          }
+        ],
+        "action_family_wins": [
+          {
+            "action_family": "blur",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          },
+          {
+            "action_family": "gamma",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          }
+        ],
+        "strength_wins": [
+          {
+            "strength": "+0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.50",
+            "conditioned_lt_agnostic": false,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": false,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+1.50",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "-0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          },
+          {
+            "strength": "-0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          }
+        ],
+        "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority"
+      }
+    },
+    "50": {
+      "passed": false,
+      "language": {
+        "passed": false,
+        "micro_conditioned_lt_no_language": true,
+        "micro_correct_lt_wrong_direction": true,
+        "macro_conditioned_lt_no_language": true,
+        "macro_correct_lt_wrong_direction": true,
+        "micro_mask_improved": true,
+        "macro_mask_improved": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "direction_wins": [
+          {
+            "direction": "liver_to_the_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "direction": "the_liver_to_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "criterion": "V3.2b language: conditioned < identity and shared-trunk no-language at micro/macro, correct < wrong-direction, 2/2 directions, at least 3/4 cases, and mask improves over both baselines.",
+        "micro_conditioned_lt_identity": false,
+        "macro_conditioned_lt_identity": false,
+        "micro_mask_improved_vs_identity": false,
+        "macro_mask_improved_vs_identity": true,
+        "micro_mask_improved_vs_no_language": true,
+        "macro_mask_improved_vs_no_language": true,
+        "case_pass_count": 1
+      },
+      "visual": {
+        "passed": true,
+        "micro_conditioned_lt_agnostic": true,
+        "micro_correct_lt_wrong_strength": true,
+        "micro_correct_lt_wrong_type": true,
+        "macro_conditioned_lt_agnostic": true,
+        "macro_correct_lt_wrong_strength": true,
+        "macro_correct_lt_wrong_type": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "action_family_win_count": 2,
+        "action_family_total": 2,
+        "strength_win_count": 5,
+        "strength_total": 6,
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_agnostic": false
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_agnostic": true
+          }
+        ],
+        "action_family_wins": [
+          {
+            "action_family": "blur",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          },
+          {
+            "action_family": "gamma",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          }
+        ],
+        "strength_wins": [
+          {
+            "strength": "+0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.50",
+            "conditioned_lt_agnostic": false,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": false,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+1.50",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "-0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          },
+          {
+            "strength": "-0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          }
+        ],
+        "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority"
+      }
+    },
+    "100": {
+      "passed": false,
+      "language": {
+        "passed": false,
+        "micro_conditioned_lt_no_language": true,
+        "micro_correct_lt_wrong_direction": true,
+        "macro_conditioned_lt_no_language": true,
+        "macro_correct_lt_wrong_direction": true,
+        "micro_mask_improved": true,
+        "macro_mask_improved": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "direction_wins": [
+          {
+            "direction": "liver_to_the_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "direction": "the_liver_to_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "criterion": "V3.2b language: conditioned < identity and shared-trunk no-language at micro/macro, correct < wrong-direction, 2/2 directions, at least 3/4 cases, and mask improves over both baselines.",
+        "micro_conditioned_lt_identity": false,
+        "macro_conditioned_lt_identity": false,
+        "micro_mask_improved_vs_identity": false,
+        "macro_mask_improved_vs_identity": true,
+        "micro_mask_improved_vs_no_language": true,
+        "macro_mask_improved_vs_no_language": true,
+        "case_pass_count": 1
+      },
+      "visual": {
+        "passed": true,
+        "micro_conditioned_lt_agnostic": true,
+        "micro_correct_lt_wrong_strength": true,
+        "micro_correct_lt_wrong_type": true,
+        "macro_conditioned_lt_agnostic": true,
+        "macro_correct_lt_wrong_strength": true,
+        "macro_correct_lt_wrong_type": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "action_family_win_count": 2,
+        "action_family_total": 2,
+        "strength_win_count": 5,
+        "strength_total": 6,
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_agnostic": false
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_agnostic": true
+          }
+        ],
+        "action_family_wins": [
+          {
+            "action_family": "blur",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          },
+          {
+            "action_family": "gamma",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          }
+        ],
+        "strength_wins": [
+          {
+            "strength": "+0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.50",
+            "conditioned_lt_agnostic": false,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": false,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+1.50",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "-0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          },
+          {
+            "strength": "-0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          }
+        ],
+        "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority"
+      }
+    },
+    "150": {
+      "passed": false,
+      "language": {
+        "passed": false,
+        "micro_conditioned_lt_no_language": true,
+        "micro_correct_lt_wrong_direction": true,
+        "macro_conditioned_lt_no_language": true,
+        "macro_correct_lt_wrong_direction": true,
+        "micro_mask_improved": true,
+        "macro_mask_improved": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "direction_wins": [
+          {
+            "direction": "liver_to_the_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "direction": "the_liver_to_liver",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": false,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "criterion": "V3.2b language: conditioned < identity and shared-trunk no-language at micro/macro, correct < wrong-direction, 2/2 directions, at least 3/4 cases, and mask improves over both baselines.",
+        "micro_conditioned_lt_identity": false,
+        "macro_conditioned_lt_identity": false,
+        "micro_mask_improved_vs_identity": false,
+        "macro_mask_improved_vs_identity": false,
+        "micro_mask_improved_vs_no_language": true,
+        "macro_mask_improved_vs_no_language": true,
+        "case_pass_count": 1
+      },
+      "visual": {
+        "passed": true,
+        "micro_conditioned_lt_agnostic": true,
+        "micro_correct_lt_wrong_strength": true,
+        "micro_correct_lt_wrong_type": true,
+        "macro_conditioned_lt_agnostic": true,
+        "macro_correct_lt_wrong_strength": true,
+        "macro_correct_lt_wrong_type": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "action_family_win_count": 2,
+        "action_family_total": 2,
+        "strength_win_count": 5,
+        "strength_total": 6,
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_agnostic": false
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_agnostic": true
+          }
+        ],
+        "action_family_wins": [
+          {
+            "action_family": "blur",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          },
+          {
+            "action_family": "gamma",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          }
+        ],
+        "strength_wins": [
+          {
+            "strength": "+0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.50",
+            "conditioned_lt_agnostic": false,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": false,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+1.50",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "-0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          },
+          {
+            "strength": "-0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          }
+        ],
+        "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority"
+      }
+    },
+    "200": {
+      "passed": true,
+      "language": {
+        "passed": true,
+        "micro_conditioned_lt_no_language": true,
+        "micro_correct_lt_wrong_direction": true,
+        "macro_conditioned_lt_no_language": true,
+        "macro_correct_lt_wrong_direction": true,
+        "micro_mask_improved": true,
+        "macro_mask_improved": true,
+        "case_win_count": 4,
+        "case_total": 4,
+        "direction_wins": [
+          {
+            "direction": "liver_to_the_liver",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "direction": "the_liver_to_liver",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_identity": false,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_identity": true,
+            "conditioned_lt_no_language": true,
+            "correct_lt_wrong_direction": true
+          }
+        ],
+        "criterion": "V3.2b language: conditioned < identity and shared-trunk no-language at micro/macro, correct < wrong-direction, 2/2 directions, at least 3/4 cases, and mask improves over both baselines.",
+        "micro_conditioned_lt_identity": true,
+        "macro_conditioned_lt_identity": true,
+        "micro_mask_improved_vs_identity": true,
+        "macro_mask_improved_vs_identity": true,
+        "micro_mask_improved_vs_no_language": true,
+        "macro_mask_improved_vs_no_language": true,
+        "case_pass_count": 3
+      },
+      "visual": {
+        "passed": true,
+        "micro_conditioned_lt_agnostic": true,
+        "micro_correct_lt_wrong_strength": true,
+        "micro_correct_lt_wrong_type": true,
+        "macro_conditioned_lt_agnostic": true,
+        "macro_correct_lt_wrong_strength": true,
+        "macro_correct_lt_wrong_type": true,
+        "case_win_count": 3,
+        "case_total": 4,
+        "action_family_win_count": 2,
+        "action_family_total": 2,
+        "strength_win_count": 4,
+        "strength_total": 6,
+        "case_wins": [
+          {
+            "case": "CYST_PA62.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEM_PA107.nii.gz",
+            "conditioned_lt_agnostic": false
+          },
+          {
+            "case": "HEM_PA29.nii.gz",
+            "conditioned_lt_agnostic": true
+          },
+          {
+            "case": "HEP_PA28.nii.gz",
+            "conditioned_lt_agnostic": true
+          }
+        ],
+        "action_family_wins": [
+          {
+            "action_family": "blur",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          },
+          {
+            "action_family": "gamma",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true
+          }
+        ],
+        "strength_wins": [
+          {
+            "strength": "+0.15",
+            "conditioned_lt_agnostic": false,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+0.50",
+            "conditioned_lt_agnostic": false,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": false,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "+1.50",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": true
+          },
+          {
+            "strength": "-0.15",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          },
+          {
+            "strength": "-0.30",
+            "conditioned_lt_agnostic": true,
+            "correct_lt_wrong_strength": true,
+            "correct_lt_wrong_type": true,
+            "wrong_type_applicable": false
+          }
+        ],
+        "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority"
+      }
+    }
+  },
+  "scope_note": "V3.2e clean confirmation: initialized from V2, input_projection permanently frozen, language/action/trunk/output jointly fine-tuned with normalized MSE only; checkpoint candidates require both strict language and V2 visual gates."
+}
