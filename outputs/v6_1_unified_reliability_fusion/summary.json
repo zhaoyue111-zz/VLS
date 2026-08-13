@@ -1,0 +1,76 @@
+{
+  "world_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "patch_count": 16,
+  "methods": [
+    "confidence_only",
+    "world_only",
+    "joint_product",
+    "joint_min",
+    "joint_average"
+  ],
+  "coverage_levels": [
+    1.0,
+    0.95,
+    0.9,
+    0.8,
+    0.7,
+    0.6
+  ],
+  "scope_definitions": {
+    "global": "all voxels",
+    "predicted_positive": "TP+FP",
+    "predicted_negative": "TN+FN"
+  },
+  "formula": {
+    "confidence": "C=max(p,1-p)",
+    "world_disagreement": "D=visual-only pairwise_abs(original,gamma0.30,blur1.5)",
+    "C_rank": "patch-wise ascending percentile rank",
+    "D_rank": "patch-wise ascending percentile rank",
+    "S_rank": "1-D_rank",
+    "joint_product": "C_rank*S_rank",
+    "joint_min": "min(C_rank,S_rank)",
+    "joint_average": "0.5*(C_rank+S_rank), reference only"
+  },
+  "rank_smoke": {
+    "passed": true,
+    "values": [
+      0.0,
+      0.0,
+      0.20000000298023224,
+      0.5,
+      0.5,
+      1.0
+    ],
+    "ranks": [
+      0.25,
+      0.25,
+      0.5,
+      0.75,
+      0.75,
+      1.0
+    ]
+  },
+  "gt_usage": "GT is used only for development evaluation; no GT-based threshold or weight selection.",
+  "selection": "Within each patch and reporting scope, retain the fixed requested top reliability fraction; no learned or GT-selected threshold.",
+  "outputs": {
+    "risk_coverage": "outputs/v6_1_unified_reliability_fusion/risk_coverage.csv",
+    "by_case": "outputs/v6_1_unified_reliability_fusion/by_case.csv",
+    "conflict_analysis": "outputs/v6_1_unified_reliability_fusion/conflict_analysis.csv"
+  },
+  "findings": {
+    "unified_reliability": "partially supported: joint rules improve retention reliability in several lower-coverage settings, but no joint rule dominates confidence-only and world-only across all scopes and coverages",
+    "best_parameter_free_rule": "no universal winner; joint_min is the most stable conservative joint rule for global/predicted-negative at 60-80% coverage, while joint_product is strongest for predicted-positive at 70-80% coverage",
+    "confidence_role": "confidence-only is strongest at high coverage (90-95%) and remains very strong for predicted-negative/background retention",
+    "world_role": "world-only is generally weaker than the joint rules in this development set, but contributes complementary ranking information",
+    "case_consistency": "not 4/4: joint rules improve the worst-case accuracy at 80% coverage, but the per-case winner changes by scope and case",
+    "conflict_interpretation": "confident_unstable_world is overwhelmingly TN/background in this set; uncertain_stable_world contains mixed TP/TN/FP/FN and is the more informative conflict region"
+  },
+  "summary_status": "metrics generated; findings are descriptive development results, not a fixed foreground/background routing rule"
+}

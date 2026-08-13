@@ -38,8 +38,8 @@
           0.5246145508197417
         ],
         "actual": [
-          0.4811423718929291,
-          0.5246145129203796
+          0.4811423720591802,
+          0.5246145508197416
         ]
       },
       {
@@ -49,8 +49,8 @@
           0.4974593630363119
         ],
         "actual": [
-          0.5003091096878052,
-          0.497459352016449
+          0.5003091203006085,
+          0.497459363036312
         ]
       }
     ]
@@ -68,11 +68,11 @@
       "score_metric": "variance",
       "scope": "all_voxels",
       "num_voxels": 113246208,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.011291256657353154,
-      "pr_random_baseline": 0.011291256657353154,
-      "roc_auc": 0.9331388473510742,
-      "pr_auc": 0.2271471619606018
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.011288466276945892,
+      "pr_random_baseline": 0.011288466276945892,
+      "roc_auc": 0.9332033156588015,
+      "pr_auc": 0.22724532615985865
     },
     {
       "level": "global",
@@ -81,12 +81,12 @@
       "uncertainty_variant": "visual_only",
       "score_metric": "variance",
       "scope": "foreground_union",
-      "num_voxels": 2850469,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.4485900390426979,
-      "pr_random_baseline": 0.4485900390426979,
-      "roc_auc": 0.38983908724221106,
-      "pr_auc": 0.4130909073765472
+      "num_voxels": 2850173,
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.4485257561558544,
+      "pr_random_baseline": 0.4485257561558544,
+      "roc_auc": 0.389943185902102,
+      "pr_auc": 0.41311481011425066
     },
     {
       "level": "global",
@@ -95,12 +95,12 @@
       "uncertainty_variant": "visual_only",
       "score_metric": "variance",
       "scope": "predicted_positive",
-      "num_voxels": 1922030,
-      "positive_voxels": 350253,
-      "error_prevalence": 0.18223076642924407,
-      "pr_random_baseline": 0.18223076642924407,
-      "roc_auc": 0.5283821908685362,
-      "pr_auc": 0.24033248519881434
+      "num_voxels": 1921754,
+      "positive_voxels": 349957,
+      "error_prevalence": 0.18210291223538497,
+      "pr_random_baseline": 0.18210291223538497,
+      "roc_auc": 0.5285604414770355,
+      "pr_auc": 0.2402561768808888
     },
     {
       "level": "global",
@@ -109,12 +109,12 @@
       "uncertainty_variant": "visual_only",
       "score_metric": "variance",
       "scope": "predicted_negative",
-      "num_voxels": 111324178,
-      "positive_voxels": 928439,
-      "error_prevalence": 0.008339958279323652,
-      "pr_random_baseline": 0.008339958279323652,
-      "roc_auc": 0.935027003288269,
-      "pr_auc": 0.26023268699645996
+      "num_voxels": 111324454,
+      "positive_voxels": 928419,
+      "error_prevalence": 0.008339757947521575,
+      "pr_random_baseline": 0.008339757947521575,
+      "roc_auc": 0.9350937563544197,
+      "pr_auc": 0.26043215787008434
     },
     {
       "level": "global",
@@ -124,11 +124,11 @@
       "score_metric": "pairwise_abs",
       "scope": "all_voxels",
       "num_voxels": 113246208,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.011291256657353154,
-      "pr_random_baseline": 0.011291256657353154,
-      "roc_auc": 0.9325955510139465,
-      "pr_auc": 0.22754620015621185
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.011288466276945892,
+      "pr_random_baseline": 0.011288466276945892,
+      "roc_auc": 0.9326583008657662,
+      "pr_auc": 0.22764369796707212
     },
     {
       "level": "global",
@@ -137,12 +137,12 @@
       "uncertainty_variant": "visual_only",
       "score_metric": "pairwise_abs",
       "scope": "foreground_union",
-      "num_voxels": 2850469,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.4485900390426979,
-      "pr_random_baseline": 0.4485900390426979,
-      "roc_auc": 0.38863423579227824,
-      "pr_auc": 0.41310992606803626
+      "num_voxels": 2850173,
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.4485257561558544,
+      "pr_random_baseline": 0.4485257561558544,
+      "roc_auc": 0.3887374211721894,
+      "pr_auc": 0.4131325548342052
     },
     {
       "level": "global",
@@ -151,12 +151,12 @@
       "uncertainty_variant": "visual_only",
       "score_metric": "pairwise_abs",
       "scope": "predicted_positive",
-      "num_voxels": 1922030,
-      "positive_voxels": 350253,
-      "error_prevalence": 0.18223076642924407,
-      "pr_random_baseline": 0.18223076642924407,
-      "roc_auc": 0.5288816181263759,
-      "pr_auc": 0.2439430424537511
+      "num_voxels": 1921754,
+      "positive_voxels": 349957,
+      "error_prevalence": 0.18210291223538497,
+      "pr_random_baseline": 0.18210291223538497,
+      "roc_auc": 0.5290580550217172,
+      "pr_auc": 0.24386646626915778
     },
     {
       "level": "global",
@@ -165,12 +165,12 @@
       "uncertainty_variant": "visual_only",
       "score_metric": "pairwise_abs",
       "scope": "predicted_negative",
-      "num_voxels": 111324178,
-      "positive_voxels": 928439,
-      "error_prevalence": 0.008339958279323652,
-      "pr_random_baseline": 0.008339958279323652,
-      "roc_auc": 0.9350494742393494,
-      "pr_auc": 0.2603733241558075
+      "num_voxels": 111324454,
+      "positive_voxels": 928419,
+      "error_prevalence": 0.008339757947521575,
+      "pr_random_baseline": 0.008339757947521575,
+      "roc_auc": 0.9351166425495036,
+      "pr_auc": 0.2605726840388334
     },
     {
       "level": "global",
@@ -180,11 +180,11 @@
       "score_metric": "variance",
       "scope": "all_voxels",
       "num_voxels": 113246208,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.011291256657353154,
-      "pr_random_baseline": 0.011291256657353154,
-      "roc_auc": 0.9221640229225159,
-      "pr_auc": 0.20875374972820282
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.011288466276945892,
+      "pr_random_baseline": 0.011288466276945892,
+      "roc_auc": 0.922198211585711,
+      "pr_auc": 0.20884493102526488
     },
     {
       "level": "global",
@@ -193,12 +193,12 @@
       "uncertainty_variant": "language_only",
       "score_metric": "variance",
       "scope": "foreground_union",
-      "num_voxels": 2850469,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.4485900390426979,
-      "pr_random_baseline": 0.4485900390426979,
-      "roc_auc": 0.34947283703613735,
-      "pr_auc": 0.369356166453307
+      "num_voxels": 2850173,
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.4485257561558544,
+      "pr_random_baseline": 0.4485257561558544,
+      "roc_auc": 0.3496231299914735,
+      "pr_auc": 0.3694080940633729
     },
     {
       "level": "global",
@@ -207,12 +207,12 @@
       "uncertainty_variant": "language_only",
       "score_metric": "variance",
       "scope": "predicted_positive",
-      "num_voxels": 1922030,
-      "positive_voxels": 350253,
-      "error_prevalence": 0.18223076642924407,
-      "pr_random_baseline": 0.18223076642924407,
-      "roc_auc": 0.47840808208167734,
-      "pr_auc": 0.17836986723505416
+      "num_voxels": 1921754,
+      "positive_voxels": 349957,
+      "error_prevalence": 0.18210291223538497,
+      "pr_random_baseline": 0.18210291223538497,
+      "roc_auc": 0.47861362154462805,
+      "pr_auc": 0.17836645603477214
     },
     {
       "level": "global",
@@ -221,12 +221,12 @@
       "uncertainty_variant": "language_only",
       "score_metric": "variance",
       "scope": "predicted_negative",
-      "num_voxels": 111324178,
-      "positive_voxels": 928439,
-      "error_prevalence": 0.008339958279323652,
-      "pr_random_baseline": 0.008339958279323652,
-      "roc_auc": 0.9303097724914551,
-      "pr_auc": 0.28629446029663086
+      "num_voxels": 111324454,
+      "positive_voxels": 928419,
+      "error_prevalence": 0.008339757947521575,
+      "pr_random_baseline": 0.008339757947521575,
+      "roc_auc": 0.9303800032050137,
+      "pr_auc": 0.2864798910918545
     },
     {
       "level": "global",
@@ -236,11 +236,11 @@
       "score_metric": "pairwise_abs",
       "scope": "all_voxels",
       "num_voxels": 113246208,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.011291256657353154,
-      "pr_random_baseline": 0.011291256657353154,
-      "roc_auc": 0.920728325843811,
-      "pr_auc": 0.2087561935186386
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.011288466276945892,
+      "pr_random_baseline": 0.011288466276945892,
+      "roc_auc": 0.9207739201968377,
+      "pr_auc": 0.20884730715425437
     },
     {
       "level": "global",
@@ -249,12 +249,12 @@
       "uncertainty_variant": "language_only",
       "score_metric": "pairwise_abs",
       "scope": "foreground_union",
-      "num_voxels": 2850469,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.4485900390426979,
-      "pr_random_baseline": 0.4485900390426979,
-      "roc_auc": 0.3494925251164497,
-      "pr_auc": 0.3693572800474992
+      "num_voxels": 2850173,
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.4485257561558544,
+      "pr_random_baseline": 0.4485257561558544,
+      "roc_auc": 0.34964248791279184,
+      "pr_auc": 0.3694092245561756
     },
     {
       "level": "global",
@@ -263,12 +263,12 @@
       "uncertainty_variant": "language_only",
       "score_metric": "pairwise_abs",
       "scope": "predicted_positive",
-      "num_voxels": 1922030,
-      "positive_voxels": 350253,
-      "error_prevalence": 0.18223076642924407,
-      "pr_random_baseline": 0.18223076642924407,
-      "roc_auc": 0.47840808208167734,
-      "pr_auc": 0.17836986723505416
+      "num_voxels": 1921754,
+      "positive_voxels": 349957,
+      "error_prevalence": 0.18210291223538497,
+      "pr_random_baseline": 0.18210291223538497,
+      "roc_auc": 0.47861362154735504,
+      "pr_auc": 0.17836645596239625
     },
     {
       "level": "global",
@@ -277,12 +277,12 @@
       "uncertainty_variant": "language_only",
       "score_metric": "pairwise_abs",
       "scope": "predicted_negative",
-      "num_voxels": 111324178,
-      "positive_voxels": 928439,
-      "error_prevalence": 0.008339958279323652,
-      "pr_random_baseline": 0.008339958279323652,
-      "roc_auc": 0.9304112195968628,
-      "pr_auc": 0.28629741072654724
+      "num_voxels": 111324454,
+      "positive_voxels": 928419,
+      "error_prevalence": 0.008339757947521575,
+      "pr_random_baseline": 0.008339757947521575,
+      "roc_auc": 0.930480568360774,
+      "pr_auc": 0.28648277004343
     },
     {
       "level": "global",
@@ -292,11 +292,11 @@
       "score_metric": "variance",
       "scope": "all_voxels",
       "num_voxels": 113246208,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.011291256657353154,
-      "pr_random_baseline": 0.011291256657353154,
-      "roc_auc": 0.9331865906715393,
-      "pr_auc": 0.22633084654808044
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.011288466276945892,
+      "pr_random_baseline": 0.011288466276945892,
+      "roc_auc": 0.9332451210010538,
+      "pr_auc": 0.22642888164445718
     },
     {
       "level": "global",
@@ -305,12 +305,12 @@
       "uncertainty_variant": "visual_language",
       "score_metric": "variance",
       "scope": "foreground_union",
-      "num_voxels": 2850469,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.4485900390426979,
-      "pr_random_baseline": 0.4485900390426979,
-      "roc_auc": 0.3860113967649187,
-      "pr_auc": 0.4113047854293208
+      "num_voxels": 2850173,
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.4485257561558544,
+      "pr_random_baseline": 0.4485257561558544,
+      "roc_auc": 0.38611329630818997,
+      "pr_auc": 0.41132832331338043
     },
     {
       "level": "global",
@@ -319,12 +319,12 @@
       "uncertainty_variant": "visual_language",
       "score_metric": "variance",
       "scope": "predicted_positive",
-      "num_voxels": 1922030,
-      "positive_voxels": 350253,
-      "error_prevalence": 0.18223076642924407,
-      "pr_random_baseline": 0.18223076642924407,
-      "roc_auc": 0.5256119072483747,
-      "pr_auc": 0.24016095962200268
+      "num_voxels": 1921754,
+      "positive_voxels": 349957,
+      "error_prevalence": 0.18210291223538497,
+      "pr_random_baseline": 0.18210291223538497,
+      "roc_auc": 0.5257850297667385,
+      "pr_auc": 0.24009055489210313
     },
     {
       "level": "global",
@@ -333,12 +333,12 @@
       "uncertainty_variant": "visual_language",
       "score_metric": "variance",
       "scope": "predicted_negative",
-      "num_voxels": 111324178,
-      "positive_voxels": 928439,
-      "error_prevalence": 0.008339958279323652,
-      "pr_random_baseline": 0.008339958279323652,
-      "roc_auc": 0.9349321126937866,
-      "pr_auc": 0.26043131947517395
+      "num_voxels": 111324454,
+      "positive_voxels": 928419,
+      "error_prevalence": 0.008339757947521575,
+      "pr_random_baseline": 0.008339757947521575,
+      "roc_auc": 0.9350010514383554,
+      "pr_auc": 0.26063272566632506
     },
     {
       "level": "global",
@@ -348,11 +348,11 @@
       "score_metric": "pairwise_abs",
       "scope": "all_voxels",
       "num_voxels": 113246208,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.011291256657353154,
-      "pr_random_baseline": 0.011291256657353154,
-      "roc_auc": 0.9325387477874756,
-      "pr_auc": 0.22625239193439484
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.011288466276945892,
+      "pr_random_baseline": 0.011288466276945892,
+      "roc_auc": 0.932598487528691,
+      "pr_auc": 0.2263492280068671
     },
     {
       "level": "global",
@@ -361,12 +361,12 @@
       "uncertainty_variant": "visual_language",
       "score_metric": "pairwise_abs",
       "scope": "foreground_union",
-      "num_voxels": 2850469,
-      "positive_voxels": 1278692,
-      "error_prevalence": 0.4485900390426979,
-      "pr_random_baseline": 0.4485900390426979,
-      "roc_auc": 0.3833872573836857,
-      "pr_auc": 0.4085693344450399
+      "num_voxels": 2850173,
+      "positive_voxels": 1278376,
+      "error_prevalence": 0.4485257561558544,
+      "pr_random_baseline": 0.4485257561558544,
+      "roc_auc": 0.38348939905538576,
+      "pr_auc": 0.4085901597262601
     },
     {
       "level": "global",
@@ -375,12 +375,12 @@
       "uncertainty_variant": "visual_language",
       "score_metric": "pairwise_abs",
       "scope": "predicted_positive",
-      "num_voxels": 1922030,
-      "positive_voxels": 350253,
-      "error_prevalence": 0.18223076642924407,
-      "pr_random_baseline": 0.18223076642924407,
-      "roc_auc": 0.524545611284918,
-      "pr_auc": 0.23822787294704903
+      "num_voxels": 1921754,
+      "positive_voxels": 349957,
+      "error_prevalence": 0.18210291223538497,
+      "pr_random_baseline": 0.18210291223538497,
+      "roc_auc": 0.5247164749393572,
+      "pr_auc": 0.23815000248653972
     },
     {
       "level": "global",
@@ -389,12 +389,12 @@
       "uncertainty_variant": "visual_language",
       "score_metric": "pairwise_abs",
       "scope": "predicted_negative",
-      "num_voxels": 111324178,
-      "positive_voxels": 928439,
-      "error_prevalence": 0.008339958279323652,
-      "pr_random_baseline": 0.008339958279323652,
-      "roc_auc": 0.9348636269569397,
-      "pr_auc": 0.2620335817337036
+      "num_voxels": 111324454,
+      "positive_voxels": 928419,
+      "error_prevalence": 0.008339757947521575,
+      "pr_random_baseline": 0.008339757947521575,
+      "roc_auc": 0.9349305462451427,
+      "pr_auc": 0.2622368786852824
     }
   ],
   "scope_note": "V6.0c final statistical/complementarity validation only; no model, action, ensemble, training, threshold selection, fusion, pseudo-label, or SFDA changes."
