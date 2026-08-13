@@ -1,0 +1,13 @@
+case,uncertainty_variant,patches,both_empty_patches,both_empty_voxels
+CYST_PA62.nii.gz,language_only,4,2,14155776
+CYST_PA62.nii.gz,visual_language,4,2,14155776
+CYST_PA62.nii.gz,visual_only,4,2,14155776
+HEM_PA29.nii.gz,language_only,4,1,7077888
+HEM_PA29.nii.gz,visual_language,4,1,7077888
+HEM_PA29.nii.gz,visual_only,4,1,7077888
+HEP_PA28.nii.gz,language_only,4,0,0
+HEP_PA28.nii.gz,visual_language,4,0,0
+HEP_PA28.nii.gz,visual_only,4,0,0
+HEM_PA107.nii.gz,language_only,4,1,7077888
+HEM_PA107.nii.gz,visual_language,4,1,7077888
+HEM_PA107.nii.gz,visual_only,4,1,7077888
