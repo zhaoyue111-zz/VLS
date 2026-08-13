@@ -1,0 +1,5 @@
+case,patches,both_empty_patches,both_empty_voxels
+CYST_PA62.nii.gz,4,2,14155776
+HEM_PA29.nii.gz,4,1,7077888
+HEP_PA28.nii.gz,4,0,0
+HEM_PA107.nii.gz,4,1,7077888
