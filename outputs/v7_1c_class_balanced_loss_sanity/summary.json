@@ -1,0 +1,331 @@
+{
+  "stage": "V7.1c class-balanced pseudo-label loss sanity",
+  "source_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "seed": 2026,
+  "resolved_device": "cuda:0",
+  "gpu_name": "NVIDIA GeForce RTX 3080 Ti Laptop GPU",
+  "peak_cuda_allocated_mb": 12113.13525390625,
+  "peak_cuda_reserved_mb": 15166.0,
+  "adaptation_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz"
+  ],
+  "evaluation_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "case_overlap": [],
+  "case_overlap_count": 0,
+  "train_manifest_path": "outputs/v7_1b_protocol_consolidation/train_patch_manifest.json",
+  "manifest_created_this_run": false,
+  "manifest_reused_without_overwrite": true,
+  "fixed_manifest_reused_for_all_variants_and_rounds": true,
+  "foreground_candidate_patches": 16,
+  "effective_updates_per_variant_order": 20,
+  "full_volume_eval_steps_forward": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20
+  ],
+  "reverse_confirmation_step": 20,
+  "variants": {
+    "A0_confidence_rank": "confidence_rank",
+    "A1_world": "world_stability",
+    "A2_joint_product": "joint_product"
+  },
+  "lora": {
+    "rank": 4,
+    "alpha": 8.0,
+    "dropout": 0.0,
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "parameter_stats": [
+      {
+        "variant": "A0_confidence_rank",
+        "order": "forward",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A0_confidence_rank",
+        "order": "reverse",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A1_world",
+        "order": "forward",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A1_world",
+        "order": "reverse",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A2_joint_product",
+        "order": "forward",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A2_joint_product",
+        "order": "reverse",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      }
+    ]
+  },
+  "training": {
+    "rounds": 5,
+    "updates_per_round": 4,
+    "total_updates": 20,
+    "loss": "class-balanced reliability-weighted pseudo-label BCE: mean of existing L_pos/L_neg",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "teacher_gt_used_for_selection": false,
+    "world_predictor_updated": false,
+    "base_voxtell_parameters_frozen": true,
+    "student_view": "fixed gamma(+0.30)/blur(1.5) from canonical manifest"
+  },
+  "full_volume_inference": {
+    "implementation": "V7.1b single-window CUDA forward with VoxTell native slicers, Gaussian overlap accumulation, and bbox restoration",
+    "overlap_aggregation": "VoxTell native Gaussian sliding-window aggregation",
+    "sampled_patch_metrics_are_debug_only": true
+  },
+  "final_step20_full_volume": [
+    {
+      "variant": "A0_confidence_rank",
+      "order": "forward",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6236986625677062,
+      "std_dice": 0.06919697920343261,
+      "mean_foreground_iou": 0.45689351477538614,
+      "std_foreground_iou": 0.07413670549967184,
+      "mean_precision": 0.7342390374574275,
+      "mean_recall": 0.5445392223694779,
+      "delta_mean_dice_vs_A_init": 0.09095257421363945,
+      "delta_mean_foreground_iou_vs_A_init": 0.0907069669838852
+    },
+    {
+      "variant": "A0_confidence_rank",
+      "order": "reverse",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6395364952974076,
+      "std_dice": 0.06487628200847197,
+      "mean_foreground_iou": 0.4734807577481679,
+      "std_foreground_iou": 0.07123974257924928,
+      "mean_precision": 0.7341480141198572,
+      "mean_recall": 0.5682248060591988,
+      "delta_mean_dice_vs_A_init": 0.10679040694334085,
+      "delta_mean_foreground_iou_vs_A_init": 0.10729420995666694
+    },
+    {
+      "variant": "A1_world",
+      "order": "forward",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6122161799612638,
+      "std_dice": 0.0637990658850688,
+      "mean_foreground_iou": 0.44415944775980687,
+      "std_foreground_iou": 0.06558730030283236,
+      "mean_precision": 0.7314875620541041,
+      "mean_recall": 0.5294641588398905,
+      "delta_mean_dice_vs_A_init": 0.07947009160719698,
+      "delta_mean_foreground_iou_vs_A_init": 0.07797289996830592
+    },
+    {
+      "variant": "A1_world",
+      "order": "reverse",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6174232873667036,
+      "std_dice": 0.061084157145443234,
+      "mean_foreground_iou": 0.44937760651079195,
+      "std_foreground_iou": 0.0634985595285165,
+      "mean_precision": 0.7285994713346639,
+      "mean_recall": 0.5384961993670789,
+      "delta_mean_dice_vs_A_init": 0.08467719901263682,
+      "delta_mean_foreground_iou_vs_A_init": 0.083191058719291
+    },
+    {
+      "variant": "A2_joint_product",
+      "order": "forward",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6240140047688543,
+      "std_dice": 0.0627479990256364,
+      "mean_foreground_iou": 0.4565371933252807,
+      "std_foreground_iou": 0.06659228037954606,
+      "mean_precision": 0.7331589081675208,
+      "mean_recall": 0.545630500844337,
+      "delta_mean_dice_vs_A_init": 0.09126791641478749,
+      "delta_mean_foreground_iou_vs_A_init": 0.09035064553377975
+    },
+    {
+      "variant": "A2_joint_product",
+      "order": "reverse",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6429032083499967,
+      "std_dice": 0.06259015890279868,
+      "mean_foreground_iou": 0.4768996934788735,
+      "std_foreground_iou": 0.06870597062941955,
+      "mean_precision": 0.7317518983493079,
+      "mean_recall": 0.5749450249953858,
+      "delta_mean_dice_vs_A_init": 0.11015711999592992,
+      "delta_mean_foreground_iou_vs_A_init": 0.11071314568737256
+    }
+  ],
+  "order_sensitivity": {
+    "A0_confidence_rank": {
+      "forward_minus_reverse_mean_dice": -0.015837832729701407,
+      "forward_minus_reverse_mean_foreground_iou": -0.016587242972781746,
+      "forward_minus_reverse_mean_precision": 9.102333757027292e-05,
+      "forward_minus_reverse_mean_recall": -0.023685583689720846
+    },
+    "A1_world": {
+      "forward_minus_reverse_mean_dice": -0.005207107405439837,
+      "forward_minus_reverse_mean_foreground_iou": -0.00521815875098508,
+      "forward_minus_reverse_mean_precision": 0.002888090719440295,
+      "forward_minus_reverse_mean_recall": -0.009032040527188423
+    },
+    "A2_joint_product": {
+      "forward_minus_reverse_mean_dice": -0.018889203581142433,
+      "forward_minus_reverse_mean_foreground_iou": -0.02036250015359281,
+      "forward_minus_reverse_mean_precision": 0.0014070098182129565,
+      "forward_minus_reverse_mean_recall": -0.02931452415104885
+    }
+  },
+  "outputs": {
+    "training_loss.csv": "outputs/v7_1c_class_balanced_loss_sanity/training_loss.csv",
+    "pseudo_label_stats.csv": "outputs/v7_1c_class_balanced_loss_sanity/pseudo_label_stats.csv",
+    "full_volume_by_case.csv": "outputs/v7_1c_class_balanced_loss_sanity/full_volume_by_case.csv",
+    "full_volume_curve.csv": "outputs/v7_1c_class_balanced_loss_sanity/full_volume_curve.csv",
+    "sampled_patch_debug.csv": "outputs/v7_1c_class_balanced_loss_sanity/sampled_patch_debug.csv",
+    "parameter_stats.json": "outputs/v7_1c_class_balanced_loss_sanity/parameter_stats.json",
+    "summary.json": "outputs/v7_1c_class_balanced_loss_sanity/summary.json"
+  },
+  "status": "complete; fixed 20-update forward plus reverse confirmation; no early stopping or hyperparameter selection"
+}
