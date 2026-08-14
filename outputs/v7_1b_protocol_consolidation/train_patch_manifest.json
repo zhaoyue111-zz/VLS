@@ -1,0 +1,111 @@
+{
+  "stage": "V7.1b fixed train patch manifest",
+  "selection_source": "teacher prediction only; target-train GT is not read",
+  "foreground_candidate_patches": 16,
+  "records": [
+    {
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "spatial_axes": [
+        "x",
+        "y",
+        "z"
+      ],
+      "slicer_start": [
+        0,
+        252,
+        553
+      ],
+      "slicer_stop": [
+        192,
+        444,
+        745
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3"
+    },
+    {
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "spatial_axes": [
+        "x",
+        "y",
+        "z"
+      ],
+      "slicer_start": [
+        0,
+        59,
+        230
+      ],
+      "slicer_stop": [
+        192,
+        251,
+        422
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5"
+    },
+    {
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "spatial_axes": [
+        "x",
+        "y",
+        "z"
+      ],
+      "slicer_start": [
+        0,
+        157,
+        540
+      ],
+      "slicer_stop": [
+        192,
+        349,
+        732
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3"
+    },
+    {
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "spatial_axes": [
+        "x",
+        "y",
+        "z"
+      ],
+      "slicer_start": [
+        0,
+        180,
+        646
+      ],
+      "slicer_stop": [
+        192,
+        372,
+        838
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5"
+    }
+  ]
+}

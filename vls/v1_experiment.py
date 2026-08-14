@@ -79,7 +79,6 @@ def uniform_slicer_candidates(slicers: list[tuple], num_candidates: int) -> list
     indices = np.linspace(0, len(slicers) - 1, num_candidates, dtype=np.int64)
     return [slicers[int(index)] for index in indices]
 
-
 def score_foreground_slicers(
     interface: VoxTellStateInterface,
     padded: torch.Tensor,
