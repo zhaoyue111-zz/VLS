@@ -1,0 +1,14 @@
+[
+  "transformer_decoder.layers.0.self_attn",
+  "transformer_decoder.layers.0.multihead_attn",
+  "transformer_decoder.layers.1.self_attn",
+  "transformer_decoder.layers.1.multihead_attn",
+  "transformer_decoder.layers.2.self_attn",
+  "transformer_decoder.layers.2.multihead_attn",
+  "transformer_decoder.layers.3.self_attn",
+  "transformer_decoder.layers.3.multihead_attn",
+  "transformer_decoder.layers.4.self_attn",
+  "transformer_decoder.layers.4.multihead_attn",
+  "transformer_decoder.layers.5.self_attn",
+  "transformer_decoder.layers.5.multihead_attn"
+]
