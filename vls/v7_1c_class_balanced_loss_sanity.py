@@ -286,6 +286,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lora-rank", type=int, default=4); parser.add_argument("--lora-alpha", type=float, default=8.0); parser.add_argument("--lora-dropout", type=float, default=0.0)
     parser.add_argument("--training-rounds", type=int, default=5); parser.add_argument("--seed", type=int, default=2026)
     parser.add_argument("--device", default="cuda"); parser.add_argument("--gpu", type=int, default=0)
+    parser.add_argument("--include-uniform", action="store_true")
     return parser.parse_args()
 
 
@@ -297,6 +298,9 @@ def run(args: argparse.Namespace) -> None:
     if args.training_rounds != 5:
         raise AssertionError("V7.1c is fixed to five training rounds")
     output_dir = Path(args.output_dir); output_dir.mkdir(parents=True, exist_ok=True)
+    variant_map = dict(VARIANTS)
+    if args.include_uniform:
+        variant_map = {"A_uniform_balanced": "uniform_balanced", **variant_map}
     paths = ProjectPaths(voxtell_root=Path(args.voxtell_root), voxtell_model_dir=Path(args.model_dir), data_root=Path(args.data_root), split_json=Path(args.split_json))
     train_cases = iter_image_cases(paths, "train", args.train_cases); eval_cases = iter_cases(paths, "test", args.evaluation_cases)
     train_names = [case.case for case in train_cases]; eval_names = [case.case for case in eval_cases]
@@ -330,6 +334,10 @@ def run(args: argparse.Namespace) -> None:
         manifest_created = True
         train_cache = build_cache_from_manifest(teacher, world_model, train_cases, prompt_embedding, manifest, args, device)
     if len(train_cache) != len(train_cases): raise AssertionError("manifest reconstruction did not produce all train cases")
+    if args.include_uniform:
+        for sample in train_cache:
+            reference = next(iter(sample["weights"].values()))
+            sample["weights"]["uniform_balanced"] = np.ones_like(reference, dtype=np.float32)
     train_samples = train_cache
     eval_cache = build_evaluation_cache(teacher, world_model, eval_cases, prompt_embedding, args, device)
     full_data = {}
@@ -346,12 +354,16 @@ def run(args: argparse.Namespace) -> None:
     initial_debug = evaluate_network("A_init_no_adaptation", "forward", 0, base_network, eval_cache, teacher, device, args.prediction_threshold)
     base_network.to("cpu"); torch.cuda.empty_cache() if device.type == "cuda" else None
 
-    losses = []; pseudo_stats = []; full_rows = list(initial_full); debug_rows = list(initial_debug); stats = []; target_names = None
-    for variant, source in VARIANTS.items():
-        print(f"[V7.1c] forward {variant}", flush=True)
+    initial_variant_full = []
+    for variant in variant_map:
+        initial_variant_full.extend({**row, "variant": variant, "order": "forward", "step": 0} for row in initial_full)
+    losses = []; pseudo_stats = []; full_rows = list(initial_full) + initial_variant_full; debug_rows = list(initial_debug); stats = []; target_names = None
+    stage_tag = "V7.1d" if args.include_uniform else "V7.1c"
+    for variant, source in variant_map.items():
+        print(f"[{stage_tag}] forward {variant}", flush=True)
         l, p, f, d, s = train_variant(variant, source, "forward", base_network, train_samples, eval_cases, full_data, eval_cache, teacher, prompt_embedding, args, device, base_total, target_names, True)
         target_names = s["target_modules"] if target_names is None else target_names; losses.extend(l); pseudo_stats.extend(p); full_rows.extend(f); debug_rows.extend(d); stats.append({"variant": variant, "order": "forward", **s})
-        print(f"[V7.1c] reverse {variant}", flush=True)
+        print(f"[{stage_tag}] reverse {variant}", flush=True)
         l, p, f, d, s = train_variant(variant, source, "reverse", base_network, train_samples, eval_cases, full_data, eval_cache, teacher, prompt_embedding, args, device, base_total, target_names, False)
         losses.extend(l); pseudo_stats.extend(p); full_rows.extend(f); debug_rows.extend(d); stats.append({"variant": variant, "order": "reverse", **s})
 
@@ -362,7 +374,7 @@ def run(args: argparse.Namespace) -> None:
     for row in curve:
         if row["variant"] != "A_init_no_adaptation": row["delta_mean_dice_vs_A_init"] = row["mean_dice"] - init_curve["mean_dice"]; row["delta_mean_foreground_iou_vs_A_init"] = row["mean_foreground_iou"] - init_curve["mean_foreground_iou"]
     final = {(row["variant"], row["order"]): row for row in curve if int(row["step"]) == 20}; sensitivity = {}
-    for variant in VARIANTS:
+    for variant in variant_map:
         f, r = final[(variant, "forward")], final[(variant, "reverse")]
         sensitivity[variant] = {"forward_minus_reverse_mean_dice": f["mean_dice"] - r["mean_dice"], "forward_minus_reverse_mean_foreground_iou": f["mean_foreground_iou"] - r["mean_foreground_iou"], "forward_minus_reverse_mean_precision": f["mean_precision"] - r["mean_precision"], "forward_minus_reverse_mean_recall": f["mean_recall"] - r["mean_recall"]}
     if device.type == "cuda": torch.cuda.synchronize(device)
@@ -370,17 +382,45 @@ def run(args: argparse.Namespace) -> None:
     peak_reserved = float(torch.cuda.max_memory_reserved(device) / 1024**2) if device.type == "cuda" else 0.0
     write_csv(output_dir / "training_loss.csv", losses); write_csv(output_dir / "pseudo_label_stats.csv", pseudo_stats); write_csv(output_dir / "full_volume_by_case.csv", full_rows); write_csv(output_dir / "full_volume_curve.csv", curve); write_csv(output_dir / "sampled_patch_debug.csv", debug_rows)
     (output_dir / "parameter_stats.json").write_text(json.dumps(stats, indent=2))
+    forward20 = {row["variant"]: row for row in curve if int(row["step"]) == 20 and row["order"] == "forward"}
+    reverse20 = {row["variant"]: row for row in curve if int(row["step"]) == 20 and row["order"] == "reverse"}
+    case_maps: dict[str, dict[str, dict[str, Any]]] = {}
+    for row in full_rows:
+        if int(row["step"]) == 20 and row["order"] == "forward":
+            case_maps.setdefault(row["case"], {})[row["variant"]] = row
+    case_wins = {}
+    for left in variant_map:
+        for right in variant_map:
+            if left != right:
+                case_wins[f"{left}_vs_{right}"] = sum(
+                    case_maps[case][left]["dice"] > case_maps[case][right]["dice"]
+                    for case in case_maps
+                    if left in case_maps[case] and right in case_maps[case]
+                )
+    contribution = {
+        "step20_forward_mean_dice": {name: row["mean_dice"] for name, row in forward20.items()},
+        "step20_reverse_mean_dice": {name: row["mean_dice"] for name, row in reverse20.items()},
+        "forward_delta_vs_A_init": {name: row["delta_mean_dice_vs_A_init"] for name, row in forward20.items()},
+        "casewise_forward_step20_dice_wins": case_wins,
+    }
+    if args.include_uniform:
+        contribution.update({
+            "confidence_delta_vs_uniform": forward20["A0_confidence_rank"]["mean_dice"] - forward20["A_uniform_balanced"]["mean_dice"],
+            "world_delta_vs_uniform": forward20["A1_world"]["mean_dice"] - forward20["A_uniform_balanced"]["mean_dice"],
+            "joint_delta_vs_confidence": forward20["A2_joint_product"]["mean_dice"] - forward20["A0_confidence_rank"]["mean_dice"],
+            "joint_delta_vs_uniform": forward20["A2_joint_product"]["mean_dice"] - forward20["A_uniform_balanced"]["mean_dice"],
+        })
     summary = {
-        "stage": "V7.1c class-balanced pseudo-label loss sanity", "source_checkpoint": str(checkpoint_path), "selected_stage": args.selected_stage, "seed": args.seed,
+        "stage": "V7.1d reliability contribution isolation" if args.include_uniform else "V7.1c class-balanced pseudo-label loss sanity", "source_checkpoint": str(checkpoint_path), "selected_stage": args.selected_stage, "seed": args.seed,
         "resolved_device": str(device), "gpu_name": torch.cuda.get_device_name(device) if device.type == "cuda" else None, "peak_cuda_allocated_mb": peak_allocated, "peak_cuda_reserved_mb": peak_reserved,
         "adaptation_cases": train_names, "evaluation_cases": eval_names, "case_overlap": overlap, "case_overlap_count": len(overlap),
         "train_manifest_path": str(manifest_path), "manifest_created_this_run": manifest_created, "manifest_reused_without_overwrite": not manifest_created,
         "fixed_manifest_reused_for_all_variants_and_rounds": True, "foreground_candidate_patches": args.foreground_candidate_patches, "effective_updates_per_variant_order": 20,
-        "full_volume_eval_steps_forward": [0, *EVAL_STEPS], "reverse_confirmation_step": 20, "variants": VARIANTS,
+        "full_volume_eval_steps_forward": [0, *EVAL_STEPS], "reverse_confirmation_step": 20, "variants": variant_map,
         "lora": {"rank": args.lora_rank, "alpha": args.lora_alpha, "dropout": args.lora_dropout, "target_modules": target_names, "base_trainable_parameters": 0, "parameter_stats": stats},
         "training": {"rounds": args.training_rounds, "updates_per_round": 4, "total_updates": 20, "loss": "class-balanced reliability-weighted pseudo-label BCE: mean of existing L_pos/L_neg", "learning_rate": args.learning_rate, "weight_decay": 0.0, "teacher_gt_used_for_selection": False, "world_predictor_updated": False, "base_voxtell_parameters_frozen": True, "student_view": "fixed gamma(+0.30)/blur(1.5) from canonical manifest"},
         "full_volume_inference": {"implementation": "V7.1b single-window CUDA forward with VoxTell native slicers, Gaussian overlap accumulation, and bbox restoration", "overlap_aggregation": "VoxTell native Gaussian sliding-window aggregation", "sampled_patch_metrics_are_debug_only": True},
-        "final_step20_full_volume": [row for row in curve if int(row["step"]) == 20], "order_sensitivity": sensitivity,
+        "final_step20_full_volume": [row for row in curve if int(row["step"]) == 20], "order_sensitivity": sensitivity, "contribution_isolation": contribution,
         "outputs": {name: str(output_dir / name) for name in ("training_loss.csv", "pseudo_label_stats.csv", "full_volume_by_case.csv", "full_volume_curve.csv", "sampled_patch_debug.csv", "parameter_stats.json", "summary.json")},
         "status": "complete; fixed 20-update forward plus reverse confirmation; no early stopping or hyperparameter selection",
     }

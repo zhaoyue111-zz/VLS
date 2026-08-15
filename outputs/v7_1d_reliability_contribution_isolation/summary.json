@@ -1,0 +1,448 @@
+{
+  "stage": "V7.1d reliability contribution isolation",
+  "source_checkpoint": "outputs/v3_2e_frozen_input_projection/unified_world_predictor_step200.pt",
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "seed": 2026,
+  "resolved_device": "cuda:0",
+  "gpu_name": "NVIDIA GeForce RTX 3080 Ti Laptop GPU",
+  "peak_cuda_allocated_mb": 12113.13525390625,
+  "peak_cuda_reserved_mb": 15166.0,
+  "adaptation_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz"
+  ],
+  "evaluation_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "case_overlap": [],
+  "case_overlap_count": 0,
+  "train_manifest_path": "outputs/v7_1b_protocol_consolidation/train_patch_manifest.json",
+  "manifest_created_this_run": false,
+  "manifest_reused_without_overwrite": true,
+  "fixed_manifest_reused_for_all_variants_and_rounds": true,
+  "foreground_candidate_patches": 16,
+  "effective_updates_per_variant_order": 20,
+  "full_volume_eval_steps_forward": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20
+  ],
+  "reverse_confirmation_step": 20,
+  "variants": {
+    "A_uniform_balanced": "uniform_balanced",
+    "A0_confidence_rank": "confidence_rank",
+    "A1_world": "world_stability",
+    "A2_joint_product": "joint_product"
+  },
+  "lora": {
+    "rank": 4,
+    "alpha": 8.0,
+    "dropout": 0.0,
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "parameter_stats": [
+      {
+        "variant": "A_uniform_balanced",
+        "order": "forward",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A_uniform_balanced",
+        "order": "reverse",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A0_confidence_rank",
+        "order": "forward",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A0_confidence_rank",
+        "order": "reverse",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A1_world",
+        "order": "forward",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A1_world",
+        "order": "reverse",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A2_joint_product",
+        "order": "forward",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      },
+      {
+        "variant": "A2_joint_product",
+        "order": "reverse",
+        "target_modules": [
+          "transformer_decoder.layers.0.self_attn",
+          "transformer_decoder.layers.0.multihead_attn",
+          "transformer_decoder.layers.1.self_attn",
+          "transformer_decoder.layers.1.multihead_attn",
+          "transformer_decoder.layers.2.self_attn",
+          "transformer_decoder.layers.2.multihead_attn",
+          "transformer_decoder.layers.3.self_attn",
+          "transformer_decoder.layers.3.multihead_attn",
+          "transformer_decoder.layers.4.self_attn",
+          "transformer_decoder.layers.4.multihead_attn",
+          "transformer_decoder.layers.5.self_attn",
+          "transformer_decoder.layers.5.multihead_attn"
+        ],
+        "base_trainable_parameters": 0,
+        "lora_parameter_count": 589824,
+        "lora_ratio_of_base_model": 0.0013404190969987626
+      }
+    ]
+  },
+  "training": {
+    "rounds": 5,
+    "updates_per_round": 4,
+    "total_updates": 20,
+    "loss": "class-balanced reliability-weighted pseudo-label BCE: mean of existing L_pos/L_neg",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "teacher_gt_used_for_selection": false,
+    "world_predictor_updated": false,
+    "base_voxtell_parameters_frozen": true,
+    "student_view": "fixed gamma(+0.30)/blur(1.5) from canonical manifest"
+  },
+  "full_volume_inference": {
+    "implementation": "V7.1b single-window CUDA forward with VoxTell native slicers, Gaussian overlap accumulation, and bbox restoration",
+    "overlap_aggregation": "VoxTell native Gaussian sliding-window aggregation",
+    "sampled_patch_metrics_are_debug_only": true
+  },
+  "final_step20_full_volume": [
+    {
+      "variant": "A0_confidence_rank",
+      "order": "forward",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.623713212611605,
+      "std_dice": 0.0691751400236056,
+      "mean_foreground_iou": 0.4569066563240497,
+      "std_foreground_iou": 0.07411506257616178,
+      "mean_precision": 0.7342531011939253,
+      "mean_recall": 0.5445535977803997,
+      "delta_mean_dice_vs_A_init": 0.09096759056853831,
+      "delta_mean_foreground_iou_vs_A_init": 0.09072051672499859
+    },
+    {
+      "variant": "A0_confidence_rank",
+      "order": "reverse",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6394867852471305,
+      "std_dice": 0.06491956700135552,
+      "mean_foreground_iou": 0.4734312562199034,
+      "std_foreground_iou": 0.07128329562728562,
+      "mean_precision": 0.7341350756334825,
+      "mean_recall": 0.5681576438722757,
+      "delta_mean_dice_vs_A_init": 0.1067411632040639,
+      "delta_mean_foreground_iou_vs_A_init": 0.10724511662085229
+    },
+    {
+      "variant": "A1_world",
+      "order": "forward",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6122051945939938,
+      "std_dice": 0.06383864168391888,
+      "mean_foreground_iou": 0.44415153121578305,
+      "std_foreground_iou": 0.06562313998897354,
+      "mean_precision": 0.7314851951525525,
+      "mean_recall": 0.5294522759387732,
+      "delta_mean_dice_vs_A_init": 0.07945957255092717,
+      "delta_mean_foreground_iou_vs_A_init": 0.07796539161673194
+    },
+    {
+      "variant": "A1_world",
+      "order": "reverse",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6174355489545605,
+      "std_dice": 0.06105756059969446,
+      "mean_foreground_iou": 0.4493878248340608,
+      "std_foreground_iou": 0.0634664488006875,
+      "mean_precision": 0.7286015029964713,
+      "mean_recall": 0.5385128355494861,
+      "delta_mean_dice_vs_A_init": 0.0846899269114939,
+      "delta_mean_foreground_iou_vs_A_init": 0.0832016852350097
+    },
+    {
+      "variant": "A2_joint_product",
+      "order": "forward",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6240063827391286,
+      "std_dice": 0.06285225991647966,
+      "mean_foreground_iou": 0.456539677298864,
+      "std_foreground_iou": 0.06671318835755272,
+      "mean_precision": 0.7331432858824167,
+      "mean_recall": 0.5456299784427046,
+      "delta_mean_dice_vs_A_init": 0.09126076069606193,
+      "delta_mean_foreground_iou_vs_A_init": 0.09035353769981291
+    },
+    {
+      "variant": "A2_joint_product",
+      "order": "reverse",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6428516837333218,
+      "std_dice": 0.06261420922978192,
+      "mean_foreground_iou": 0.4768458460931202,
+      "std_foreground_iou": 0.0687278724974467,
+      "mean_precision": 0.7317394088764919,
+      "mean_recall": 0.5748723576637876,
+      "delta_mean_dice_vs_A_init": 0.11010606169025516,
+      "delta_mean_foreground_iou_vs_A_init": 0.11065970649406909
+    },
+    {
+      "variant": "A_uniform_balanced",
+      "order": "forward",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6119283202556689,
+      "std_dice": 0.06367193729110886,
+      "mean_foreground_iou": 0.44385364293409935,
+      "std_foreground_iou": 0.06558227626380556,
+      "mean_precision": 0.7318226275665943,
+      "mean_recall": 0.5287868176553745,
+      "delta_mean_dice_vs_A_init": 0.07918269821260226,
+      "delta_mean_foreground_iou_vs_A_init": 0.07766750333504824
+    },
+    {
+      "variant": "A_uniform_balanced",
+      "order": "reverse",
+      "step": 20,
+      "scope": "full_volume",
+      "case_count": 4,
+      "mean_dice": 0.6193564987375794,
+      "std_dice": 0.06436664151429859,
+      "mean_foreground_iou": 0.45174880632178116,
+      "std_foreground_iou": 0.06760735933589712,
+      "mean_precision": 0.7302610938582496,
+      "mean_recall": 0.5403287987470007,
+      "delta_mean_dice_vs_A_init": 0.08661087669451273,
+      "delta_mean_foreground_iou_vs_A_init": 0.08556266672273005
+    }
+  ],
+  "order_sensitivity": {
+    "A_uniform_balanced": {
+      "forward_minus_reverse_mean_dice": -0.0074281784819104635,
+      "forward_minus_reverse_mean_foreground_iou": -0.007895163387681814,
+      "forward_minus_reverse_mean_precision": 0.0015615337083447756,
+      "forward_minus_reverse_mean_recall": -0.011541981091626186
+    },
+    "A0_confidence_rank": {
+      "forward_minus_reverse_mean_dice": -0.01577357263552559,
+      "forward_minus_reverse_mean_foreground_iou": -0.016524599895853698,
+      "forward_minus_reverse_mean_precision": 0.00011802556044282486,
+      "forward_minus_reverse_mean_recall": -0.023604046091876052
+    },
+    "A1_world": {
+      "forward_minus_reverse_mean_dice": -0.005230354360566736,
+      "forward_minus_reverse_mean_foreground_iou": -0.005236293618277765,
+      "forward_minus_reverse_mean_precision": 0.0028836921560811968,
+      "forward_minus_reverse_mean_recall": -0.009060559610712948
+    },
+    "A2_joint_product": {
+      "forward_minus_reverse_mean_dice": -0.018845300994193237,
+      "forward_minus_reverse_mean_foreground_iou": -0.020306168794256174,
+      "forward_minus_reverse_mean_precision": 0.001403877005924814,
+      "forward_minus_reverse_mean_recall": -0.02924237922108308
+    }
+  },
+  "contribution_isolation": {
+    "step20_forward_mean_dice": {
+      "A0_confidence_rank": 0.623713212611605,
+      "A1_world": 0.6122051945939938,
+      "A2_joint_product": 0.6240063827391286,
+      "A_uniform_balanced": 0.6119283202556689
+    },
+    "step20_reverse_mean_dice": {
+      "A0_confidence_rank": 0.6394867852471305,
+      "A1_world": 0.6174355489545605,
+      "A2_joint_product": 0.6428516837333218,
+      "A_uniform_balanced": 0.6193564987375794
+    },
+    "forward_delta_vs_A_init": {
+      "A0_confidence_rank": 0.09096759056853831,
+      "A1_world": 0.07945957255092717,
+      "A2_joint_product": 0.09126076069606193,
+      "A_uniform_balanced": 0.07918269821260226
+    },
+    "casewise_forward_step20_dice_wins": {
+      "A_uniform_balanced_vs_A0_confidence_rank": 1,
+      "A_uniform_balanced_vs_A1_world": 2,
+      "A_uniform_balanced_vs_A2_joint_product": 0,
+      "A0_confidence_rank_vs_A_uniform_balanced": 3,
+      "A0_confidence_rank_vs_A1_world": 3,
+      "A0_confidence_rank_vs_A2_joint_product": 1,
+      "A1_world_vs_A_uniform_balanced": 2,
+      "A1_world_vs_A0_confidence_rank": 1,
+      "A1_world_vs_A2_joint_product": 0,
+      "A2_joint_product_vs_A_uniform_balanced": 4,
+      "A2_joint_product_vs_A0_confidence_rank": 3,
+      "A2_joint_product_vs_A1_world": 4
+    },
+    "confidence_delta_vs_uniform": 0.01178489235593605,
+    "world_delta_vs_uniform": 0.00027687433832490616,
+    "joint_delta_vs_confidence": 0.00029317012752361205,
+    "joint_delta_vs_uniform": 0.012078062483459662
+  },
+  "outputs": {
+    "training_loss.csv": "outputs/v7_1d_reliability_contribution_isolation/training_loss.csv",
+    "pseudo_label_stats.csv": "outputs/v7_1d_reliability_contribution_isolation/pseudo_label_stats.csv",
+    "full_volume_by_case.csv": "outputs/v7_1d_reliability_contribution_isolation/full_volume_by_case.csv",
+    "full_volume_curve.csv": "outputs/v7_1d_reliability_contribution_isolation/full_volume_curve.csv",
+    "sampled_patch_debug.csv": "outputs/v7_1d_reliability_contribution_isolation/sampled_patch_debug.csv",
+    "parameter_stats.json": "outputs/v7_1d_reliability_contribution_isolation/parameter_stats.json",
+    "summary.json": "outputs/v7_1d_reliability_contribution_isolation/summary.json"
+  },
+  "status": "complete; fixed 20-update forward plus reverse confirmation; no early stopping or hyperparameter selection"
+}
