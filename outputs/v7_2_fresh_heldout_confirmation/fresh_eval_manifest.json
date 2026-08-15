@@ -1,0 +1,96 @@
+{
+  "stage": "V7.2 fresh held-out reliability contribution confirmation",
+  "manifest_version": 1,
+  "selection_policy": "fixed before evaluation from cases absent from all audited historical experiment sets; no GT-based case selection",
+  "fresh_cases": [
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz"
+  ],
+  "historical_excluded_cases": [
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "CYST_PA62.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEM_PA97.nii.gz",
+    "HEM_PA99.nii.gz",
+    "HEP_PA28.nii.gz"
+  ],
+  "historical_exclusion_sources": {
+    "v3_2e_world_predictor_training_or_validation": [
+      "HEM_PA99.nii.gz",
+      "HCC_10140276_20170721.nii.gz",
+      "HEM_PA97.nii.gz",
+      "CYST_PA69.nii.gz",
+      "HCC_10076307_20130925.nii.gz",
+      "CYST_PA20.nii.gz",
+      "CYST_PA56.nii.gz",
+      "HCC_10136895_20170421.nii.gz",
+      "CYST_PA62.nii.gz",
+      "HEM_PA29.nii.gz",
+      "HEP_PA28.nii.gz",
+      "HEM_PA107.nii.gz"
+    ],
+    "v6_reliability_experiments": [
+      "CYST_PA62.nii.gz",
+      "HEM_PA29.nii.gz",
+      "HEP_PA28.nii.gz",
+      "HEM_PA107.nii.gz"
+    ],
+    "v7_reliability_experiments": [
+      "HEM_PA99.nii.gz",
+      "HCC_10140276_20170721.nii.gz",
+      "HEM_PA97.nii.gz",
+      "CYST_PA69.nii.gz",
+      "CYST_PA62.nii.gz",
+      "HEM_PA29.nii.gz",
+      "HEP_PA28.nii.gz",
+      "HEM_PA107.nii.gz"
+    ],
+    "checkpoint_threshold_step_selection": [
+      "HEM_PA99.nii.gz",
+      "HCC_10140276_20170721.nii.gz",
+      "HEM_PA97.nii.gz",
+      "CYST_PA69.nii.gz",
+      "HCC_10076307_20130925.nii.gz",
+      "CYST_PA20.nii.gz",
+      "CYST_PA56.nii.gz",
+      "HCC_10136895_20170421.nii.gz",
+      "CYST_PA62.nii.gz",
+      "HEM_PA29.nii.gz",
+      "HEP_PA28.nii.gz",
+      "HEM_PA107.nii.gz"
+    ]
+  },
+  "explicitly_excluded_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz"
+  ],
+  "source_audit": {
+    "v3_2e_summary": "outputs/v3_2e_frozen_input_projection/v3_2e_summary.json",
+    "v6_outputs": [
+      "outputs/v6_0_imagined_world_reliability",
+      "outputs/v6_0b_statistical_correction",
+      "outputs/v6_0c_final_statistical_validation",
+      "outputs/v6_1_unified_reliability_fusion"
+    ],
+    "v7_outputs": [
+      "outputs/v7_0d_protocol_sanity",
+      "outputs/v7_1b_protocol_consolidation",
+      "outputs/v7_1c_class_balanced_loss_sanity",
+      "outputs/v7_1d_reliability_contribution_isolation"
+    ]
+  }
+}

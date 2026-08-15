@@ -1,0 +1,170 @@
+[
+  {
+    "variant": "A_uniform_balanced",
+    "order": "forward",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  },
+  {
+    "variant": "A_uniform_balanced",
+    "order": "reverse",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  },
+  {
+    "variant": "A0_confidence_rank",
+    "order": "forward",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  },
+  {
+    "variant": "A0_confidence_rank",
+    "order": "reverse",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  },
+  {
+    "variant": "A1_world",
+    "order": "forward",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  },
+  {
+    "variant": "A1_world",
+    "order": "reverse",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  },
+  {
+    "variant": "A2_joint_product",
+    "order": "forward",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  },
+  {
+    "variant": "A2_joint_product",
+    "order": "reverse",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626
+  }
+]
