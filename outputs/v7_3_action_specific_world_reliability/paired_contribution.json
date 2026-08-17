@@ -1,0 +1,176 @@
+{
+  "comparisons": {
+    "world_actual_pairwise": [
+      "A3_world_actual",
+      "A1_world_pairwise"
+    ],
+    "joint_actual_pairwise": [
+      "A4_joint_actual",
+      "A2_joint_pairwise"
+    ],
+    "world_actual_uniform": [
+      "A3_world_actual",
+      "A_uniform_balanced"
+    ],
+    "joint_actual_confidence": [
+      "A4_joint_actual",
+      "A0_confidence_rank"
+    ]
+  },
+  "by_order": {
+    "forward": {
+      "world_actual_pairwise": {
+        "case_count": 8,
+        "mean_delta": -6.923220769884664e-05,
+        "positive_case_fraction": 0.625,
+        "positive_case_count": 5
+      },
+      "joint_actual_pairwise": {
+        "case_count": 8,
+        "mean_delta": -0.00015878634087722332,
+        "positive_case_fraction": 0.25,
+        "positive_case_count": 2
+      },
+      "world_actual_uniform": {
+        "case_count": 8,
+        "mean_delta": 0.0006679861378316998,
+        "positive_case_fraction": 0.875,
+        "positive_case_count": 7
+      },
+      "joint_actual_confidence": {
+        "case_count": 8,
+        "mean_delta": 0.00027727128929386224,
+        "positive_case_fraction": 0.625,
+        "positive_case_count": 5
+      }
+    },
+    "reverse": {
+      "world_actual_pairwise": {
+        "case_count": 8,
+        "mean_delta": -7.20577785846277e-05,
+        "positive_case_fraction": 0.375,
+        "positive_case_count": 3
+      },
+      "joint_actual_pairwise": {
+        "case_count": 8,
+        "mean_delta": -0.00017859911154620434,
+        "positive_case_fraction": 0.125,
+        "positive_case_count": 1
+      },
+      "world_actual_uniform": {
+        "case_count": 8,
+        "mean_delta": 0.0004944061509199182,
+        "positive_case_fraction": 0.875,
+        "positive_case_count": 7
+      },
+      "joint_actual_confidence": {
+        "case_count": 8,
+        "mean_delta": 0.00013823522208142314,
+        "positive_case_fraction": 0.625,
+        "positive_case_count": 5
+      }
+    }
+  },
+  "primary_case_averaged": {
+    "world_actual_pairwise": {
+      "left": "A3_world_actual",
+      "right": "A1_world_pairwise",
+      "case_deltas": {
+        "CYST_PA19.nii.gz": 4.2291410964456766e-05,
+        "HCC_10020116_20180118.nii.gz": 0.00044644110193270414,
+        "HCC_10074592_20130816.nii.gz": 0.00022412304605545774,
+        "HEM_PA101.nii.gz": -0.0004540829871490515,
+        "HEM_PA13.nii.gz": -2.885209448372228e-05,
+        "HEM_PA81.nii.gz": -9.47224529884716e-05,
+        "HEM_PA89.nii.gz": -0.0007393750346660899,
+        "MET_PA13.nii.gz": 3.901706520081927e-05
+      },
+      "bootstrap": {
+        "n_cases": 8,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": -7.064499314173717e-05,
+        "median_delta": 5.082485358548494e-06,
+        "ci95_low": -0.00032506396088097245,
+        "ci95_high": 0.0001601320105117777,
+        "positive_case_fraction": 0.5,
+        "positive_case_count": 4
+      }
+    },
+    "joint_actual_pairwise": {
+      "left": "A4_joint_actual",
+      "right": "A2_joint_pairwise",
+      "case_deltas": {
+        "CYST_PA19.nii.gz": -9.959482757321281e-05,
+        "HCC_10020116_20180118.nii.gz": 9.542456824845891e-05,
+        "HCC_10074592_20130816.nii.gz": -0.00011840336324703271,
+        "HEM_PA101.nii.gz": -0.00028780688595064774,
+        "HEM_PA13.nii.gz": -9.300342868112654e-05,
+        "HEM_PA81.nii.gz": -0.00032061048787113133,
+        "HEM_PA89.nii.gz": -0.00047106660909407294,
+        "MET_PA13.nii.gz": -5.448077552494546e-05
+      },
+      "bootstrap": {
+        "n_cases": 8,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": -0.00016869272621171383,
+        "median_delta": -0.00010899909541012276,
+        "ci95_low": -0.00028923936567654476,
+        "ci95_high": -5.65151198753458e-05,
+        "positive_case_fraction": 0.125,
+        "positive_case_count": 1
+      }
+    },
+    "world_actual_uniform": {
+      "left": "A3_world_actual",
+      "right": "A_uniform_balanced",
+      "case_deltas": {
+        "CYST_PA19.nii.gz": 0.0001299524890393533,
+        "HCC_10020116_20180118.nii.gz": -0.0020145751136962375,
+        "HCC_10074592_20130816.nii.gz": 0.0005051361389694642,
+        "HEM_PA101.nii.gz": 0.0013655403060040538,
+        "HEM_PA13.nii.gz": 0.0010616257370116844,
+        "HEM_PA81.nii.gz": 0.0015147101018848086,
+        "HEM_PA89.nii.gz": 0.0006261478073091853,
+        "MET_PA13.nii.gz": 0.00146103168848416
+      },
+      "bootstrap": {
+        "n_cases": 8,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": 0.000581196144375809,
+        "median_delta": 0.0008438867721604348,
+        "ci95_low": -0.0002440099351167242,
+        "ci95_high": 0.0012112830718806987,
+        "positive_case_fraction": 0.875,
+        "positive_case_count": 7
+      }
+    },
+    "joint_actual_confidence": {
+      "left": "A4_joint_actual",
+      "right": "A0_confidence_rank",
+      "case_deltas": {
+        "CYST_PA19.nii.gz": -0.0004964786725791814,
+        "HCC_10020116_20180118.nii.gz": -0.0024626665687765836,
+        "HCC_10074592_20130816.nii.gz": -0.0013638306967523328,
+        "HEM_PA101.nii.gz": 0.0018286583428093195,
+        "HEM_PA13.nii.gz": 0.0001780306371085838,
+        "HEM_PA81.nii.gz": 0.002518235462947549,
+        "HEM_PA89.nii.gz": 0.0010105981072252024,
+        "MET_PA13.nii.gz": 0.00044947943351858477
+      },
+      "bootstrap": {
+        "n_cases": 8,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": 0.0002077532556876427,
+        "median_delta": 0.0003137550353135843,
+        "ci95_low": -0.000863235395511237,
+        "ci95_high": 0.0012473009333456644,
+        "positive_case_fraction": 0.625,
+        "positive_case_count": 5
+      }
+    }
+  }
+}
