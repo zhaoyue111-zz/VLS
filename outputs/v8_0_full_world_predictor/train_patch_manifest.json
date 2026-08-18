@@ -1,0 +1,3658 @@
+{
+  "stage": "V8.0 full-train visual World Predictor",
+  "manifest_version": 1,
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "train_case_count": 30,
+  "test_case_count": 8,
+  "action_families": [
+    "gamma",
+    "blur"
+  ],
+  "action_values": {
+    "gamma": [
+      0.3
+    ],
+    "blur": [
+      1.5
+    ]
+  },
+  "config": {
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5
+  },
+  "records": [
+    {
+      "case_id": "HEM_PA99.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch0:gamma+0.30",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch0:blur+1.50",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch1:gamma+0.30",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch1:blur+1.50",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch2:gamma+0.30",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch2:blur+1.50",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch3:gamma+0.30",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA99.nii.gz:patch3:blur+1.50",
+      "case": "HEM_PA99.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch0:blur+1.50",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch1:blur+1.50",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch2:blur+1.50",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10140276_20170721.nii.gz:patch3:blur+1.50",
+      "case": "HCC_10140276_20170721.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch0:gamma+0.30",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch0:blur+1.50",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch1:gamma+0.30",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch1:blur+1.50",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch2:gamma+0.30",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch2:blur+1.50",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch3:gamma+0.30",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA97.nii.gz:patch3:blur+1.50",
+      "case": "HEM_PA97.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch2:blur+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch2:gamma+0.30",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch2:blur+1.50",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch3:blur+0.00_anchor",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch3:gamma+0.30",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA69.nii.gz:patch3:blur+1.50",
+      "case": "CYST_PA69.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch0:blur+1.50",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch1:blur+1.50",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch2:blur+1.50",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10076307_20130925.nii.gz:patch3:blur+1.50",
+      "case": "HCC_10076307_20130925.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch2:blur+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch2:gamma+0.30",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch2:blur+1.50",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch3:blur+0.00_anchor",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch3:gamma+0.30",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA20.nii.gz:patch3:blur+1.50",
+      "case": "CYST_PA20.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch2:blur+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch2:gamma+0.30",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch2:blur+1.50",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch3:blur+0.00_anchor",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch3:gamma+0.30",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA56.nii.gz:patch3:blur+1.50",
+      "case": "CYST_PA56.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch0:blur+1.50",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch1:blur+1.50",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch2:blur+1.50",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10136895_20170421.nii.gz:patch3:blur+1.50",
+      "case": "HCC_10136895_20170421.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch0:blur+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch0:gamma+0.30",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch0:blur+1.50",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch1:blur+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch1:gamma+0.30",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch1:blur+1.50",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch2:blur+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch2:gamma+0.30",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch2:blur+1.50",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch3:blur+0.00_anchor",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch3:gamma+0.30",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA13.nii.gz:patch3:blur+1.50",
+      "case": "MET_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch0:blur+1.50",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch1:blur+1.50",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch2:blur+1.50",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10074592_20130816.nii.gz:patch3:blur+1.50",
+      "case": "HCC_10074592_20130816.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch2:blur+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch2:gamma+0.30",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch2:blur+1.50",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch3:blur+0.00_anchor",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch3:gamma+0.30",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA19.nii.gz:patch3:blur+1.50",
+      "case": "CYST_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch0:gamma+0.30",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch0:blur+1.50",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch1:gamma+0.30",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch1:blur+1.50",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch2:gamma+0.30",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch2:blur+1.50",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch3:gamma+0.30",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA13.nii.gz:patch3:blur+1.50",
+      "case": "HEM_PA13.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch0:blur+1.50",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch1:blur+1.50",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch2:blur+1.50",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10142924_20170911.nii.gz:patch3:blur+1.50",
+      "case": "HCC_10142924_20170911.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch0:blur+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch0:gamma+0.30",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch0:blur+1.50",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch1:blur+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch1:gamma+0.30",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch1:blur+1.50",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch2:blur+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch2:gamma+0.30",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch2:blur+1.50",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch3:blur+0.00_anchor",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch3:gamma+0.30",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA25.nii.gz:patch3:blur+1.50",
+      "case": "MET_PA25.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch0:blur+1.50",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch1:blur+1.50",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch2:blur+1.50",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10147777_20171222.nii.gz:patch3:blur+1.50",
+      "case": "HCC_10147777_20171222.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch0:blur+1.50",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch1:blur+1.50",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch2:blur+1.50",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_PA0.nii.gz:patch3:blur+1.50",
+      "case": "HCC_PA0.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "context_fill",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch2:blur+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch2:gamma+0.30",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch2:blur+1.50",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch3:blur+0.00_anchor",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch3:gamma+0.30",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA37.nii.gz:patch3:blur+1.50",
+      "case": "CYST_PA37.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch0:blur+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch0:gamma+0.30",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch0:blur+1.50",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch1:blur+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch1:gamma+0.30",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch1:blur+1.50",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch2:blur+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch2:gamma+0.30",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch2:blur+1.50",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch3:blur+0.00_anchor",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch3:gamma+0.30",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "ICC_PA18.nii.gz:patch3:blur+1.50",
+      "case": "ICC_PA18.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch0:gamma+0.30",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch0:blur+1.50",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch1:gamma+0.30",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch1:blur+1.50",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch2:gamma+0.30",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch2:blur+1.50",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch3:gamma+0.30",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HCC_10081574_20140213.nii.gz:patch3:blur+1.50",
+      "case": "HCC_10081574_20140213.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch0:blur+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch0:gamma+0.30",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch0:blur+1.50",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch1:blur+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch1:gamma+0.30",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch1:blur+1.50",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch2:blur+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch2:gamma+0.30",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch2:blur+1.50",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch3:blur+0.00_anchor",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch3:gamma+0.30",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "MET_PA19.nii.gz:patch3:blur+1.50",
+      "case": "MET_PA19.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch0:gamma+0.30",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch0:blur+1.50",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch1:gamma+0.30",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch1:blur+1.50",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch2:gamma+0.30",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch2:blur+1.50",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch3:gamma+0.30",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA24.nii.gz:patch3:blur+1.50",
+      "case": "HEM_PA24.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch2:blur+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch2:gamma+0.30",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch2:blur+1.50",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch3:blur+0.00_anchor",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch3:gamma+0.30",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA74.nii.gz:patch3:blur+1.50",
+      "case": "CYST_PA74.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch0:gamma+0.30",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch0:blur+1.50",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch1:gamma+0.30",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch1:blur+1.50",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch2:gamma+0.30",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch2:blur+1.50",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch3:blur+0.00_anchor",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch3:gamma+0.30",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA34.nii.gz:patch3:blur+1.50",
+      "case": "HEM_PA34.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch0:blur+0.00_anchor",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch0:gamma+0.30",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch0:blur+1.50",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch1:blur+0.00_anchor",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch1:gamma+0.30",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch1:blur+1.50",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch2:blur+0.00_anchor",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch2:gamma+0.30",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "FNH_PA32.nii.gz:patch2:blur+1.50",
+      "case": "FNH_PA32.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch0:blur+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch0:gamma+0.30",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch0:blur+1.50",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch1:blur+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch1:gamma+0.30",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch1:blur+1.50",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch2:blur+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch2:gamma+0.30",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch2:blur+1.50",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch3:gamma+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch3:blur+0.00_anchor",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch3:gamma+0.30",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "FNH_PA10.nii.gz:patch3:blur+1.50",
+      "case": "FNH_PA10.nii.gz",
+      "patch_index": 3,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA54.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA54.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA53.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA53.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch0:blur+0.00_anchor",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch0:gamma+0.30",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch0:blur+1.50",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch1:blur+0.00_anchor",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch1:gamma+0.30",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch1:blur+1.50",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch2:blur+0.00_anchor",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch2:gamma+0.30",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "CYST_PA38.nii.gz:patch2:blur+1.50",
+      "case": "CYST_PA38.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch0:gamma+0.30",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch0:blur+1.50",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch1:gamma+0.30",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch1:blur+1.50",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch2:gamma+0.30",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA66.nii.gz:patch2:blur+1.50",
+      "case": "HEM_PA66.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch0:gamma+0.00_anchor",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch0:blur+0.00_anchor",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch0:gamma+0.30",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch0:blur+1.50",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 0,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch1:gamma+0.00_anchor",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch1:blur+0.00_anchor",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch1:gamma+0.30",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch1:blur+1.50",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 1,
+      "patch_kind": "context",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch2:gamma+0.00_anchor",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch2:blur+0.00_anchor",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 0.0
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch2:gamma+0.30",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case_id": "HEM_PA56.nii.gz:patch2:blur+1.50",
+      "case": "HEM_PA56.nii.gz",
+      "patch_index": 2,
+      "patch_kind": "foreground",
+      "action_family": "blur",
+      "strength": 1.5
+    }
+  ],
+  "test_labels_used_for": [
+    "evaluation",
+    "checkpoint_selection"
+  ],
+  "test_labels_used_in_training_loss": false
+}

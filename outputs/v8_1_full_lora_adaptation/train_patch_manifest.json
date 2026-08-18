@@ -1,0 +1,1493 @@
+{
+  "stage": "V8.1 full-train fixed adaptation patch manifest",
+  "manifest_version": 1,
+  "selection_source": "foreground-aware teacher prediction selector; labels are never read for manifest construction",
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "train_case_count": 30,
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "sample_order": "manifest record order; identical for all reliability variants",
+  "config": {
+    "selected_stage": "decoder_stage_1_low_to_high",
+    "patches_per_case": 2,
+    "foreground_patches_per_case": 1,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5
+  },
+  "records": [
+    {
+      "case": "HEM_PA99.nii.gz",
+      "case_index": 0,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA99.nii.gz",
+      "case_index": 0,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        252,
+        553
+      ],
+      "slicer_stop": [
+        192,
+        444,
+        745
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_10140276_20170721.nii.gz",
+      "case_index": 1,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_10140276_20170721.nii.gz",
+      "case_index": 1,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        59,
+        230
+      ],
+      "slicer_stop": [
+        192,
+        251,
+        422
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA97.nii.gz",
+      "case_index": 2,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA97.nii.gz",
+      "case_index": 2,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        157,
+        540
+      ],
+      "slicer_stop": [
+        192,
+        349,
+        732
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA69.nii.gz",
+      "case_index": 3,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA69.nii.gz",
+      "case_index": 3,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        180,
+        646
+      ],
+      "slicer_stop": [
+        192,
+        372,
+        838
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10076307_20130925.nii.gz",
+      "case_index": 4,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10076307_20130925.nii.gz",
+      "case_index": 4,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        74,
+        239
+      ],
+      "slicer_stop": [
+        192,
+        266,
+        431
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA20.nii.gz",
+      "case_index": 5,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA20.nii.gz",
+      "case_index": 5,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        52,
+        240
+      ],
+      "slicer_stop": [
+        192,
+        244,
+        432
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA56.nii.gz",
+      "case_index": 6,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA56.nii.gz",
+      "case_index": 6,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        88,
+        228
+      ],
+      "slicer_stop": [
+        192,
+        280,
+        420
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_10136895_20170421.nii.gz",
+      "case_index": 7,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_10136895_20170421.nii.gz",
+      "case_index": 7,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        84,
+        224
+      ],
+      "slicer_stop": [
+        192,
+        276,
+        416
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "MET_PA13.nii.gz",
+      "case_index": 8,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "MET_PA13.nii.gz",
+      "case_index": 8,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        176,
+        221
+      ],
+      "slicer_stop": [
+        192,
+        368,
+        413
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_10074592_20130816.nii.gz",
+      "case_index": 9,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_10074592_20130816.nii.gz",
+      "case_index": 9,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        144,
+        231
+      ],
+      "slicer_stop": [
+        192,
+        336,
+        423
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA19.nii.gz",
+      "case_index": 10,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA19.nii.gz",
+      "case_index": 10,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        177,
+        219
+      ],
+      "slicer_stop": [
+        192,
+        369,
+        411
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HEM_PA13.nii.gz",
+      "case_index": 11,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HEM_PA13.nii.gz",
+      "case_index": 11,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        177,
+        235
+      ],
+      "slicer_stop": [
+        192,
+        369,
+        427
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10142924_20170911.nii.gz",
+      "case_index": 12,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10142924_20170911.nii.gz",
+      "case_index": 12,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        50,
+        239
+      ],
+      "slicer_stop": [
+        192,
+        242,
+        431
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "MET_PA25.nii.gz",
+      "case_index": 13,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "MET_PA25.nii.gz",
+      "case_index": 13,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        88,
+        221
+      ],
+      "slicer_stop": [
+        192,
+        280,
+        413
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10147777_20171222.nii.gz",
+      "case_index": 14,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10147777_20171222.nii.gz",
+      "case_index": 14,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        62,
+        191
+      ],
+      "slicer_stop": [
+        192,
+        254,
+        383
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_PA0.nii.gz",
+      "case_index": 15,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HCC_PA0.nii.gz",
+      "case_index": 15,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        156,
+        312
+      ],
+      "slicer_stop": [
+        192,
+        348,
+        504
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA37.nii.gz",
+      "case_index": 16,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA37.nii.gz",
+      "case_index": 16,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        173,
+        186
+      ],
+      "slicer_stop": [
+        192,
+        365,
+        378
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "ICC_PA18.nii.gz",
+      "case_index": 17,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "ICC_PA18.nii.gz",
+      "case_index": 17,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        176,
+        230
+      ],
+      "slicer_stop": [
+        192,
+        368,
+        422
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10081574_20140213.nii.gz",
+      "case_index": 18,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HCC_10081574_20140213.nii.gz",
+      "case_index": 18,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        86,
+        284
+      ],
+      "slicer_stop": [
+        192,
+        278,
+        476
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "MET_PA19.nii.gz",
+      "case_index": 19,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "MET_PA19.nii.gz",
+      "case_index": 19,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        176,
+        218
+      ],
+      "slicer_stop": [
+        192,
+        368,
+        410
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA24.nii.gz",
+      "case_index": 20,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA24.nii.gz",
+      "case_index": 20,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        173,
+        210
+      ],
+      "slicer_stop": [
+        192,
+        365,
+        402
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA74.nii.gz",
+      "case_index": 21,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA74.nii.gz",
+      "case_index": 21,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        175,
+        220
+      ],
+      "slicer_stop": [
+        192,
+        367,
+        412
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA34.nii.gz",
+      "case_index": 22,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA34.nii.gz",
+      "case_index": 22,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        179,
+        224
+      ],
+      "slicer_stop": [
+        192,
+        371,
+        416
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "FNH_PA32.nii.gz",
+      "case_index": 23,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "FNH_PA32.nii.gz",
+      "case_index": 23,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        0,
+        64
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        256
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "FNH_PA10.nii.gz",
+      "case_index": 24,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "FNH_PA10.nii.gz",
+      "case_index": 24,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        179,
+        221
+      ],
+      "slicer_stop": [
+        192,
+        371,
+        413
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA54.nii.gz",
+      "case_index": 25,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA54.nii.gz",
+      "case_index": 25,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        0,
+        85
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        277
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA53.nii.gz",
+      "case_index": 26,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "CYST_PA53.nii.gz",
+      "case_index": 26,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        0,
+        68
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        260
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA38.nii.gz",
+      "case_index": 27,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "CYST_PA38.nii.gz",
+      "case_index": 27,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        0,
+        105
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        297
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA66.nii.gz",
+      "case_index": 28,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    },
+    {
+      "case": "HEM_PA66.nii.gz",
+      "case_index": 28,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        0,
+        64
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        256
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HEM_PA56.nii.gz",
+      "case_index": 29,
+      "patch_index": 0,
+      "patch_kind": "context",
+      "slicer_start": [
+        0,
+        0,
+        0
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        192
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "blur:1.5",
+      "action_family": "blur",
+      "strength": 1.5
+    },
+    {
+      "case": "HEM_PA56.nii.gz",
+      "case_index": 29,
+      "patch_index": 1,
+      "patch_kind": "foreground",
+      "slicer_start": [
+        0,
+        0,
+        112
+      ],
+      "slicer_stop": [
+        192,
+        192,
+        304
+      ],
+      "slicer_step": [
+        null,
+        null,
+        null
+      ],
+      "augmentation": "gamma:0.3",
+      "action_family": "gamma",
+      "strength": 0.3
+    }
+  ],
+  "test_labels_used_for_training": false
+}

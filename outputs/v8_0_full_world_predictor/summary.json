@@ -1,0 +1,1819 @@
+{
+  "stage": "V8.0 full-scale World Predictor training",
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "train_case_count": 30,
+  "test_case_count": 8,
+  "train_uses_complete_split": true,
+  "test_used_for_checkpoint_selection": true,
+  "test_labels_used_in_training_loss": false,
+  "test_cases_in_gradient_training": false,
+  "case_overlap": [],
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "architecture": "V3.2e VisualWorldPredictor3D: action_dim=3, num_blocks=2, action injection unchanged",
+  "fresh_initialization": true,
+  "trainable_scope": "all fresh World Predictor parameters",
+  "checkpoint_selection": {
+    "selected_epoch": 19,
+    "selected_test_conditioned_macro_state_normalized_mse": 0.05845781555062457,
+    "mode": "passed_gates",
+    "gates": "conditioned vs agnostic; correct vs wrong-strength; correct vs wrong-type; action-family/case/strength gates"
+  },
+  "epoch_gate_summaries": {
+    "0": {
+      "passed": false,
+      "micro_conditioned_lt_agnostic": false,
+      "micro_correct_lt_wrong_strength": false,
+      "micro_correct_lt_wrong_type": false,
+      "macro_conditioned_lt_agnostic": false,
+      "macro_correct_lt_wrong_strength": false,
+      "macro_correct_lt_wrong_type": false,
+      "case_win_count": 0,
+      "case_total": 8,
+      "action_family_win_count": 0,
+      "action_family_total": 2,
+      "strength_win_count": 0,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": false
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": false
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": false
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": false,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": false,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": false,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.06574586611562025
+    },
+    "1": {
+      "passed": false,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 1,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.06358151856695161
+    },
+    "2": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 7,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.06197980406858041
+    },
+    "3": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.06021172560826046
+    },
+    "4": {
+      "passed": false,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 7,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 1,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.06113640443080532
+    },
+    "5": {
+      "passed": false,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 1,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": false,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.0597222833741721
+    },
+    "6": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.0593037862782063
+    },
+    "7": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.0593283967578028
+    },
+    "8": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.059588001715050354
+    },
+    "9": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.05890614806877098
+    },
+    "10": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.05867925753530333
+    },
+    "11": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.058992898954211954
+    },
+    "12": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.058933151284418395
+    },
+    "13": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 7,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.059101753546551804
+    },
+    "14": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 5,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.05849134185698039
+    },
+    "15": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 7,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.06005106011571322
+    },
+    "16": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 5,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.059257642500770605
+    },
+    "17": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.05857159106234307
+    },
+    "18": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.05878939052817672
+    },
+    "19": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 6,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.05845781555062457
+    },
+    "20": {
+      "passed": true,
+      "micro_conditioned_lt_agnostic": true,
+      "micro_correct_lt_wrong_strength": true,
+      "micro_correct_lt_wrong_type": true,
+      "macro_conditioned_lt_agnostic": true,
+      "macro_correct_lt_wrong_strength": true,
+      "macro_correct_lt_wrong_type": true,
+      "case_win_count": 7,
+      "case_total": 8,
+      "action_family_win_count": 2,
+      "action_family_total": 2,
+      "strength_win_count": 2,
+      "strength_total": 2,
+      "case_wins": [
+        {
+          "case": "CYST_PA62.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HCC_10020116_20180118.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA101.nii.gz",
+          "conditioned_lt_agnostic": false
+        },
+        {
+          "case": "HEM_PA107.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA29.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA81.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEM_PA89.nii.gz",
+          "conditioned_lt_agnostic": true
+        },
+        {
+          "case": "HEP_PA28.nii.gz",
+          "conditioned_lt_agnostic": true
+        }
+      ],
+      "action_family_wins": [
+        {
+          "action_family": "blur",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        },
+        {
+          "action_family": "gamma",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true
+        }
+      ],
+      "strength_wins": [
+        {
+          "strength": "+0.30",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        },
+        {
+          "strength": "+1.50",
+          "conditioned_lt_agnostic": true,
+          "correct_lt_wrong_strength": true,
+          "correct_lt_wrong_type": true,
+          "wrong_type_applicable": true
+        }
+      ],
+      "criterion": "micro and macro conditioned < agnostic; correct < wrong-strength; correct < wrong-type; gamma and blur families each conditioned < agnostic; case and strength win rates must be majority",
+      "evaluation_split": "test",
+      "test_used_for_checkpoint_selection": true,
+      "test_conditioned_macro_state_normalized_mse": 0.059130257269149514
+    }
+  },
+  "outputs": {
+    "best_checkpoint": "outputs/v8_0_full_world_predictor/best_world_predictor.pt",
+    "train_patch_manifest": "outputs/v8_0_full_world_predictor/train_patch_manifest.json",
+    "training_curve": "outputs/v8_0_full_world_predictor/training_curve.csv",
+    "test_validation_curve": "outputs/v8_0_full_world_predictor/test_validation_curve.csv",
+    "test_validation_grouped_curve": "outputs/v8_0_full_world_predictor/test_validation_grouped_curve.csv",
+    "summary": "outputs/v8_0_full_world_predictor/summary.json"
+  },
+  "status": "code_ready; full training not executed by implementation task"
+}

@@ -1,0 +1,135 @@
+{
+  "stage": "V8.1 full-scale LoRA adaptation",
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "train_case_count": 30,
+  "test_case_count": 8,
+  "train_uses_complete_split": true,
+  "test_cases_in_gradient_training": false,
+  "test_labels_used_for": [
+    "full_volume_evaluation",
+    "best_checkpoint_selection"
+  ],
+  "test_labels_used_in_training_loss": false,
+  "case_overlap": [],
+  "world_checkpoint": "outputs/v8_0_full_world_predictor/best_world_predictor.pt",
+  "train_manifest": "outputs/v8_1_full_lora_adaptation/train_patch_manifest.json",
+  "train_manifest_sha256": "ca8dcc8b437a9e2ba791fb569aafbee6d8f61b3f580eaf34956291d322144130",
+  "same_manifest_for_all_variants": true,
+  "same_sample_order_for_all_variants": true,
+  "sample_order_fingerprint": "f35bcc3c806e5475b25dac1d1469707ff464878aa1c5d1352c8d51febbfccde9",
+  "fresh_lora_initialization_per_variant": true,
+  "reliability_variants": {
+    "A0_confidence_rank": "confidence_rank",
+    "A1_world_pairwise": "world_pairwise",
+    "A2_joint_product": "joint_product"
+  },
+  "actual_action_reliability_included": false,
+  "strong_augmentation": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "training": {
+    "rounds": 5,
+    "updates_per_round": 60,
+    "total_updates_per_variant": 300,
+    "loss": "class-balanced pseudo-label BCE",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "prediction_threshold": 0.5,
+    "base_model_frozen": true
+  },
+  "lora": {
+    "rank": 4,
+    "alpha": 8.0,
+    "dropout": 0.0,
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ]
+  },
+  "best_checkpoints": {
+    "A0_confidence_rank": {
+      "checkpoint": "outputs/v8_1_full_lora_adaptation/best_confidence_rank.pt",
+      "best_epoch": 3,
+      "best_step": 180,
+      "best_test_mean_dice": 0.7275204855237836,
+      "reliability_source": "confidence_rank"
+    },
+    "A1_world_pairwise": {
+      "checkpoint": "outputs/v8_1_full_lora_adaptation/best_world_pairwise.pt",
+      "best_epoch": 2,
+      "best_step": 120,
+      "best_test_mean_dice": 0.7194346947531707,
+      "reliability_source": "world_pairwise"
+    },
+    "A2_joint_product": {
+      "checkpoint": "outputs/v8_1_full_lora_adaptation/best_joint_product.pt",
+      "best_epoch": 3,
+      "best_step": 180,
+      "best_test_mean_dice": 0.7227003985860732,
+      "reliability_source": "joint_product"
+    }
+  },
+  "outputs": {
+    "train_patch_manifest": "outputs/v8_1_full_lora_adaptation/train_patch_manifest.json",
+    "training_curve": "outputs/v8_1_full_lora_adaptation/training_curve.csv",
+    "test_validation_curve": "outputs/v8_1_full_lora_adaptation/test_validation_curve.csv",
+    "test_full_volume_results": "outputs/v8_1_full_lora_adaptation/test_full_volume_results.csv",
+    "pseudo_label_stats": "outputs/v8_1_full_lora_adaptation/pseudo_label_stats.csv",
+    "parameter_stats": "outputs/v8_1_full_lora_adaptation/parameter_stats.json",
+    "best_checkpoint_metadata": "outputs/v8_1_full_lora_adaptation/best_checkpoint_metadata.json",
+    "summary": "outputs/v8_1_full_lora_adaptation/summary.json"
+  },
+  "status": "code_ready; full adaptation not executed by implementation task"
+}

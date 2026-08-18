@@ -1,0 +1,23 @@
+{
+  "A0_confidence_rank": {
+    "checkpoint": "outputs/v8_1_full_lora_adaptation/best_confidence_rank.pt",
+    "best_epoch": 3,
+    "best_step": 180,
+    "best_test_mean_dice": 0.7275204855237836,
+    "reliability_source": "confidence_rank"
+  },
+  "A1_world_pairwise": {
+    "checkpoint": "outputs/v8_1_full_lora_adaptation/best_world_pairwise.pt",
+    "best_epoch": 2,
+    "best_step": 120,
+    "best_test_mean_dice": 0.7194346947531707,
+    "reliability_source": "world_pairwise"
+  },
+  "A2_joint_product": {
+    "checkpoint": "outputs/v8_1_full_lora_adaptation/best_joint_product.pt",
+    "best_epoch": 3,
+    "best_step": 180,
+    "best_test_mean_dice": 0.7227003985860732,
+    "reliability_source": "joint_product"
+  }
+}

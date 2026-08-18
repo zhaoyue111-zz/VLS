@@ -1,0 +1,80 @@
+[
+  {
+    "variant": "A0_confidence_rank",
+    "reliability_source": "confidence_rank",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "base_total_parameters": 440029541,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626,
+    "best_epoch": 3,
+    "best_step": 180,
+    "best_test_mean_dice": 0.7275204855237836,
+    "sample_order_fingerprint": "f35bcc3c806e5475b25dac1d1469707ff464878aa1c5d1352c8d51febbfccde9"
+  },
+  {
+    "variant": "A1_world_pairwise",
+    "reliability_source": "world_pairwise",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "base_total_parameters": 440029541,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626,
+    "best_epoch": 2,
+    "best_step": 120,
+    "best_test_mean_dice": 0.7194346947531707,
+    "sample_order_fingerprint": "f35bcc3c806e5475b25dac1d1469707ff464878aa1c5d1352c8d51febbfccde9"
+  },
+  {
+    "variant": "A2_joint_product",
+    "reliability_source": "joint_product",
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ],
+    "base_trainable_parameters": 0,
+    "base_total_parameters": 440029541,
+    "lora_parameter_count": 589824,
+    "lora_ratio_of_base_model": 0.0013404190969987626,
+    "best_epoch": 3,
+    "best_step": 180,
+    "best_test_mean_dice": 0.7227003985860732,
+    "sample_order_fingerprint": "f35bcc3c806e5475b25dac1d1469707ff464878aa1c5d1352c8d51febbfccde9"
+  }
+]
