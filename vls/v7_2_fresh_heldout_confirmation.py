@@ -231,7 +231,10 @@ def bootstrap_summary(values: np.ndarray, seed: int, replicates: int) -> dict[st
     }
 
 
-def contribution_rows(full_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def contribution_rows(
+    full_rows: list[dict[str, Any]],
+    comparisons: dict[str, tuple[str, str]] = COMPARISONS,
+) -> list[dict[str, Any]]:
     final = {
         (row["case"], row["order"], row["variant"]): row
         for row in full_rows
@@ -243,7 +246,7 @@ def contribution_rows(full_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         if (case, order, "A_uniform_balanced") not in final:
             continue
         row: dict[str, Any] = {"case": case, "order": order, "step": 20}
-        for name, (left, right) in COMPARISONS.items():
+        for name, (left, right) in comparisons.items():
             left_row = final[(case, order, left)]
             right_row = final[(case, order, right)]
             row[f"{name}_left"] = left
@@ -255,12 +258,17 @@ def contribution_rows(full_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return rows
 
 
-def paired_contribution(rows: list[dict[str, Any]], bootstrap_replicates: int, seed: int) -> dict[str, Any]:
+def paired_contribution(
+    rows: list[dict[str, Any]],
+    bootstrap_replicates: int,
+    seed: int,
+    comparisons: dict[str, tuple[str, str]] = COMPARISONS,
+) -> dict[str, Any]:
     by_order = {}
     for order in ("forward", "reverse"):
         order_rows = [row for row in rows if row["order"] == order]
         by_order[order] = {}
-        for name in COMPARISONS:
+        for name in comparisons:
             deltas = np.asarray([row[f"{name}_dice_delta"] for row in order_rows], dtype=np.float64)
             by_order[order][name] = {
                 "case_count": len(order_rows),
@@ -270,7 +278,7 @@ def paired_contribution(rows: list[dict[str, Any]], bootstrap_replicates: int, s
             }
 
     by_case = {}
-    for name in COMPARISONS:
+    for name in comparisons:
         case_values = {}
         for case in sorted({row["case"] for row in rows}):
             values = [row[f"{name}_dice_delta"] for row in rows if row["case"] == case]
@@ -278,14 +286,14 @@ def paired_contribution(rows: list[dict[str, Any]], bootstrap_replicates: int, s
         deltas = np.asarray(list(case_values.values()), dtype=np.float64)
         by_case[name] = {
             "comparison": name,
-            "left": COMPARISONS[name][0],
-            "right": COMPARISONS[name][1],
+            "left": comparisons[name][0],
+            "right": comparisons[name][1],
             "case_deltas": case_values,
             "bootstrap": bootstrap_summary(deltas, seed, bootstrap_replicates),
         }
     return {
         "definition": "case-level Dice delta; forward/reverse deltas are averaged within each case for the primary paired bootstrap",
-        "comparisons": COMPARISONS,
+        "comparisons": comparisons,
         "by_order": by_order,
         "primary_case_averaged": by_case,
     }

@@ -1,0 +1,221 @@
+{
+  "definition": "case-level Dice delta; forward/reverse deltas are averaged within each case for the primary paired bootstrap",
+  "comparisons": {
+    "confidence_uniform": [
+      "A0_confidence_rank",
+      "A_uniform_balanced"
+    ],
+    "world_uniform": [
+      "A1_world_pairwise",
+      "A_uniform_balanced"
+    ],
+    "joint_uniform": [
+      "A2_joint_pairwise",
+      "A_uniform_balanced"
+    ],
+    "joint_confidence": [
+      "A2_joint_pairwise",
+      "A0_confidence_rank"
+    ]
+  },
+  "by_order": {
+    "forward": {
+      "confidence_uniform": {
+        "case_count": 18,
+        "mean_dice_delta": 0.0008218232507466142,
+        "positive_case_fraction": 0.8333333333333334,
+        "positive_case_count": 15
+      },
+      "world_uniform": {
+        "case_count": 18,
+        "mean_dice_delta": 0.0003401231927084056,
+        "positive_case_fraction": 0.6666666666666666,
+        "positive_case_count": 12
+      },
+      "joint_uniform": {
+        "case_count": 18,
+        "mean_dice_delta": 3.243856923977143e-05,
+        "positive_case_fraction": 0.5555555555555556,
+        "positive_case_count": 10
+      },
+      "joint_confidence": {
+        "case_count": 18,
+        "mean_dice_delta": -0.0007893846815068427,
+        "positive_case_fraction": 0.16666666666666666,
+        "positive_case_count": 3
+      }
+    },
+    "reverse": {
+      "confidence_uniform": {
+        "case_count": 18,
+        "mean_dice_delta": 0.0005425720952025562,
+        "positive_case_fraction": 0.7777777777777778,
+        "positive_case_count": 14
+      },
+      "world_uniform": {
+        "case_count": 18,
+        "mean_dice_delta": 0.00017611279958132695,
+        "positive_case_fraction": 0.6666666666666666,
+        "positive_case_count": 12
+      },
+      "joint_uniform": {
+        "case_count": 18,
+        "mean_dice_delta": -0.00033093477555234333,
+        "positive_case_fraction": 0.2222222222222222,
+        "positive_case_count": 4
+      },
+      "joint_confidence": {
+        "case_count": 18,
+        "mean_dice_delta": -0.0008735068707548995,
+        "positive_case_fraction": 0.16666666666666666,
+        "positive_case_count": 3
+      }
+    }
+  },
+  "primary_case_averaged": {
+    "confidence_uniform": {
+      "comparison": "confidence_uniform",
+      "left": "A0_confidence_rank",
+      "right": "A_uniform_balanced",
+      "case_deltas": {
+        "CYST_PA37.nii.gz": 0.00029940103787529093,
+        "CYST_PA38.nii.gz": -0.00019098387296129227,
+        "CYST_PA53.nii.gz": 1.617300836409541e-05,
+        "CYST_PA54.nii.gz": 2.2325589015992353e-05,
+        "CYST_PA74.nii.gz": 0.0010144712554270297,
+        "FNH_PA10.nii.gz": 0.0005725926859836972,
+        "FNH_PA32.nii.gz": -0.00032121738959045576,
+        "HCC_10081574_20140213.nii.gz": 0.001986778855098903,
+        "HCC_10142924_20170911.nii.gz": 0.0008584374612097823,
+        "HCC_10147777_20171222.nii.gz": 0.0014412349949497472,
+        "HCC_PA0.nii.gz": 0.0014708049338817974,
+        "HEM_PA24.nii.gz": 0.0004635693590199774,
+        "HEM_PA34.nii.gz": 0.0009126560792241944,
+        "HEM_PA56.nii.gz": 0.00014807605866140605,
+        "HEM_PA66.nii.gz": -7.416428690343313e-06,
+        "ICC_PA18.nii.gz": 0.0007731090468191537,
+        "MET_PA19.nii.gz": 0.0013099667985438934,
+        "MET_PA25.nii.gz": 0.0015095786407096634
+      },
+      "bootstrap": {
+        "n_cases": 18,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": 0.0006821976729745852,
+        "median_delta": 0.0006728508664014254,
+        "ci95_low": 0.000385164940224971,
+        "ci95_high": 0.0009853630296142782,
+        "positive_case_fraction": 0.8333333333333334,
+        "positive_case_count": 15
+      }
+    },
+    "world_uniform": {
+      "comparison": "world_uniform",
+      "left": "A1_world_pairwise",
+      "right": "A_uniform_balanced",
+      "case_deltas": {
+        "CYST_PA37.nii.gz": 0.000762438294361345,
+        "CYST_PA38.nii.gz": 0.000326367557591023,
+        "CYST_PA53.nii.gz": 0.0005114896597215868,
+        "CYST_PA54.nii.gz": 0.00030372703268666257,
+        "CYST_PA74.nii.gz": -0.00026646792496792804,
+        "FNH_PA10.nii.gz": 0.0006065446779529582,
+        "FNH_PA32.nii.gz": 0.0002911351805325868,
+        "HCC_10081574_20140213.nii.gz": 0.0007577471867152852,
+        "HCC_10142924_20170911.nii.gz": -0.00014115224068733667,
+        "HCC_10147777_20171222.nii.gz": -0.0004031477598031019,
+        "HCC_PA0.nii.gz": 0.001331585730468321,
+        "HEM_PA24.nii.gz": 0.0002696014895199328,
+        "HEM_PA34.nii.gz": -0.0001286769552750755,
+        "HEM_PA56.nii.gz": 9.056010468039277e-05,
+        "HEM_PA66.nii.gz": 8.879644427750577e-05,
+        "ICC_PA18.nii.gz": 0.0010486566388108742,
+        "MET_PA19.nii.gz": -0.00015261809804373305,
+        "MET_PA25.nii.gz": -0.0006504630879337059
+      },
+      "bootstrap": {
+        "n_cases": 18,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": 0.0002581179961448663,
+        "median_delta": 0.0002803683350262598,
+        "ci95_low": 3.468046348462342e-05,
+        "ci95_high": 0.0004997772160391993,
+        "positive_case_fraction": 0.6666666666666666,
+        "positive_case_count": 12
+      }
+    },
+    "joint_uniform": {
+      "comparison": "joint_uniform",
+      "left": "A2_joint_pairwise",
+      "right": "A_uniform_balanced",
+      "case_deltas": {
+        "CYST_PA37.nii.gz": -0.000614648666207307,
+        "CYST_PA38.nii.gz": 1.5300760086989218e-05,
+        "CYST_PA53.nii.gz": -0.00030727875220765144,
+        "CYST_PA54.nii.gz": -0.00029482912391215477,
+        "CYST_PA74.nii.gz": -0.0001744895139635383,
+        "FNH_PA10.nii.gz": -6.928242977422006e-05,
+        "FNH_PA32.nii.gz": -0.00028136887583690706,
+        "HCC_10081574_20140213.nii.gz": 0.0003202922645305084,
+        "HCC_10142924_20170911.nii.gz": 0.0005977077571990841,
+        "HCC_10147777_20171222.nii.gz": -2.901198797133908e-05,
+        "HCC_PA0.nii.gz": 0.0002848997693180033,
+        "HEM_PA24.nii.gz": 0.00018144033681039007,
+        "HEM_PA34.nii.gz": -0.00047824404349655625,
+        "HEM_PA56.nii.gz": 0.00011554381945616532,
+        "HEM_PA66.nii.gz": 2.8753841904427535e-05,
+        "ICC_PA18.nii.gz": -0.0003292923438596995,
+        "MET_PA19.nii.gz": -0.0005789186053457018,
+        "MET_PA25.nii.gz": -0.00107304006354364
+      },
+      "bootstrap": {
+        "n_cases": 18,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": -0.00014924810315628597,
+        "median_delta": -0.00012188597186887917,
+        "ci95_low": -0.00032876488003643804,
+        "ci95_high": 2.437305128018824e-05,
+        "positive_case_fraction": 0.3888888888888889,
+        "positive_case_count": 7
+      }
+    },
+    "joint_confidence": {
+      "comparison": "joint_confidence",
+      "left": "A2_joint_pairwise",
+      "right": "A0_confidence_rank",
+      "case_deltas": {
+        "CYST_PA37.nii.gz": -0.0009140497040825979,
+        "CYST_PA38.nii.gz": 0.00020628463304828148,
+        "CYST_PA53.nii.gz": -0.00032345176057174685,
+        "CYST_PA54.nii.gz": -0.0003171547129281471,
+        "CYST_PA74.nii.gz": -0.001188960769390568,
+        "FNH_PA10.nii.gz": -0.0006418751157579172,
+        "FNH_PA32.nii.gz": 3.98485137535487e-05,
+        "HCC_10081574_20140213.nii.gz": -0.0016664865905683945,
+        "HCC_10142924_20170911.nii.gz": -0.00026072970401069817,
+        "HCC_10147777_20171222.nii.gz": -0.0014702469829210862,
+        "HCC_PA0.nii.gz": -0.0011859051645637941,
+        "HEM_PA24.nii.gz": -0.00028212902220958735,
+        "HEM_PA34.nii.gz": -0.0013909001227207507,
+        "HEM_PA56.nii.gz": -3.253223920524073e-05,
+        "HEM_PA66.nii.gz": 3.617027059477085e-05,
+        "ICC_PA18.nii.gz": -0.0011024013906788532,
+        "MET_PA19.nii.gz": -0.0018888854038895952,
+        "MET_PA25.nii.gz": -0.0025826187042533033
+      },
+      "bootstrap": {
+        "n_cases": 18,
+        "replicates": 10000,
+        "seed": 2026,
+        "mean_delta": -0.000831445776130871,
+        "median_delta": -0.0007779624099202576,
+        "ci95_low": -0.0011902962341083564,
+        "ci95_high": -0.0004967139902585715,
+        "positive_case_fraction": 0.16666666666666666,
+        "positive_case_count": 3
+      }
+    }
+  }
+}

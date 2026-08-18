@@ -1,0 +1,46 @@
+{
+  "confidence_uniform": {
+    "n_cases": 18,
+    "replicates": 10000,
+    "seed": 2026,
+    "mean_delta": 0.0006821976729745852,
+    "median_delta": 0.0006728508664014254,
+    "ci95_low": 0.000385164940224971,
+    "ci95_high": 0.0009853630296142782,
+    "positive_case_fraction": 0.8333333333333334,
+    "positive_case_count": 15
+  },
+  "world_uniform": {
+    "n_cases": 18,
+    "replicates": 10000,
+    "seed": 2026,
+    "mean_delta": 0.0002581179961448663,
+    "median_delta": 0.0002803683350262598,
+    "ci95_low": 3.468046348462342e-05,
+    "ci95_high": 0.0004997772160391993,
+    "positive_case_fraction": 0.6666666666666666,
+    "positive_case_count": 12
+  },
+  "joint_uniform": {
+    "n_cases": 18,
+    "replicates": 10000,
+    "seed": 2026,
+    "mean_delta": -0.00014924810315628597,
+    "median_delta": -0.00012188597186887917,
+    "ci95_low": -0.00032876488003643804,
+    "ci95_high": 2.437305128018824e-05,
+    "positive_case_fraction": 0.3888888888888889,
+    "positive_case_count": 7
+  },
+  "joint_confidence": {
+    "n_cases": 18,
+    "replicates": 10000,
+    "seed": 2026,
+    "mean_delta": -0.000831445776130871,
+    "median_delta": -0.0007779624099202576,
+    "ci95_low": -0.0011902962341083564,
+    "ci95_high": -0.0004967139902585715,
+    "positive_case_fraction": 0.16666666666666666,
+    "positive_case_count": 3
+  }
+}

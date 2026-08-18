@@ -309,6 +309,9 @@ def evaluate_network(
                 "patch_kind": sample["patch_kind"],
                 **binary_metrics(prediction, sample["gt_np"]),
             })
+            del result, image, embedding, prediction
+            if device.type == "cuda":
+                torch.cuda.empty_cache()
     return rows
 
 

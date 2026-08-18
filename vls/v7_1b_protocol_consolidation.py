@@ -209,11 +209,14 @@ def full_volume_prediction(
             prediction = prediction * gaussian
             results[tile_slice] += prediction
             n_predictions[tile_slice[1:]] += gaussian
+            del patch, prediction
     torch.div(results, n_predictions, out=results)
     results = results[(slice(None), *slicer_revert_padding[1:])].float().numpy()
 
     restored = np.zeros((results.shape[0], *original_shape), dtype=np.float32)
     restored = insert_crop_into_image(restored, results, bbox)
+    if network_device.type == "cuda":
+        torch.cuda.empty_cache()
     return restored[0]
 
 
@@ -261,6 +264,10 @@ def evaluate_full_volume(
             image, label = full_data[case.case]
             logits = full_volume_prediction(interface, network, image, embedding)
             rows.append(full_volume_metric_row(variant, order, step, case, logits, label, label_value, threshold))
+            del logits
+            network_device = next(network.parameters()).device
+            if network_device.type == "cuda":
+                torch.cuda.empty_cache()
     return rows
 
 
