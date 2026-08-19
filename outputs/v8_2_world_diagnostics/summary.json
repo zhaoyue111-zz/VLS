@@ -13,85 +13,144 @@
   ],
   "test_case_count": 8,
   "completed_case_count": 8,
-  "completed_rows": 32,
-  "expected_rows": 32,
+  "completed_rows": 64,
+  "expected_rows": 64,
   "gt_used_only_for_diagnosis": true,
   "gradient_updates": 0,
   "world_predictor_retrained": false,
   "lora_trained": false,
   "streaming_memory_mode": true,
   "reliability_formula_modified": false,
+  "patch_protocol": {
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2
+  },
   "action_protocol": {
     "gamma": 0.3,
     "blur": 1.5
   },
+  "matched_wrong_action_protocol": {
+    "gamma": {
+      "family": "blur",
+      "strength": 1.5
+    },
+    "blur": {
+      "family": "gamma",
+      "strength": 0.3
+    }
+  },
+  "same_model_no_action_definition": {
+    "available": true,
+    "independent_same_model_no_action_checkpoint_available": false,
+    "note": "same_model_no_action is world_model(source_state, action=None), not an independently trained model; an independent no-action checkpoint is unavailable and no checkpoint was trained in V8.2-fix"
+  },
   "invalid_zero_norm_counts": {},
   "answers": {
-    "conditioned_feature_mse_better_than_agnostic": {
+    "world_action_dynamics_status": "supported",
+    "segmentation_relevance_status": "not_supported",
+    "reliability_mapping_status": "not_supported",
+    "conditioned_feature_mse_better_than_same_model_no_action": {
       "supported": true,
-      "conditioned_mean_mse": 0.1280025594169274,
-      "agnostic_mean_mse": 0.13375579693820328,
-      "margin_agnostic_minus_conditioned": 0.005753237521275878
+      "conditioned_mean_mse": 0.14607503815204836,
+      "same_model_no_action_mean_mse": 0.1561402147053741,
+      "margin_same_model_no_action_minus_conditioned": 0.010065176553325728
     },
-    "correct_action_better_than_wrong_action": {
+    "correct_action_better_than_matched_wrong_action": {
       "supported": true,
-      "conditioned_mean_mse": 0.1280025594169274,
-      "wrong_type_mean_mse": 0.12803547305520624
+      "conditioned_mean_mse": 0.14607503815204836,
+      "matched_wrong_mean_mse": 0.1755704478127882
     },
-    "conditioned_delta_cosine_better_than_agnostic": {
-      "supported": false,
-      "conditioned_mean_cosine": 0.14598531325464137,
-      "agnostic_mean_cosine": 0.16657341792597435
+    "conditioned_delta_cosine_better_than_same_model_no_action": {
+      "supported": true,
+      "conditioned_mean_cosine": 0.1720993881172035,
+      "same_model_no_action_mean_cosine": 0.15843895016132592
     },
     "gamma_conditioned_feature_prediction": {
-      "conditioned_better_than_agnostic": true,
-      "conditioned_better_than_wrong": false
+      "conditioned_better_than_same_model_no_action": true,
+      "conditioned_better_than_matched_wrong": true
     },
     "blur_conditioned_feature_prediction": {
-      "conditioned_better_than_agnostic": true,
-      "conditioned_better_than_wrong": true
+      "conditioned_better_than_same_model_no_action": true,
+      "conditioned_better_than_matched_wrong": true
     },
-    "conditioned_segmentation_better_than_agnostic": {
+    "conditioned_intermediate_segmentation_better_than_same_model_no_action": {
       "supported": false,
-      "conditioned_mean_dice": 0.5735270188958179,
-      "agnostic_mean_dice": 0.580147046540295
+      "conditioned_mean_dice": 0.5240913845737017,
+      "same_model_no_action_mean_dice": 0.5307504057919177
     },
-    "conditioned_segmentation_better_than_wrong": {
+    "conditioned_intermediate_segmentation_better_than_matched_wrong": {
       "supported": false,
-      "conditioned_mean_dice": 0.5735270188958179,
-      "wrong_mean_dice": 0.57643782902841
+      "conditioned_mean_dice": 0.5240913845737017,
+      "matched_wrong_mean_dice": 0.5240913845737017
     },
-    "feature_prediction_improvement_translates_to_segmentation": {
-      "supported": false
+    "real_full_volume_action_segmentation": {
+      "source": {
+        "dice": 0.6531414618229333,
+        "iou": 0.4989178600446822,
+        "precision": 0.7996561966873814,
+        "recall": 0.5740698750381402
+      },
+      "gamma": {
+        "dice": 0.7139929410368795,
+        "iou": 0.5665686727848875,
+        "precision": 0.7956303246298391,
+        "recall": 0.6596805254062115
+      },
+      "blur": {
+        "dice": 0.6105414907110817,
+        "iou": 0.44656255617460205,
+        "precision": 0.719201019487959,
+        "recall": 0.5422073539264937
+      },
+      "imagined_world_state_full_volume_available": false,
+      "imagined_world_state_full_volume_note": "V8.0 World Predictor state is a selected intermediate decoder state; it is not reconnected to the complete sliding-window final decoder in this diagnostic"
     },
-    "best_reliability_predictor_of_pseudo_label_correctness": {
+    "foreground_reliability_predictors": {
       "source": "confidence_rank",
       "auroc": {
-        "confidence_rank": 0.9781802452458108,
-        "world_pairwise": 0.8819500719408403,
-        "joint_product": 0.9675280537456858
-      },
-      "auprc": {
-        "confidence_rank": 0.9996653220991728,
-        "world_pairwise": 0.9969154256061943,
-        "joint_product": 0.999473607306765
+        "confidence_rank": 0.5439382651902263,
+        "world_pairwise": 0.2964244171792574,
+        "joint_product": 0.408793736828885
       },
       "spearman": {
-        "confidence_rank": 0.24674857177261234,
-        "world_pairwise": 0.16261705718450872,
-        "joint_product": 0.20436629016473773
+        "confidence_rank": 0.019670580868788222,
+        "world_pairwise": -0.322833140573606,
+        "joint_product": -0.17458163720652312
       }
     },
-    "world_reliability_overweights_fp": {
-      "supported": false,
-      "world_pairwise_fp_mean": 0.04084498354765369,
-      "world_pairwise_tp_mean": 0.04680774239230729
+    "reliability_predictors_overall": {
+      "source": "confidence_rank",
+      "auroc": {
+        "confidence_rank": 0.8898943794466431,
+        "world_pairwise": 0.8336585400795069,
+        "joint_product": 0.8858423937791473
+      },
+      "auprc": {
+        "confidence_rank": 0.9996183283441785,
+        "world_pairwise": 0.9979189942327744,
+        "joint_product": 0.9994936274707744
+      },
+      "spearman": {
+        "confidence_rank": 0.21684787344418555,
+        "world_pairwise": 0.1297325324552899,
+        "joint_product": 0.15327708888696762
+      }
     },
-    "mechanism_diagnosis": "feature-to-segmentation task relevance is the leading issue"
+    "world_reliability_fn_check": {
+      "supported": true,
+      "world_pairwise_region_mean": {
+        "TP": 0.04542406061873588,
+        "FP": 0.03501588269761745,
+        "FN": 0.1375597146162538,
+        "TN": 0.5115870600364868
+      },
+      "note": "FN is flagged when its world_pairwise mean reliability directly exceeds TP; TN is not used as the comparison threshold. All four region means are retained in reliability_voxel_summary.csv"
+    }
   },
   "outputs": {
     "feature_dynamics": "outputs/v8_2_world_diagnostics/feature_dynamics.csv",
     "segmentation_relevance": "outputs/v8_2_world_diagnostics/segmentation_relevance.csv",
+    "full_volume_action_summary": "outputs/v8_2_world_diagnostics/full_volume_action_summary.csv",
     "reliability_voxel_summary": "outputs/v8_2_world_diagnostics/reliability_voxel_summary.csv",
     "reliability_validity_summary": "outputs/v8_2_world_diagnostics/reliability_validity_summary.csv",
     "reliability_deciles": "outputs/v8_2_world_diagnostics/reliability_deciles.csv",

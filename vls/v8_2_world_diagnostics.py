@@ -1190,10 +1190,10 @@ def run(args: argparse.Namespace) -> None:
             return statistic.mean() if statistic is not None else None
 
         world_region_means = {region: region_mean("world_pairwise", region) for region in ("TP", "FP", "FN", "TN")}
-        fn_values = [value for value in (world_region_means["TP"], world_region_means["TN"]) if value is not None]
         world_fn_overweight = (
-            world_region_means["FN"] is not None and bool(fn_values)
-            and world_region_means["FN"] > float(np.mean(fn_values))
+            world_region_means["FN"] is not None
+            and world_region_means["TP"] is not None
+            and world_region_means["FN"] > world_region_means["TP"]
         )
 
         def status_supported(condition: bool, available_values: tuple[Any, ...]) -> str:
@@ -1304,7 +1304,7 @@ def run(args: argparse.Namespace) -> None:
                 "world_reliability_fn_check": {
                     "supported": world_fn_overweight,
                     "world_pairwise_region_mean": world_region_means,
-                    "note": "FN is flagged when its world_pairwise mean reliability exceeds the mean of TP and TN; all four region means are retained in reliability_voxel_summary.csv",
+                    "note": "FN is flagged when its world_pairwise mean reliability directly exceeds TP; TN is not used as the comparison threshold. All four region means are retained in reliability_voxel_summary.csv",
                 },
             },
             "outputs": {

@@ -11,9 +11,9 @@
     "HCC_10020116_20180118.nii.gz"
   ],
   "completed_case_count": 8,
-  "completed_rows": 32,
+  "completed_rows": 64,
   "memory": {
-    "cpu_rss_mb": 3850.7,
+    "cpu_rss_mb": 4640.0,
     "gpu_allocated_mb": 1703.0,
     "gpu_reserved_mb": 1758.0
   }
