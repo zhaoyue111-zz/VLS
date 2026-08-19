@@ -1,0 +1,102 @@
+{
+  "stage": "V8.3b Stage-Matched Real-Aug Oracle Diagnostic",
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "test_case_count": 8,
+  "completed_case_count": 8,
+  "selected_stage": "decoder_stage_1_low_to_high",
+  "patch_protocol": {
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16
+  },
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "world_predictor_loaded": false,
+  "models_trained": false,
+  "gt_used_only_for_reliability_diagnosis": true,
+  "final_prediction_used_for_reliability": false,
+  "source_pseudo_label_definition": "V8.2-compatible source final_prediction thresholded at 0.5, nearest-neighbor aligned to selected-stage grid for correctness diagnosis only",
+  "reliability_formula_modified": false,
+  "stage_matched_oracle_supported": false,
+  "real_stage_gamma_foreground_auroc": 0.3071503712861781,
+  "real_stage_gamma_foreground_spearman": -0.2680233035761792,
+  "real_stage_blur_foreground_auroc": 0.30639137046878195,
+  "real_stage_blur_foreground_spearman": -0.26372943387556164,
+  "real_stage_pairwise_foreground_auroc": 0.30010062506715646,
+  "real_stage_pairwise_foreground_spearman": -0.2743856874761005,
+  "foreground_metrics": {
+    "gamma": {
+      "method": "real_stage_gamma_world_stability",
+      "auroc": 0.3071503712861781,
+      "auprc": 0.5705619744822574,
+      "spearman": -0.2680233035761792
+    },
+    "blur": {
+      "method": "real_stage_blur_world_stability",
+      "auroc": 0.30639137046878195,
+      "auprc": 0.5625830052510571,
+      "spearman": -0.26372943387556164
+    },
+    "pairwise": {
+      "method": "real_stage_pairwise_world_stability",
+      "auroc": 0.30010062506715646,
+      "auprc": 0.5549564519425906,
+      "spearman": -0.2743856874761005
+    }
+  },
+  "foreground_reliability_inversion": {
+    "gamma": true,
+    "blur": true,
+    "pairwise": true
+  },
+  "foreground_region_reliability_means": {
+    "gamma": {
+      "TP": 0.2532008420960778,
+      "FP": 0.29479815704819423,
+      "FN": 0.4773513060292438,
+      "TN": 0.5045017276273519
+    },
+    "blur": {
+      "TP": 0.23842233796338097,
+      "FP": 0.24767994607883065,
+      "FN": 0.4557764084024141,
+      "TN": 0.5052877536049951
+    },
+    "pairwise": {
+      "TP": 0.23123203001481688,
+      "FP": 0.2415156562307469,
+      "FN": 0.4570007846848089,
+      "TN": 0.5053867451655308
+    }
+  },
+  "fixed_reference_comparison": {
+    "v8_2_imagined_pairwise_foreground": {
+      "auroc": 0.2964244171792574,
+      "spearman": -0.322833140573606
+    },
+    "v8_3_full_final_real_pairwise_foreground": {
+      "auroc": 0.5795445063841145,
+      "spearman": 0.08528437710498045
+    },
+    "note": "Fixed reference values are recorded only; V8.2 and V8.3 were not loaded or rerun by V8.3b"
+  },
+  "interpretation": "selected-stage/intermediate-head observation path remains problematic despite effective full-final real augmentation",
+  "outputs": {
+    "metrics": "outputs/v8_3b_stage_matched_oracle/stage_matched_reliability_metrics.csv",
+    "regions": "outputs/v8_3b_stage_matched_oracle/stage_matched_reliability_regions.csv",
+    "patch_metrics": "outputs/v8_3b_stage_matched_oracle/stage_matched_patch_metrics.csv",
+    "progress": "outputs/v8_3b_stage_matched_oracle/progress.json",
+    "summary": "outputs/v8_3b_stage_matched_oracle/summary.json"
+  }
+}
