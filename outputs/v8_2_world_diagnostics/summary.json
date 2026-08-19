@@ -1,0 +1,102 @@
+{
+  "stage": "V8.2 World Predictor mechanism diagnosis",
+  "checkpoint": "outputs/v8_0_full_world_predictor/best_world_predictor.pt",
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "test_case_count": 8,
+  "completed_case_count": 8,
+  "completed_rows": 32,
+  "expected_rows": 32,
+  "gt_used_only_for_diagnosis": true,
+  "gradient_updates": 0,
+  "world_predictor_retrained": false,
+  "lora_trained": false,
+  "streaming_memory_mode": true,
+  "reliability_formula_modified": false,
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "invalid_zero_norm_counts": {},
+  "answers": {
+    "conditioned_feature_mse_better_than_agnostic": {
+      "supported": true,
+      "conditioned_mean_mse": 0.1280025594169274,
+      "agnostic_mean_mse": 0.13375579693820328,
+      "margin_agnostic_minus_conditioned": 0.005753237521275878
+    },
+    "correct_action_better_than_wrong_action": {
+      "supported": true,
+      "conditioned_mean_mse": 0.1280025594169274,
+      "wrong_type_mean_mse": 0.12803547305520624
+    },
+    "conditioned_delta_cosine_better_than_agnostic": {
+      "supported": false,
+      "conditioned_mean_cosine": 0.14598531325464137,
+      "agnostic_mean_cosine": 0.16657341792597435
+    },
+    "gamma_conditioned_feature_prediction": {
+      "conditioned_better_than_agnostic": true,
+      "conditioned_better_than_wrong": false
+    },
+    "blur_conditioned_feature_prediction": {
+      "conditioned_better_than_agnostic": true,
+      "conditioned_better_than_wrong": true
+    },
+    "conditioned_segmentation_better_than_agnostic": {
+      "supported": false,
+      "conditioned_mean_dice": 0.5735270188958179,
+      "agnostic_mean_dice": 0.580147046540295
+    },
+    "conditioned_segmentation_better_than_wrong": {
+      "supported": false,
+      "conditioned_mean_dice": 0.5735270188958179,
+      "wrong_mean_dice": 0.57643782902841
+    },
+    "feature_prediction_improvement_translates_to_segmentation": {
+      "supported": false
+    },
+    "best_reliability_predictor_of_pseudo_label_correctness": {
+      "source": "confidence_rank",
+      "auroc": {
+        "confidence_rank": 0.9781802452458108,
+        "world_pairwise": 0.8819500719408403,
+        "joint_product": 0.9675280537456858
+      },
+      "auprc": {
+        "confidence_rank": 0.9996653220991728,
+        "world_pairwise": 0.9969154256061943,
+        "joint_product": 0.999473607306765
+      },
+      "spearman": {
+        "confidence_rank": 0.24674857177261234,
+        "world_pairwise": 0.16261705718450872,
+        "joint_product": 0.20436629016473773
+      }
+    },
+    "world_reliability_overweights_fp": {
+      "supported": false,
+      "world_pairwise_fp_mean": 0.04084498354765369,
+      "world_pairwise_tp_mean": 0.04680774239230729
+    },
+    "mechanism_diagnosis": "feature-to-segmentation task relevance is the leading issue"
+  },
+  "outputs": {
+    "feature_dynamics": "outputs/v8_2_world_diagnostics/feature_dynamics.csv",
+    "segmentation_relevance": "outputs/v8_2_world_diagnostics/segmentation_relevance.csv",
+    "reliability_voxel_summary": "outputs/v8_2_world_diagnostics/reliability_voxel_summary.csv",
+    "reliability_validity_summary": "outputs/v8_2_world_diagnostics/reliability_validity_summary.csv",
+    "reliability_deciles": "outputs/v8_2_world_diagnostics/reliability_deciles.csv",
+    "case_action_summary": "outputs/v8_2_world_diagnostics/case_action_summary.csv",
+    "progress": "outputs/v8_2_world_diagnostics/progress.json",
+    "summary": "outputs/v8_2_world_diagnostics/summary.json"
+  }
+}
