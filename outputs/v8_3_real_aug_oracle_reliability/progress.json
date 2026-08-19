@@ -1,0 +1,20 @@
+{
+  "stage": "complete",
+  "completed_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "completed_case_count": 8,
+  "completed_patch_rows": 32,
+  "memory": {
+    "cpu_rss_mb": 11809.51953125,
+    "gpu_allocated_mb": 1702.51953125,
+    "gpu_reserved_mb": 1758.0
+  }
+}

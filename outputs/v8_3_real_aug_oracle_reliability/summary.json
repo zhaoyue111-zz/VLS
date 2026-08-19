@@ -1,0 +1,137 @@
+{
+  "stage": "V8.3 Real-Aug Oracle Reliability Diagnostic",
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "test_case_count": 8,
+  "completed_case_count": 8,
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "patch_protocol": {
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2
+  },
+  "world_predictor_loaded": false,
+  "models_trained": false,
+  "gt_used_only_for_reliability_diagnosis": true,
+  "reliability_formula_modified": false,
+  "reliability_construction": {
+    "source": "real VoxTell source probability",
+    "gamma": "real gamma0.3 VoxTell probability",
+    "blur": "real blur1.5 VoxTell probability",
+    "percentile_rank": "reused V7/V8 tie-aware percentile rank",
+    "world_stability": "1 - percentile_rank(abs probability difference)",
+    "pairwise_stability": "1 - percentile_rank(mean absolute difference over source/gamma/blur pairs)",
+    "joint_product": "confidence_rank * real augmentation world stability"
+  },
+  "real_augmentation_reliability_supported": true,
+  "gamma_only_effective": true,
+  "blur_only_effective": true,
+  "gamma_blur_pairwise_effective": true,
+  "foreground_reliability_inversion": {
+    "gamma_only": false,
+    "blur_only": false,
+    "gamma_blur_pairwise": false
+  },
+  "foreground_metrics": {
+    "gamma_only": {
+      "method": "real_gamma_world_stability",
+      "auroc": 0.6580277648647904,
+      "auprc": 0.7602285682310541,
+      "spearman": 0.2046800075780619
+    },
+    "blur_only": {
+      "method": "real_blur_world_stability",
+      "auroc": 0.5438790101953807,
+      "auprc": 0.7084253032876665,
+      "spearman": 0.030397097611752185
+    },
+    "gamma_blur_pairwise": {
+      "method": "real_pairwise_world_stability",
+      "auroc": 0.5795445063841145,
+      "auprc": 0.7248522823892376,
+      "spearman": 0.08528437710498045
+    }
+  },
+  "foreground_region_reliability_means": {
+    "gamma_only": {
+      "TP": 0.11321942650682645,
+      "FP": 0.06477294471163293,
+      "FN": 0.04214599463850484,
+      "TN": 0.5110506857328586
+    },
+    "blur_only": {
+      "TP": 0.05394088076910804,
+      "FP": 0.04375812407883179,
+      "FN": 0.04487251205271978,
+      "TN": 0.5121735710787434
+    },
+    "gamma_blur_pairwise": {
+      "TP": 0.04239028067532429,
+      "FP": 0.032790180924208004,
+      "FN": 0.03996756123049944,
+      "TN": 0.5124811242010029
+    }
+  },
+  "confidence_and_joint_foreground_metrics": {
+    "confidence_rank": {
+      "auroc": 0.5520877774944508,
+      "auprc": 0.6871236920303787,
+      "spearman": 0.03210906858088409
+    },
+    "real_gamma_world_stability": {
+      "auroc": 0.6580277648647904,
+      "auprc": 0.7602285682310541,
+      "spearman": 0.2046800075780619
+    },
+    "real_blur_world_stability": {
+      "auroc": 0.5438790101953807,
+      "auprc": 0.7084253032876665,
+      "spearman": 0.030397097611752185
+    },
+    "real_pairwise_world_stability": {
+      "auroc": 0.5795445063841145,
+      "auprc": 0.7248522823892376,
+      "spearman": 0.08528437710498045
+    },
+    "real_gamma_joint_product": {
+      "auroc": 0.6247204374515862,
+      "auprc": 0.7303232499173036,
+      "spearman": 0.14735554544312854
+    },
+    "real_blur_joint_product": {
+      "auroc": 0.5605253616061419,
+      "auprc": 0.700724210718899,
+      "spearman": 0.04800262545267238
+    },
+    "real_pairwise_joint_product": {
+      "auroc": 0.5775725488238815,
+      "auprc": 0.707890973076467,
+      "spearman": 0.07489679217080362
+    }
+  },
+  "imagined_reliability_comparison": {
+    "available": false,
+    "note": "V8.3 intentionally does not load or evaluate the World Predictor; compare against V8.2 summary separately"
+  },
+  "interpretation": {
+    "real_reliability_formula_issue_if_inversion": "If real gamma/blur/pairwise foreground AUROC < 0.5 or Spearman < 0, the reliability definition itself is implicated independently of World Predictor accuracy",
+    "next_step_if_real_supported_but_imagined_invalid": "Improve World Predictor task-relevant transition supervision"
+  },
+  "outputs": {
+    "reliability_metrics": "outputs/v8_3_real_aug_oracle_reliability/reliability_metrics.csv",
+    "reliability_regions": "outputs/v8_3_real_aug_oracle_reliability/reliability_regions.csv",
+    "patch_reliability_metrics": "outputs/v8_3_real_aug_oracle_reliability/patch_reliability_metrics.csv",
+    "progress": "outputs/v8_3_real_aug_oracle_reliability/progress.json",
+    "summary": "outputs/v8_3_real_aug_oracle_reliability/summary.json"
+  }
+}
