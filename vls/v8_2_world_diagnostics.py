@@ -25,6 +25,8 @@ import torch.nn.functional as F
 from vls.config import DEFAULT_LABEL_VALUE, ProjectPaths
 from vls.data import iter_cases, read_image_and_label
 from vls.v2_experiment import (
+    gamma_augment,
+    gaussian_blur_augment,
     padded_visual_action_and_slicers,
     prepare_functional_seg_head,
     resolve_device,
@@ -47,43 +49,47 @@ from vls.voxtell_states import VoxTellStateInterface
 
 
 ACTION_PROTOCOL = (("gamma", 0.30), ("blur", 1.5))
+MATCHED_WRONG_ACTIONS = {
+    "gamma": ("blur", 1.5),
+    "blur": ("gamma", 0.30),
+}
 RELIABILITY_SOURCES = {
     "confidence_rank": "confidence_rank",
     "world_pairwise": "world_stability",
     "joint_product": "joint_product",
 }
 SUMMARY_NUMERIC_NAMES = (
-    "true_shift_norm", "conditioned_shift_norm", "agnostic_shift_norm", "wrong_shift_norm",
-    "conditioned_vs_agnostic_distance", "gamma_vs_blur_conditioned_distance",
-    "conditioned_state_mse", "agnostic_state_mse", "wrong_state_mse",
-    "correct_vs_agnostic_margin", "correct_vs_wrong_margin",
-    "conditioned_delta_cosine", "agnostic_delta_cosine", "wrong_delta_cosine",
+    "true_shift_norm", "conditioned_shift_norm", "same_model_no_action_shift_norm", "matched_wrong_shift_norm",
+    "conditioned_vs_same_model_no_action_distance", "gamma_vs_blur_conditioned_distance",
+    "conditioned_state_mse", "same_model_no_action_state_mse", "matched_wrong_state_mse",
+    "correct_vs_same_model_no_action_margin", "correct_vs_matched_wrong_margin",
+    "conditioned_delta_cosine", "same_model_no_action_delta_cosine", "matched_wrong_delta_cosine",
     "magnitude_ratio_conditioned", "repeat_forward_distance",
-    "source_dice", "actual_dice", "conditioned_dice", "agnostic_dice", "wrong_dice",
-    "source_precision", "actual_precision", "conditioned_precision", "agnostic_precision", "wrong_precision",
-    "source_recall", "actual_recall", "conditioned_recall", "agnostic_recall", "wrong_recall",
-    "source_iou", "actual_iou", "conditioned_iou", "agnostic_iou", "wrong_iou",
-    "conditioned_vs_actual_seg_logits_mse", "agnostic_vs_actual_seg_logits_mse",
-    "wrong_vs_actual_seg_logits_mse", "seg_gain_vs_agnostic", "seg_gain_vs_wrong",
+    "source_dice", "actual_dice", "conditioned_dice", "same_model_no_action_dice", "matched_wrong_dice",
+    "source_precision", "actual_precision", "conditioned_precision", "same_model_no_action_precision", "matched_wrong_precision",
+    "source_recall", "actual_recall", "conditioned_recall", "same_model_no_action_recall", "matched_wrong_recall",
+    "source_iou", "actual_iou", "conditioned_iou", "same_model_no_action_iou", "matched_wrong_iou",
+    "conditioned_vs_actual_seg_logits_mse", "same_model_no_action_vs_actual_seg_logits_mse",
+    "matched_wrong_vs_actual_seg_logits_mse", "seg_gain_vs_same_model_no_action", "seg_gain_vs_matched_wrong",
 )
 FEATURE_FIELDS = (
     "case", "patch_index", "patch_kind", "action", "action_strength", "wrong_type_action",
-    "true_shift_norm", "conditioned_shift_norm", "agnostic_shift_norm", "wrong_shift_norm",
-    "conditioned_vs_agnostic_distance", "gamma_vs_blur_conditioned_distance",
-    "conditioned_state_mse", "agnostic_state_mse", "wrong_state_mse",
-    "correct_vs_agnostic_margin", "correct_vs_wrong_margin",
-    "conditioned_delta_cosine", "agnostic_delta_cosine", "wrong_delta_cosine",
-    "conditioned_delta_cosine_valid", "agnostic_delta_cosine_valid", "wrong_delta_cosine_valid",
+    "wrong_type_strength", "true_shift_norm", "conditioned_shift_norm", "same_model_no_action_shift_norm", "matched_wrong_shift_norm",
+    "conditioned_vs_same_model_no_action_distance", "gamma_vs_blur_conditioned_distance",
+    "conditioned_state_mse", "same_model_no_action_state_mse", "matched_wrong_state_mse",
+    "correct_vs_same_model_no_action_margin", "correct_vs_matched_wrong_margin",
+    "conditioned_delta_cosine", "same_model_no_action_delta_cosine", "matched_wrong_delta_cosine",
+    "conditioned_delta_cosine_valid", "same_model_no_action_delta_cosine_valid", "matched_wrong_delta_cosine_valid",
     "magnitude_ratio_conditioned", "magnitude_ratio_conditioned_valid", "repeat_forward_distance",
 )
 SEGMENTATION_FIELDS = (
-    "case", "patch_index", "patch_kind", "action", "action_strength",
-    "source_dice", "actual_dice", "conditioned_dice", "agnostic_dice", "wrong_dice",
-    "source_precision", "actual_precision", "conditioned_precision", "agnostic_precision", "wrong_precision",
-    "source_recall", "actual_recall", "conditioned_recall", "agnostic_recall", "wrong_recall",
-    "source_iou", "actual_iou", "conditioned_iou", "agnostic_iou", "wrong_iou",
-    "conditioned_vs_actual_seg_logits_mse", "agnostic_vs_actual_seg_logits_mse",
-    "wrong_vs_actual_seg_logits_mse", "seg_gain_vs_agnostic", "seg_gain_vs_wrong",
+    "segmentation_level", "case", "patch_index", "patch_kind", "action", "action_strength",
+    "source_dice", "actual_dice", "conditioned_dice", "same_model_no_action_dice", "matched_wrong_dice",
+    "source_precision", "actual_precision", "conditioned_precision", "same_model_no_action_precision", "matched_wrong_precision",
+    "source_recall", "actual_recall", "conditioned_recall", "same_model_no_action_recall", "matched_wrong_recall",
+    "source_iou", "actual_iou", "conditioned_iou", "same_model_no_action_iou", "matched_wrong_iou",
+    "conditioned_vs_actual_seg_logits_mse", "same_model_no_action_vs_actual_seg_logits_mse",
+    "matched_wrong_vs_actual_seg_logits_mse", "seg_gain_vs_same_model_no_action", "seg_gain_vs_matched_wrong",
 )
 CASE_SUMMARY_FIELDS = (
     "summary_level", "case", "action", "row_count",
@@ -100,6 +106,10 @@ RELIABILITY_DECILE_FIELDS = (
     "source", "action", "case", "scope", "decile", "voxel_count",
     "reliability_mean", "pseudo_label_accuracy", "aggregation",
 )
+FULL_VOLUME_FIELDS = (
+    "case", "action", "strength", "dice", "iou", "precision", "recall",
+    "aggregation",
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -110,10 +120,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-root", default=str(paths.data_root))
     parser.add_argument("--split-json", default=str(paths.split_json))
     parser.add_argument("--world-checkpoint", default="outputs/v8_0_full_world_predictor/best_world_predictor.pt")
-    parser.add_argument("--output-dir", default="outputs/v8_2_world_diagnostics")
+    parser.add_argument("--output-dir", default="outputs/v8_2_fix_world_diagnostics")
     parser.add_argument("--selected-stage", default="decoder_stage_1_low_to_high")
-    parser.add_argument("--patches-per-case", type=int, default=2)
-    parser.add_argument("--foreground-patches-per-case", type=int, default=1)
+    parser.add_argument("--patches-per-case", type=int, default=4)
+    parser.add_argument("--foreground-patches-per-case", type=int, default=2)
     parser.add_argument("--foreground-candidate-patches", type=int, default=16)
     parser.add_argument("--foreground-threshold", type=float, default=0.5)
     parser.add_argument("--prediction-threshold", type=float, default=0.5)
@@ -128,6 +138,8 @@ def parse_args() -> argparse.Namespace:
 def validate_protocol(args: argparse.Namespace) -> None:
     if tuple(STRONG_ACTIONS) != ACTION_PROTOCOL:
         raise AssertionError("V8.2 action protocol differs from the frozen V8 protocol")
+    if MATCHED_WRONG_ACTIONS != {"gamma": ("blur", 1.5), "blur": ("gamma", 0.30)}:
+        raise AssertionError("V8.2 matched-wrong action protocol must be gamma .30 <-> blur 1.5")
     if set(RELIABILITY_SOURCES.values()) != {"confidence_rank", "world_stability", "joint_product"}:
         raise AssertionError("V8.2 reliability definitions changed")
     if args.patches_per_case <= 0:
@@ -357,6 +369,66 @@ def segmentation_metrics(logits: torch.Tensor, gt: torch.Tensor, threshold: floa
     }
 
 
+@torch.inference_mode()
+def full_volume_action_metrics(
+    interface: VoxTellStateInterface,
+    image: np.ndarray,
+    label: np.ndarray,
+    prompt_embedding: torch.Tensor,
+    action: str,
+    strength: float,
+    label_value: int,
+    threshold: float,
+) -> dict[str, float]:
+    """Evaluate only VoxTell's real final full-volume segmentation.
+
+    This deliberately does not feed World Predictor states into the full
+    decoder.  The V8.0 checkpoint predicts one selected decoder state, while
+    full-volume final prediction requires the complete sliding-window encoder
+    and decoder path.  Keeping this check independent avoids inventing an
+    imagined full-volume result.
+    """
+    from acvl_utils.cropping_and_padding.bounding_boxes import insert_crop_into_image
+
+    predictor = interface.predictor
+    if action == "source":
+        transformed = image
+        preprocessed, bbox, original_shape = predictor.preprocess(transformed)
+    elif action == "gamma":
+        transformed = gamma_augment(image, 1.0 + strength)
+        preprocessed, bbox, original_shape = predictor.preprocess(transformed)
+    elif action == "blur":
+        transformed = None
+        preprocessed, bbox, original_shape = predictor.preprocess(image)
+        blurred = gaussian_blur_augment(preprocessed.numpy(), strength)
+        preprocessed = torch.from_numpy(blurred)
+    else:
+        raise ValueError(f"Unsupported full-volume action: {action}")
+
+    cropped_logits = predictor.predict_sliding_window_return_logits(
+        preprocessed, prompt_embedding,
+    ).detach().float().cpu().numpy()
+    full_logits = np.zeros((cropped_logits.shape[0], *original_shape), dtype=np.float32)
+    full_logits = insert_crop_into_image(full_logits, cropped_logits, bbox)
+    prediction = (1.0 / (1.0 + np.exp(-full_logits[0])) > threshold).reshape(-1)
+    target = (label == label_value).reshape(-1).astype(bool)
+    metrics = binary_metrics(prediction, target)
+    tp, fp, fn = int(metrics["tp"]), int(metrics["fp"]), int(metrics["fn"])
+    result = {
+        "dice": float(metrics["dice"]),
+        "precision": float(metrics["precision"]),
+        "recall": float(metrics["recall"]),
+        "iou": 1.0 if tp + fp + fn == 0 else tp / max(tp + fp + fn, 1),
+    }
+    del cropped_logits, full_logits, preprocessed
+    if transformed is not image:
+        del transformed
+    gc.collect()
+    if interface.device.type == "cuda":
+        torch.cuda.empty_cache()
+    return result
+
+
 def patch_reliability_metrics(
     reliability: np.ndarray,
     correct: np.ndarray,
@@ -445,7 +517,8 @@ def evaluate_action(
     true_patch: torch.Tensor,
     action: str,
     strength: float,
-    wrong_action: str,
+    matched_wrong_action: str,
+    matched_wrong_strength: float,
     source_segmentation: dict[str, float],
     gt_patch: torch.Tensor,
     selected_stage: str,
@@ -458,40 +531,46 @@ def evaluate_action(
     conditioned_state = world_model(source_state, action=action_tensor)
     repeated_state = world_model(source_state, action=action_tensor)
     repeat_distance = rms_distance(conditioned_state, repeated_state)
-    agnostic_state = world_model(source_state, action=None)
-    wrong_state = world_model(source_state, action=visual_action(wrong_action, strength, device))
+    same_model_no_action_state = world_model(source_state, action=None)
+    matched_wrong_state = world_model(
+        source_state,
+        action=visual_action(matched_wrong_action, matched_wrong_strength, device),
+    )
 
     true_delta = true_state - source_state
     conditioned_delta = conditioned_state - source_state
-    agnostic_delta = agnostic_state - source_state
-    wrong_delta = wrong_state - source_state
+    same_model_no_action_delta = same_model_no_action_state - source_state
+    matched_wrong_delta = matched_wrong_state - source_state
     conditioned_cosine, conditioned_cosine_valid = cosine_similarity(true_delta, conditioned_delta)
-    agnostic_cosine, agnostic_cosine_valid = cosine_similarity(true_delta, agnostic_delta)
-    wrong_cosine, wrong_cosine_valid = cosine_similarity(true_delta, wrong_delta)
+    same_model_no_action_cosine, same_model_no_action_cosine_valid = cosine_similarity(
+        true_delta, same_model_no_action_delta,
+    )
+    matched_wrong_cosine, matched_wrong_cosine_valid = cosine_similarity(true_delta, matched_wrong_delta)
     ratio, ratio_valid = magnitude_ratio(conditioned_delta, true_delta)
     conditioned_mse = state_mse(conditioned_state, true_state)
-    agnostic_mse = state_mse(agnostic_state, true_state)
-    wrong_mse = state_mse(wrong_state, true_state)
+    same_model_no_action_mse = state_mse(same_model_no_action_state, true_state)
+    matched_wrong_mse = state_mse(matched_wrong_state, true_state)
     feature = {
         "action": action,
         "action_strength": strength,
-        "wrong_type_action": wrong_action,
+        "wrong_type_action": matched_wrong_action,
+        "wrong_type_strength": matched_wrong_strength,
         "true_shift_norm": float(torch.linalg.vector_norm(true_delta).detach().cpu()),
         "conditioned_shift_norm": float(torch.linalg.vector_norm(conditioned_delta).detach().cpu()),
-        "agnostic_shift_norm": float(torch.linalg.vector_norm(agnostic_delta).detach().cpu()),
-        "wrong_shift_norm": float(torch.linalg.vector_norm(wrong_delta).detach().cpu()),
-        "conditioned_vs_agnostic_distance": rms_distance(conditioned_state, agnostic_state),
+        "same_model_no_action_shift_norm": float(torch.linalg.vector_norm(same_model_no_action_delta).detach().cpu()),
+        "matched_wrong_shift_norm": float(torch.linalg.vector_norm(matched_wrong_delta).detach().cpu()),
+        "conditioned_vs_same_model_no_action_distance": rms_distance(conditioned_state, same_model_no_action_state),
         "conditioned_state_mse": conditioned_mse,
-        "agnostic_state_mse": agnostic_mse,
-        "wrong_state_mse": wrong_mse,
-        "correct_vs_agnostic_margin": agnostic_mse - conditioned_mse,
-        "correct_vs_wrong_margin": wrong_mse - conditioned_mse,
+        "same_model_no_action_state_mse": same_model_no_action_mse,
+        "matched_wrong_state_mse": matched_wrong_mse,
+        "correct_vs_same_model_no_action_margin": same_model_no_action_mse - conditioned_mse,
+        "correct_vs_matched_wrong_margin": matched_wrong_mse - conditioned_mse,
         "conditioned_delta_cosine": conditioned_cosine,
-        "agnostic_delta_cosine": agnostic_cosine,
-        "wrong_delta_cosine": wrong_cosine,
+        "same_model_no_action_delta_cosine": same_model_no_action_cosine,
+        "matched_wrong_delta_cosine": matched_wrong_cosine,
         "conditioned_delta_cosine_valid": conditioned_cosine_valid,
-        "agnostic_delta_cosine_valid": agnostic_cosine_valid,
-        "wrong_delta_cosine_valid": wrong_cosine_valid,
+        "same_model_no_action_delta_cosine_valid": same_model_no_action_cosine_valid,
+        "matched_wrong_delta_cosine_valid": matched_wrong_cosine_valid,
         "magnitude_ratio_conditioned": ratio,
         "magnitude_ratio_conditioned_valid": ratio_valid,
         "repeat_forward_distance": repeat_distance,
@@ -504,17 +583,24 @@ def evaluate_action(
     conditioned_vs_actual_logits_mse = state_mse(conditioned_logits, actual_logits)
     del conditioned_logits
 
-    agnostic_logits = state_to_intermediate_prediction(interface, selected_stage, agnostic_state)
-    agnostic_segmentation = segmentation_metrics(agnostic_logits, gt_patch, threshold)
-    agnostic_vs_actual_logits_mse = state_mse(agnostic_logits, actual_logits)
-    del agnostic_logits
+    same_model_no_action_logits = state_to_intermediate_prediction(
+        interface, selected_stage, same_model_no_action_state,
+    )
+    same_model_no_action_segmentation = segmentation_metrics(
+        same_model_no_action_logits, gt_patch, threshold,
+    )
+    same_model_no_action_vs_actual_logits_mse = state_mse(same_model_no_action_logits, actual_logits)
+    del same_model_no_action_logits
 
-    wrong_logits = state_to_intermediate_prediction(interface, selected_stage, wrong_state)
-    wrong_segmentation = segmentation_metrics(wrong_logits, gt_patch, threshold)
-    wrong_vs_actual_logits_mse = state_mse(wrong_logits, actual_logits)
-    del actual_logits, wrong_logits
+    matched_wrong_logits = state_to_intermediate_prediction(
+        interface, selected_stage, matched_wrong_state,
+    )
+    matched_wrong_segmentation = segmentation_metrics(matched_wrong_logits, gt_patch, threshold)
+    matched_wrong_vs_actual_logits_mse = state_mse(matched_wrong_logits, actual_logits)
+    del actual_logits, matched_wrong_logits
 
     segmentation = {
+        "segmentation_level": "intermediate",
         "source_dice": source_segmentation["dice"],
         "source_precision": source_segmentation["precision"],
         "source_recall": source_segmentation["recall"],
@@ -527,23 +613,24 @@ def evaluate_action(
         "conditioned_precision": conditioned_segmentation["precision"],
         "conditioned_recall": conditioned_segmentation["recall"],
         "conditioned_iou": conditioned_segmentation["iou"],
-        "agnostic_dice": agnostic_segmentation["dice"],
-        "agnostic_precision": agnostic_segmentation["precision"],
-        "agnostic_recall": agnostic_segmentation["recall"],
-        "agnostic_iou": agnostic_segmentation["iou"],
-        "wrong_dice": wrong_segmentation["dice"],
-        "wrong_precision": wrong_segmentation["precision"],
-        "wrong_recall": wrong_segmentation["recall"],
-        "wrong_iou": wrong_segmentation["iou"],
+        "same_model_no_action_dice": same_model_no_action_segmentation["dice"],
+        "same_model_no_action_precision": same_model_no_action_segmentation["precision"],
+        "same_model_no_action_recall": same_model_no_action_segmentation["recall"],
+        "same_model_no_action_iou": same_model_no_action_segmentation["iou"],
+        "matched_wrong_dice": matched_wrong_segmentation["dice"],
+        "matched_wrong_precision": matched_wrong_segmentation["precision"],
+        "matched_wrong_recall": matched_wrong_segmentation["recall"],
+        "matched_wrong_iou": matched_wrong_segmentation["iou"],
         "conditioned_vs_actual_seg_logits_mse": conditioned_vs_actual_logits_mse,
-        "agnostic_vs_actual_seg_logits_mse": agnostic_vs_actual_logits_mse,
-        "wrong_vs_actual_seg_logits_mse": wrong_vs_actual_logits_mse,
-        "seg_gain_vs_agnostic": conditioned_segmentation["dice"] - agnostic_segmentation["dice"],
-        "seg_gain_vs_wrong": conditioned_segmentation["dice"] - wrong_segmentation["dice"],
+        "same_model_no_action_vs_actual_seg_logits_mse": same_model_no_action_vs_actual_logits_mse,
+        "matched_wrong_vs_actual_seg_logits_mse": matched_wrong_vs_actual_logits_mse,
+        "seg_gain_vs_same_model_no_action": conditioned_segmentation["dice"] - same_model_no_action_segmentation["dice"],
+        "seg_gain_vs_matched_wrong": conditioned_segmentation["dice"] - matched_wrong_segmentation["dice"],
     }
     result = {**feature, **segmentation}
-    del true_result, true_state, true_delta, conditioned_delta, agnostic_delta, wrong_delta
-    del agnostic_state, wrong_state, repeated_state, action_tensor
+    del true_result, true_state, true_delta, conditioned_delta
+    del same_model_no_action_delta, matched_wrong_delta
+    del same_model_no_action_state, matched_wrong_state, repeated_state, action_tensor
     return result, conditioned_state
 
 
@@ -741,6 +828,7 @@ def run(args: argparse.Namespace) -> None:
         raise FileNotFoundError(f"Missing V8.0 checkpoint: {checkpoint_path}")
     feature_sink = CsvSink(output_dir / "feature_dynamics.csv", FEATURE_FIELDS)
     segmentation_sink = CsvSink(output_dir / "segmentation_relevance.csv", SEGMENTATION_FIELDS)
+    full_volume_sink = CsvSink(output_dir / "full_volume_action_summary.csv", FULL_VOLUME_FIELDS)
     case_summary_sink = CsvSink(output_dir / "case_action_summary.csv", CASE_SUMMARY_FIELDS)
     reliability_metric_sink = CsvSink(output_dir / "reliability_validity_summary.csv", RELIABILITY_METRIC_FIELDS)
     reliability_region_sink = CsvSink(output_dir / "reliability_voxel_summary.csv", RELIABILITY_VOXEL_FIELDS)
@@ -790,12 +878,44 @@ def run(args: argparse.Namespace) -> None:
         global_region: dict[tuple[str, str, str], dict[str, RunningMean]] = {}
         global_decile: dict[tuple[str, str, str], list[RunningMean]] = {}
         global_summary: dict[str, dict[str, RunningMean]] = {}
+        full_volume_global: dict[str, dict[str, RunningMean]] = {}
         invalid_counts = defaultdict(int)
 
         for case_index, case in enumerate(test_cases, start=1):
             print(f"[V8.2] case {case_index}/8 start {case.case}", flush=True)
             image, label, _ = read_image_and_label(case)
             label_padded = pad_label_like_image(interface, label)
+            for full_action, full_strength in (("source", 0.0), *ACTION_PROTOCOL):
+                print(
+                    f"[V8.2] case {case_index}/8 full-volume action={full_action} start",
+                    flush=True,
+                )
+                full_metrics = full_volume_action_metrics(
+                    interface,
+                    image,
+                    label,
+                    interface._v8_prompt_embedding,
+                    full_action,
+                    full_strength,
+                    args.label_value,
+                    args.prediction_threshold,
+                )
+                full_volume_sink.write({
+                    "case": case.case,
+                    "action": full_action,
+                    "strength": full_strength,
+                    **full_metrics,
+                    "aggregation": "per_case",
+                })
+                full_volume_global.setdefault(full_action, {})
+                for metric_name in ("dice", "iou", "precision", "recall"):
+                    full_volume_global[full_action].setdefault(metric_name, RunningMean()).update(
+                        full_metrics[metric_name],
+                    )
+                print(
+                    f"[V8.2] case {case_index}/8 full-volume action={full_action} done",
+                    flush=True,
+                )
             original_padded, slicers, patch_kinds = select_patch_slicers(
                 interface,
                 image,
@@ -848,7 +968,7 @@ def run(args: argparse.Namespace) -> None:
                     if tuple(transformed_padded.shape) != tuple(original_padded.shape):
                         raise AssertionError(f"Action padded shape mismatch for {case.case} {action}")
                     actual_patch = torch.clone(transformed_padded[slicer][None], memory_format=torch.contiguous_format)
-                    wrong_action = "blur" if action == "gamma" else "gamma"
+                    wrong_action, wrong_strength = MATCHED_WRONG_ACTIONS[action]
                     result, conditioned_state = evaluate_action(
                         interface,
                         world_model,
@@ -857,6 +977,7 @@ def run(args: argparse.Namespace) -> None:
                         action,
                         strength,
                         wrong_action,
+                        wrong_strength,
                         source_segmentation,
                         gt_patch,
                         args.selected_stage,
@@ -1003,6 +1124,15 @@ def run(args: argparse.Namespace) -> None:
                         "aggregation": "case_level_macro",
                     })
 
+        for action, metrics in sorted(full_volume_global.items()):
+            full_volume_sink.write({
+                "case": "__all__",
+                "action": action,
+                "strength": 0.0 if action == "source" else dict(ACTION_PROTOCOL)[action],
+                **{name: value.mean() for name, value in metrics.items()},
+                "aggregation": "case_level_macro",
+            })
+
         overall = summary_macro_row(global_summary, "all", "all")
         gamma = summary_macro_row(global_summary, "gamma", "gamma")
         blur = summary_macro_row(global_summary, "blur", "blur")
@@ -1018,36 +1148,74 @@ def run(args: argparse.Namespace) -> None:
             for (source, action, region), stats in global_region.items()
         }
         cond_mse = overall["mean_conditioned_state_mse"]
-        agn_mse = overall["mean_agnostic_state_mse"]
-        wrong_mse = overall["mean_wrong_state_mse"]
+        same_model_no_action_mse = overall["mean_same_model_no_action_state_mse"]
+        matched_wrong_mse = overall["mean_matched_wrong_state_mse"]
         cond_cos = overall["mean_conditioned_delta_cosine"]
-        agn_cos = overall["mean_agnostic_delta_cosine"]
+        same_model_no_action_cos = overall["mean_same_model_no_action_delta_cosine"]
         cond_dice = overall["mean_conditioned_dice"]
-        agn_dice = overall["mean_agnostic_dice"]
-        wrong_dice = overall["mean_wrong_dice"]
+        same_model_no_action_dice = overall["mean_same_model_no_action_dice"]
+        matched_wrong_dice = overall["mean_matched_wrong_dice"]
         def strictly_less(left: Any, right: Any) -> bool:
             return left is not None and right is not None and float(left) < float(right)
 
-        feature_better = cond_mse is not None and agn_mse is not None and cond_mse < agn_mse
-        wrong_better = cond_mse is not None and wrong_mse is not None and cond_mse < wrong_mse
-        cosine_better = cond_cos is not None and agn_cos is not None and cond_cos > agn_cos
-        seg_better_agnostic = cond_dice is not None and agn_dice is not None and cond_dice > agn_dice
-        seg_better_wrong = cond_dice is not None and wrong_dice is not None and cond_dice > wrong_dice
+        feature_better = strictly_less(cond_mse, same_model_no_action_mse)
+        wrong_better = strictly_less(cond_mse, matched_wrong_mse)
+        cosine_better = cond_cos is not None and same_model_no_action_cos is not None and cond_cos > same_model_no_action_cos
+        seg_better_same_model = (
+            cond_dice is not None and same_model_no_action_dice is not None
+            and cond_dice > same_model_no_action_dice
+        )
+        seg_better_wrong = cond_dice is not None and matched_wrong_dice is not None and cond_dice > matched_wrong_dice
         available = [source for source, row in overall_metric.items() if row and row.get("auroc") is not None]
         best_reliability = max(available, key=lambda source: float(overall_metric[source]["auroc"])) if available else None
-        fp_stats = region_lookup.get(("world_pairwise", "all", "FP"), {})
-        tp_stats = region_lookup.get(("world_pairwise", "all", "TP"), {})
-        fp_mean = fp_stats.get("mean").mean() if fp_stats.get("mean") else None
-        tp_mean = tp_stats.get("mean").mean() if tp_stats.get("mean") else None
-        fp_overweight = fp_mean is not None and tp_mean is not None and fp_mean > tp_mean
-        if not feature_better:
-            diagnosis = "World Predictor mechanism remains the leading issue"
-        elif feature_better and not seg_better_agnostic:
-            diagnosis = "feature-to-segmentation task relevance is the leading issue"
-        elif fp_overweight and best_reliability == "world_pairwise":
-            diagnosis = "reliability mapping is the leading issue"
-        else:
-            diagnosis = "evidence is temporarily unable to distinguish the mechanisms"
+        foreground_metric = {
+            source: next(
+                (row for row in global_metric_rows(global_metric, source, "all", "foreground")),
+                None,
+            )
+            for source in RELIABILITY_SOURCES
+        }
+        foreground_available = [
+            source for source, row in foreground_metric.items()
+            if row and row.get("auroc") is not None
+        ]
+        best_foreground_reliability = (
+            max(foreground_available, key=lambda source: float(foreground_metric[source]["auroc"]))
+            if foreground_available else None
+        )
+
+        def region_mean(source: str, region: str) -> float | None:
+            stats = region_lookup.get((source, "all", region), {})
+            statistic = stats.get("mean")
+            return statistic.mean() if statistic is not None else None
+
+        world_region_means = {region: region_mean("world_pairwise", region) for region in ("TP", "FP", "FN", "TN")}
+        fn_values = [value for value in (world_region_means["TP"], world_region_means["TN"]) if value is not None]
+        world_fn_overweight = (
+            world_region_means["FN"] is not None and bool(fn_values)
+            and world_region_means["FN"] > float(np.mean(fn_values))
+        )
+
+        def status_supported(condition: bool, available_values: tuple[Any, ...]) -> str:
+            return "unavailable" if any(value is None for value in available_values) else (
+                "supported" if condition else "not_supported"
+            )
+
+        world_action_status = status_supported(
+            feature_better and wrong_better and cosine_better,
+            (cond_mse, same_model_no_action_mse, matched_wrong_mse, cond_cos, same_model_no_action_cos),
+        )
+        segmentation_status = status_supported(
+            seg_better_same_model and seg_better_wrong,
+            (cond_dice, same_model_no_action_dice, matched_wrong_dice),
+        )
+        reliability_values = tuple(
+            row.get("auroc") if row is not None else None for row in foreground_metric.values()
+        )
+        reliability_status = status_supported(
+            best_reliability == "world_pairwise" and not world_fn_overweight,
+            reliability_values,
+        )
         summary = {
             "stage": "V8.2 World Predictor mechanism diagnosis",
             "checkpoint": str(checkpoint_path),
@@ -1062,62 +1230,87 @@ def run(args: argparse.Namespace) -> None:
             "lora_trained": False,
             "streaming_memory_mode": True,
             "reliability_formula_modified": False,
+            "patch_protocol": {
+                "patches_per_case": args.patches_per_case,
+                "foreground_patches_per_case": args.foreground_patches_per_case,
+            },
             "action_protocol": {"gamma": 0.30, "blur": 1.5},
+            "matched_wrong_action_protocol": {
+                "gamma": {"family": "blur", "strength": 1.5},
+                "blur": {"family": "gamma", "strength": 0.30},
+            },
+            "same_model_no_action_definition": {
+                "available": True,
+                "independent_same_model_no_action_checkpoint_available": False,
+                "note": "same_model_no_action is world_model(source_state, action=None), not an independently trained model; an independent no-action checkpoint is unavailable and no checkpoint was trained in V8.2-fix",
+            },
             "invalid_zero_norm_counts": dict(invalid_counts),
             "answers": {
-                "conditioned_feature_mse_better_than_agnostic": {
+                "world_action_dynamics_status": world_action_status,
+                "segmentation_relevance_status": segmentation_status,
+                "reliability_mapping_status": reliability_status,
+                "conditioned_feature_mse_better_than_same_model_no_action": {
                     "supported": feature_better,
                     "conditioned_mean_mse": cond_mse,
-                    "agnostic_mean_mse": agn_mse,
-                    "margin_agnostic_minus_conditioned": None if cond_mse is None or agn_mse is None else agn_mse - cond_mse,
+                    "same_model_no_action_mean_mse": same_model_no_action_mse,
+                    "margin_same_model_no_action_minus_conditioned": None if cond_mse is None or same_model_no_action_mse is None else same_model_no_action_mse - cond_mse,
                 },
-                "correct_action_better_than_wrong_action": {
+                "correct_action_better_than_matched_wrong_action": {
                     "supported": wrong_better,
                     "conditioned_mean_mse": cond_mse,
-                    "wrong_type_mean_mse": wrong_mse,
+                    "matched_wrong_mean_mse": matched_wrong_mse,
                 },
-                "conditioned_delta_cosine_better_than_agnostic": {
+                "conditioned_delta_cosine_better_than_same_model_no_action": {
                     "supported": cosine_better,
                     "conditioned_mean_cosine": cond_cos,
-                    "agnostic_mean_cosine": agn_cos,
+                    "same_model_no_action_mean_cosine": same_model_no_action_cos,
                 },
                 "gamma_conditioned_feature_prediction": {
-                    "conditioned_better_than_agnostic": strictly_less(gamma["mean_conditioned_state_mse"], gamma["mean_agnostic_state_mse"]),
-                    "conditioned_better_than_wrong": strictly_less(gamma["mean_conditioned_state_mse"], gamma["mean_wrong_state_mse"]),
+                    "conditioned_better_than_same_model_no_action": strictly_less(gamma["mean_conditioned_state_mse"], gamma["mean_same_model_no_action_state_mse"]),
+                    "conditioned_better_than_matched_wrong": strictly_less(gamma["mean_conditioned_state_mse"], gamma["mean_matched_wrong_state_mse"]),
                 },
                 "blur_conditioned_feature_prediction": {
-                    "conditioned_better_than_agnostic": strictly_less(blur["mean_conditioned_state_mse"], blur["mean_agnostic_state_mse"]),
-                    "conditioned_better_than_wrong": strictly_less(blur["mean_conditioned_state_mse"], blur["mean_wrong_state_mse"]),
+                    "conditioned_better_than_same_model_no_action": strictly_less(blur["mean_conditioned_state_mse"], blur["mean_same_model_no_action_state_mse"]),
+                    "conditioned_better_than_matched_wrong": strictly_less(blur["mean_conditioned_state_mse"], blur["mean_matched_wrong_state_mse"]),
                 },
-                "conditioned_segmentation_better_than_agnostic": {
-                    "supported": seg_better_agnostic,
+                "conditioned_intermediate_segmentation_better_than_same_model_no_action": {
+                    "supported": seg_better_same_model,
                     "conditioned_mean_dice": cond_dice,
-                    "agnostic_mean_dice": agn_dice,
+                    "same_model_no_action_mean_dice": same_model_no_action_dice,
                 },
-                "conditioned_segmentation_better_than_wrong": {
+                "conditioned_intermediate_segmentation_better_than_matched_wrong": {
                     "supported": seg_better_wrong,
                     "conditioned_mean_dice": cond_dice,
-                    "wrong_mean_dice": wrong_dice,
+                    "matched_wrong_mean_dice": matched_wrong_dice,
                 },
-                "feature_prediction_improvement_translates_to_segmentation": {
-                    "supported": feature_better and seg_better_agnostic and seg_better_wrong,
+                "real_full_volume_action_segmentation": {
+                    "source": {name: value.mean() for name, value in full_volume_global.get("source", {}).items()},
+                    "gamma": {name: value.mean() for name, value in full_volume_global.get("gamma", {}).items()},
+                    "blur": {name: value.mean() for name, value in full_volume_global.get("blur", {}).items()},
+                    "imagined_world_state_full_volume_available": False,
+                    "imagined_world_state_full_volume_note": "V8.0 World Predictor state is a selected intermediate decoder state; it is not reconnected to the complete sliding-window final decoder in this diagnostic",
                 },
-                "best_reliability_predictor_of_pseudo_label_correctness": {
+                "foreground_reliability_predictors": {
+                    "source": best_foreground_reliability,
+                    "auroc": {source: None if foreground_metric[source] is None else foreground_metric[source]["auroc"] for source in RELIABILITY_SOURCES},
+                    "spearman": {source: None if foreground_metric[source] is None else foreground_metric[source]["spearman"] for source in RELIABILITY_SOURCES},
+                },
+                "reliability_predictors_overall": {
                     "source": best_reliability,
                     "auroc": {source: None if overall_metric[source] is None else overall_metric[source]["auroc"] for source in RELIABILITY_SOURCES},
                     "auprc": {source: None if overall_metric[source] is None else overall_metric[source]["auprc"] for source in RELIABILITY_SOURCES},
                     "spearman": {source: None if overall_metric[source] is None else overall_metric[source]["spearman"] for source in RELIABILITY_SOURCES},
                 },
-                "world_reliability_overweights_fp": {
-                    "supported": fp_overweight,
-                    "world_pairwise_fp_mean": fp_mean,
-                    "world_pairwise_tp_mean": tp_mean,
+                "world_reliability_fn_check": {
+                    "supported": world_fn_overweight,
+                    "world_pairwise_region_mean": world_region_means,
+                    "note": "FN is flagged when its world_pairwise mean reliability exceeds the mean of TP and TN; all four region means are retained in reliability_voxel_summary.csv",
                 },
-                "mechanism_diagnosis": diagnosis,
             },
             "outputs": {
                 "feature_dynamics": str(output_dir / "feature_dynamics.csv"),
                 "segmentation_relevance": str(output_dir / "segmentation_relevance.csv"),
+                "full_volume_action_summary": str(output_dir / "full_volume_action_summary.csv"),
                 "reliability_voxel_summary": str(output_dir / "reliability_voxel_summary.csv"),
                 "reliability_validity_summary": str(output_dir / "reliability_validity_summary.csv"),
                 "reliability_deciles": str(output_dir / "reliability_deciles.csv"),
@@ -1130,7 +1323,7 @@ def run(args: argparse.Namespace) -> None:
         write_progress(progress_path, completed_cases, completed_rows, device, "complete")
     finally:
         for sink in (
-            feature_sink, segmentation_sink, case_summary_sink,
+            feature_sink, segmentation_sink, full_volume_sink, case_summary_sink,
             reliability_metric_sink, reliability_region_sink, decile_sink,
         ):
             sink.close()
