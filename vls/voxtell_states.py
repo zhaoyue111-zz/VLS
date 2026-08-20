@@ -291,6 +291,33 @@ class VoxTellStateInterface:
         mask_context: dict[str, Any] | None = None,
         skip_context: dict[str, Any] | None = None,
     ) -> torch.Tensor:
+        """Continue the native tail under the same CUDA autocast policy."""
+        device_type = replacement_state.device.type
+        autocast_context = (
+            torch.autocast(device_type, enabled=True)
+            if device_type == "cuda"
+            else dummy_context()
+        )
+        with autocast_context:
+            return VoxTellStateInterface._native_tail_from_audit_context(
+                context,
+                stage_idx,
+                state_kind,
+                replacement_state,
+                mask_context=mask_context,
+                skip_context=skip_context,
+            )
+
+    @staticmethod
+    @torch.inference_mode()
+    def _native_tail_from_audit_context(
+        context: dict[str, Any],
+        stage_idx: int,
+        state_kind: str,
+        replacement_state: torch.Tensor,
+        mask_context: dict[str, Any] | None = None,
+        skip_context: dict[str, Any] | None = None,
+    ) -> torch.Tensor:
         """Continue the original decoder after a candidate state transplant.
 
         ``mask_context`` and ``skip_context`` are explicit so the caller can
@@ -298,6 +325,18 @@ class VoxTellStateInterface:
         The modules invoked here are the original decoder stages and native
         einsum mask projection; no functional or copied head is involved.
         """
+        # ``forward_with_audit_context`` returns a top-level result containing
+        # ``decoder_audit``.  Accept that result directly as well as the
+        # already-unwrapped audit context so callers cannot accidentally mix
+        # the two wrapper layers.
+        def unwrap(value: dict[str, Any]) -> dict[str, Any]:
+            return value.get("decoder_audit", value)
+
+        context = unwrap(context)
+        if mask_context is not None:
+            mask_context = unwrap(mask_context)
+        if skip_context is not None:
+            skip_context = unwrap(skip_context)
         mask_context = context if mask_context is None else mask_context
         skip_context = context if skip_context is None else skip_context
         decoder = context["decoder"]

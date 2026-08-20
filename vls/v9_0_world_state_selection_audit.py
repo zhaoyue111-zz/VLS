@@ -76,6 +76,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--prediction-threshold', type=float, default=0.5)
     parser.add_argument('--label-value', type=int, default=DEFAULT_LABEL_VALUE)
     parser.add_argument('--seed', type=int, default=2026)
+    parser.add_argument('--case-limit', type=int, default=0, help='debug smoke-test limit; 0 uses all train cases')
+    parser.add_argument('--patch-limit', type=int, default=0, help='debug smoke-test limit; 0 uses all selected patches')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
@@ -448,6 +450,8 @@ def run(args: argparse.Namespace) -> None:
         raise AssertionError('V9.0 defaults require threshold=0.5')
     if args.patches_per_case <= 0 or args.foreground_patches_per_case < 0:
         raise AssertionError('Invalid patch protocol')
+    if args.case_limit < 0 or args.patch_limit < 0:
+        raise AssertionError('Debug limits must be non-negative')
 
     set_seed(args.seed)
     device = resolve_device(args)
@@ -468,6 +472,9 @@ def run(args: argparse.Namespace) -> None:
         raise AssertionError('V9.0 requires the complete stable non-empty train split')
     if set(train_names) & set(test_names):
         raise AssertionError('V9.0 train/test split overlap')
+    if args.case_limit:
+        train_cases = train_cases[:args.case_limit]
+        train_names = [case.case for case in train_cases]
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -515,8 +522,11 @@ def run(args: argparse.Namespace) -> None:
                 args.patches_per_case, args.foreground_patches_per_case,
                 args.foreground_candidate_patches, args.foreground_threshold,
             )
-            if len(slicers) != args.patches_per_case:
+            if len(slicers) < args.patches_per_case:
                 raise AssertionError(f'Patch selector returned {len(slicers)} patches for {case.case}')
+            if args.patch_limit:
+                slicers = slicers[:args.patch_limit]
+                patch_kinds = patch_kinds[:args.patch_limit]
             action_padded = {
                 action: padded_visual_action_and_slicers(interface.predictor, image, action, strength)[0]
                 for action, strength in ACTION_PROTOCOL
@@ -825,7 +835,7 @@ def build_summary(
         'world_predictor_loaded': False,
         'gt_used_only_for_reliability_diagnosis': True,
         'extra_segmentation_head_used': False,
-        'full_train_split_used': True,
+        'full_train_split_used': args.case_limit == 0 and args.patch_limit == 0,
         'train_cases': train_names,
         'train_case_count': len(train_names),
         'test_cases_not_processed': test_names,
