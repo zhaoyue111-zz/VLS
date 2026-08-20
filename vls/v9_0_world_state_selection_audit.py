@@ -79,6 +79,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--case-limit', type=int, default=0, help='debug smoke-test limit; 0 uses all train cases')
     parser.add_argument('--patch-limit', type=int, default=0, help='debug smoke-test limit; 0 uses all selected patches')
     parser.add_argument('--resume', action='store_true', help='append to an existing run and skip completed train cases')
+    parser.add_argument('--rebuild-summary-only', action='store_true', help='rebuild summary/ranking from existing CSVs without model inference')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
@@ -302,6 +303,99 @@ def pad_selected_patches(
         padded_kinds.append('repeat_fill')
         repeat_index += 1
     return padded_slicers, padded_kinds
+
+
+def parse_csv_value(value: str) -> Any:
+    if value in ('', 'None', 'null'):
+        return None
+    if value in ('True', 'False'):
+        return value == 'True'
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return value
+
+
+def restore_resume_detail_rows(
+    output_dir: Path,
+    completed_cases: set[str],
+    sensitivity_rows: dict[tuple[str, str, str], list[dict[str, Any]]],
+    recovery_rows: dict[tuple[str, str, str], list[dict[str, Any]]],
+    context_rows: dict[tuple[str, str, str], list[dict[str, Any]]],
+    state_metadata: dict[str, dict[str, Any]],
+) -> None:
+    """Restore all scalar detail rows needed by V9.0 summary/ranking."""
+    sources = (
+        ('candidate_action_sensitivity.csv', sensitivity_rows, 'action', 'all'),
+        ('candidate_final_prediction_recovery.csv', recovery_rows, 'context_mode', 'source_context'),
+        ('candidate_context_dependency.csv', context_rows, 'context_test', None),
+    )
+    for filename, target, grouping_field, fixed_group in sources:
+        path = output_dir / filename
+        if not path.exists():
+            continue
+        with path.open(newline='') as handle:
+            for raw in csv.DictReader(handle):
+                if raw.get('case') not in completed_cases:
+                    continue
+                row = {key: parse_csv_value(value) for key, value in raw.items()}
+                candidate = str(row['candidate_state'])
+                action = str(row.get('action', ''))
+                group = fixed_group if fixed_group is not None else str(row.get(grouping_field, ''))
+                target[(candidate, action, group)].append(row)
+                if filename == 'candidate_action_sensitivity.csv':
+                    state_metadata.setdefault(candidate, {
+                        'state_name': candidate,
+                        'state_kind': 'restored_from_csv',
+                        'stage_idx': None,
+                        'location': 'restored from existing V9.0 action-sensitivity CSV',
+                        'tensor_shape': row.get('state_shape'),
+                        'channels': row.get('channels'),
+                        'spatial_resolution': row.get('spatial_resolution'),
+                        'tensor_memory_mb': row.get('tensor_memory_mb'),
+                    })
+
+
+def rebuild_summary_only(args: argparse.Namespace, paths: ProjectPaths, output_dir: Path) -> None:
+    train_cases = iter_cases(paths, split='train')
+    test_cases = iter_cases(paths, split='test')
+    train_names = [case.case for case in train_cases]
+    test_names = [case.case for case in test_cases]
+    completed_cases, _ = load_resume_state(output_dir, train_names)
+    if completed_cases != train_names:
+        raise AssertionError('--rebuild-summary-only requires all train cases to be complete')
+    existing_summary_path = output_dir / 'summary.json'
+    existing_summary = json.loads(existing_summary_path.read_text()) if existing_summary_path.exists() else {}
+    definitions = existing_summary.get('candidate_definitions', {})
+    specs = {
+        name: definitions[name]
+        for name in CANDIDATE_NAMES
+        if name != 'full_voxtell_reference' and name in definitions
+    }
+    global_metrics: dict[tuple[str, str, str], MetricAccumulator] = {}
+    global_regions: dict[tuple[str, str, str], RegionAccumulator] = {}
+    restore_resume_aggregates(output_dir, set(completed_cases), global_metrics, global_regions)
+    sensitivity_rows: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    recovery_rows: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    context_rows: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    state_metadata: dict[str, dict[str, Any]] = {}
+    restore_resume_detail_rows(
+        output_dir, set(completed_cases), sensitivity_rows, recovery_rows,
+        context_rows, state_metadata,
+    )
+    summary = build_summary(
+        args, paths, train_names, test_names, specs, state_metadata,
+        global_metrics, global_regions, sensitivity_rows, recovery_rows,
+        context_rows, output_dir,
+    )
+    summary['resume']['summary_rebuilt_from_existing_csv'] = True
+    (output_dir / 'summary.json').write_text(json.dumps(summary, indent=2))
+    ranking_sink = CsvSink(output_dir / 'candidate_ranking.csv', RANKING_FIELDS, append=False)
+    try:
+        write_ranking_csv(ranking_sink, summary['candidate_summaries'])
+    finally:
+        ranking_sink.close()
+    print(json.dumps({'summary': str(output_dir / 'summary.json'), 'inference': False}, indent=2))
 
 
 def candidate_specs(interface: VoxTellStateInterface) -> dict[str, dict[str, Any]]:
@@ -535,15 +629,18 @@ def run(args: argparse.Namespace) -> None:
         raise AssertionError('--resume cannot be combined with debug case/patch limits')
 
     set_seed(args.seed)
-    device = resolve_device(args)
-    if args.device == 'cuda' and device.type != 'cuda':
-        raise RuntimeError(f'V9.0 requires CUDA, resolved {device}')
     paths = ProjectPaths(
         voxtell_root=Path(args.voxtell_root),
         voxtell_model_dir=Path(args.model_dir),
         data_root=Path(args.data_root),
         split_json=Path(args.split_json),
     )
+    if args.rebuild_summary_only:
+        rebuild_summary_only(args, paths, Path(args.output_dir))
+        return
+    device = resolve_device(args)
+    if args.device == 'cuda' and device.type != 'cuda':
+        raise RuntimeError(f'V9.0 requires CUDA, resolved {device}')
     train_cases = iter_cases(paths, split='train')
     train_cases_again = iter_cases(paths, split='train')
     test_cases = iter_cases(paths, split='test')
@@ -559,6 +656,11 @@ def run(args: argparse.Namespace) -> None:
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    if args.resume:
+        existing_completed, _ = load_resume_state(output_dir, train_names)
+        if len(existing_completed) == len(train_names):
+            rebuild_summary_only(args, paths, output_dir)
+            return
     action_sink = CsvSink(output_dir / 'candidate_action_sensitivity.csv', ACTION_FIELDS, append=args.resume)
     recovery_sink = CsvSink(output_dir / 'candidate_final_prediction_recovery.csv', RECOVERY_FIELDS, append=args.resume)
     context_sink = CsvSink(output_dir / 'candidate_context_dependency.csv', CONTEXT_FIELDS, append=args.resume)
@@ -589,6 +691,18 @@ def run(args: argparse.Namespace) -> None:
             paths.voxtell_model_dir, device=device, voxtell_root=paths.voxtell_root,
         )
         specs = candidate_specs(interface)
+        if args.resume:
+            restore_resume_detail_rows(
+                output_dir, set(completed_cases), sensitivity_rows,
+                recovery_rows, context_rows, state_metadata,
+            )
+            for candidate, spec in specs.items():
+                if candidate in state_metadata:
+                    state_metadata[candidate].update({
+                        'state_kind': spec['state_kind'],
+                        'stage_idx': spec['stage_idx'],
+                        'location': spec['location'],
+                    })
         prompt_embedding = interface.embed_text_prompts([SOURCE_PROMPT]).detach().cpu()
         text_backbone = getattr(interface.predictor, 'text_backbone', None)
         interface.predictor.text_backbone = None
