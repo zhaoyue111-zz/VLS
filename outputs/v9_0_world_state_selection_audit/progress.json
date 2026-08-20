@@ -1,5 +1,5 @@
 {
-  "stage": "running",
+  "stage": "complete",
   "completed_cases": [
     "HEM_PA99.nii.gz",
     "HCC_10140276_20170721.nii.gz",
@@ -23,13 +23,20 @@
     "MET_PA19.nii.gz",
     "HEM_PA24.nii.gz",
     "CYST_PA74.nii.gz",
-    "HEM_PA34.nii.gz"
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
   ],
-  "completed_case_count": 23,
-  "completed_patch_rows": 92,
+  "completed_case_count": 30,
+  "completed_patch_rows": 120,
   "memory": {
-    "cpu_rss_mb": 6028.46875,
+    "cpu_rss_mb": 6051.7578125,
     "gpu_allocated_mb": 1743.01953125,
-    "gpu_reserved_mb": 3056.0
+    "gpu_reserved_mb": 2190.0
   }
 }

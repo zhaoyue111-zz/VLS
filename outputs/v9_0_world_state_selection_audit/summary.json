@@ -1,0 +1,1448 @@
+{
+  "stage": "V9.0 World State Selection Audit",
+  "models_trained": false,
+  "world_predictor_loaded": false,
+  "gt_used_only_for_reliability_diagnosis": true,
+  "extra_segmentation_head_used": false,
+  "full_train_split_used": true,
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "train_case_count": 30,
+  "test_cases_not_processed": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "test_cases_in_diagnostic": false,
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "patch_protocol": {
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "prediction_threshold": 0.5,
+    "selection_uses_gt": false,
+    "short_volume_fill": "deterministic repeat_fill of source-selected slicers when fewer than patches_per_case exist"
+  },
+  "resume": {
+    "enabled": true,
+    "completed_cases_are_skipped": true,
+    "csv_case_rows_are_appended": true
+  },
+  "candidate_definitions": {
+    "decoder_stage_1_low_to_high": {
+      "stage_idx": 1,
+      "state_kind": "stage_output",
+      "location": "decoder stage index 1 post-block output (legacy A)"
+    },
+    "penultimate_decoder_stage_output": {
+      "stage_idx": 3,
+      "state_kind": "stage_output",
+      "location": "decoder stage index final-1 post-block output (B)"
+    },
+    "final_decoder_stage_input": {
+      "stage_idx": 4,
+      "state_kind": "final_input",
+      "location": "final transpconv + final encoder skip concat, before final decoder block (C)"
+    },
+    "final_decoder_feature": {
+      "stage_idx": 4,
+      "state_kind": "final_output",
+      "location": "last decoder stage output before native final mask projection (D)"
+    },
+    "full_voxtell_reference": {
+      "location": "native complete VoxTell final prediction; no transplant"
+    }
+  },
+  "native_tail_contract": {
+    "A": "replace stage 1 post-block output, then native remaining decoder stages and native mask projection",
+    "B": "replace penultimate post-block output, then native final decoder stage and native mask projection",
+    "C": "replace final pre-block input, then native final decoder block and native mask projection",
+    "D": "replace final post-block feature, then native mask projection",
+    "hybrid_recovery_context": "action candidate state with source-side downstream skips and mask embeddings",
+    "context_dependency": "C/D compare source-side versus action-specific mask embeddings; no downstream skip remains after C/D boundary"
+  },
+  "candidate_summaries": {
+    "decoder_stage_1_low_to_high": {
+      "state": {
+        "state_name": "decoder_stage_1_low_to_high",
+        "state_kind": "stage_output",
+        "stage_idx": 1,
+        "location": "decoder stage index 1 post-block output (legacy A)",
+        "tensor_shape": "1x288x24x24x24",
+        "channels": 288,
+        "spatial_resolution": "24x24x24",
+        "tensor_memory_mb": 7.59375
+      },
+      "action_sensitivity": {
+        "gamma": {
+          "relative_delta_norm": 0.08461543970874377,
+          "normalized_mse": 0.007401807715983263,
+          "delta_rms": 0.1104974698807512,
+          "delta_l2_norm": 220.48223985944475,
+          "gamma_vs_blur_delta_cosine": -0.021173433267644474
+        },
+        "blur": {
+          "relative_delta_norm": 0.26537065261176657,
+          "normalized_mse": 0.07299694658390113,
+          "delta_rms": 0.3421205079981259,
+          "delta_l2_norm": 682.6349400111607,
+          "gamma_vs_blur_delta_cosine": -0.021173433267644474
+        }
+      },
+      "final_prediction_recovery": {
+        "gamma": {
+          "probability_mse": 4.7885119654113494e-05,
+          "logits_mse": 0.14483297669461795,
+          "mean_absolute_probability_error": 0.00036446102136064275,
+          "predicted_mask_dice_vs_real": 0.992666330517035,
+          "predicted_mask_iou_vs_real": 0.9497559308537648,
+          "context": "source-side downstream skip and source-side mask embedding"
+        },
+        "blur": {
+          "probability_mse": 0.0009378042595926672,
+          "logits_mse": 1.503994060414178,
+          "mean_absolute_probability_error": 0.002130266071097664,
+          "predicted_mask_dice_vs_real": 0.9605407182902627,
+          "predicted_mask_iou_vs_real": 0.8887720077718425,
+          "context": "source-side downstream skip and source-side mask embedding"
+        }
+      },
+      "oracle_reliability": {
+        "confidence_rank": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.5000000689422618,
+            "auroc": 0.9618254037300777,
+            "auprc": 0.9996734780192518,
+            "spearman": 0.1341815998368422
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.19304488524119703,
+            "auroc": 0.8453570285385216,
+            "auprc": 0.9500804562042157,
+            "spearman": 0.26453705505891867
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5080869736504936,
+            "auroc": 0.9748342005092925,
+            "auprc": 0.9997592937106445,
+            "spearman": 0.10737056434966151
+          }
+        },
+        "gamma_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.4999999294927958,
+            "auroc": 0.9138687074944252,
+            "auprc": 0.9990693619841655,
+            "spearman": 0.1264274042533578
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.4204286675437079,
+            "auroc": 0.8618631870099207,
+            "auprc": 0.9598341693208922,
+            "spearman": 0.3206739620386663
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5004707308896044,
+            "auroc": 0.9029391627423801,
+            "auprc": 0.999083548628607,
+            "spearman": 0.09495848529936349
+          }
+        },
+        "blur_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.4999999303376889,
+            "auroc": 0.9509916614380075,
+            "auprc": 0.9994586203150378,
+            "spearman": 0.12728691300557438
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.2614827211313752,
+            "auroc": 0.8228811505063985,
+            "auprc": 0.953055796782435,
+            "spearman": 0.25356004364694207
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5047975578266001,
+            "auroc": 0.9535142067649465,
+            "auprc": 0.9995088765910853,
+            "spearman": 0.09924206118735476
+          }
+        },
+        "pairwise_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999992973147395,
+            "auroc": 0.9588640099752994,
+            "auprc": 0.9995808997225969,
+            "spearman": 0.1286360709236831
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.23768532397560377,
+            "auroc": 0.8344941078247262,
+            "auprc": 0.95446643126412,
+            "spearman": 0.2638200077711152
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5055402463774947,
+            "auroc": 0.9651053192825142,
+            "auprc": 0.9996363390190611,
+            "spearman": 0.10105302715307117
+          }
+        },
+        "gamma_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.2936902297148531,
+            "auroc": 0.9572057942673917,
+            "auprc": 0.9996474488554126,
+            "spearman": 0.13118543824169812
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.1376183706008169,
+            "auroc": 0.8700386917729371,
+            "auprc": 0.9587665167768046,
+            "spearman": 0.2930068315151629
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.29798480855704573,
+            "auroc": 0.9672575869832133,
+            "auprc": 0.9997277400604483,
+            "spearman": 0.10384846001617329
+          }
+        },
+        "blur_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.2978442729615442,
+            "auroc": 0.9665784743713416,
+            "auprc": 0.9997215722578642,
+            "spearman": 0.1296377161333654
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.10500496903547364,
+            "auroc": 0.8465367319346178,
+            "auprc": 0.9530424052306382,
+            "spearman": 0.26598506004152905
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3030993112146378,
+            "auroc": 0.9761021997567867,
+            "auprc": 0.9997932172177019,
+            "spearman": 0.10270692615576518
+          }
+        },
+        "pairwise_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.3008013300134295,
+            "auroc": 0.9677301805885771,
+            "auprc": 0.9997337694753349,
+            "spearman": 0.12966655797361756
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.10281425397583248,
+            "auroc": 0.849486101224856,
+            "auprc": 0.9532167020955938,
+            "spearman": 0.26916697927656075
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.30624756586377516,
+            "auroc": 0.9776209759497612,
+            "auprc": 0.9998044560413887,
+            "spearman": 0.10273967385500223
+          }
+        }
+      },
+      "region_reliability_means": {
+        "confidence_rank": {
+          "TP": 0.19023968724461043,
+          "FP": 0.030591128818332643,
+          "FN": 0.02456146331009672,
+          "TN": 0.5094849404355392
+        },
+        "gamma_world_stability": {
+          "TP": 0.4364521455362618,
+          "FP": 0.10091484420465947,
+          "FN": 0.02762300642521018,
+          "TN": 0.5015748299122282
+        },
+        "blur_world_stability": {
+          "TP": 0.26925517393212406,
+          "FP": 0.05193549935069879,
+          "FN": 0.023507871249674583,
+          "TN": 0.5060822695248371
+        },
+        "pairwise_world_stability": {
+          "TP": 0.24314091216163497,
+          "FP": 0.04047202588459449,
+          "FN": 0.02205187531358236,
+          "TN": 0.5068729366879581
+        },
+        "gamma_joint_product": {
+          "TP": 0.13915684805005993,
+          "FP": 0.015623770759433981,
+          "FN": 0.008267830480478319,
+          "TN": 0.2988484041197361
+        },
+        "blur_joint_product": {
+          "TP": 0.10652925245016935,
+          "FP": 0.01177211207360277,
+          "FN": 0.005856190311105028,
+          "TN": 0.3040015443461456
+        },
+        "pairwise_joint_product": {
+          "TP": 0.10418778151121254,
+          "FP": 0.011251538028664734,
+          "FN": 0.005829326280948271,
+          "TN": 0.30716408076064816
+        }
+      },
+      "context_dependency": {},
+      "descriptive_recommendation": "real gamma/blur augmentation enters this state; native-tail transplant recovery is measurable"
+    },
+    "penultimate_decoder_stage_output": {
+      "state": {
+        "state_name": "penultimate_decoder_stage_output",
+        "state_kind": "stage_output",
+        "stage_idx": 3,
+        "location": "decoder stage index final-1 post-block output (B)",
+        "tensor_shape": "1x96x96x96x96",
+        "channels": 96,
+        "spatial_resolution": "96x96x96",
+        "tensor_memory_mb": 162.0
+      },
+      "action_sensitivity": {
+        "gamma": {
+          "relative_delta_norm": 0.03600509611091444,
+          "normalized_mse": 0.001334621009716232,
+          "delta_rms": 0.08765754476189613,
+          "delta_l2_norm": 805.1970890590122,
+          "gamma_vs_blur_delta_cosine": -0.013154410926907596
+        },
+        "blur": {
+          "relative_delta_norm": 0.11202767517949853,
+          "normalized_mse": 0.012866200945739235,
+          "delta_rms": 0.27131164499691557,
+          "delta_l2_norm": 2490.279811314174,
+          "gamma_vs_blur_delta_cosine": -0.013154410926907596
+        }
+      },
+      "final_prediction_recovery": {
+        "gamma": {
+          "probability_mse": 1.5352495604962054e-06,
+          "logits_mse": 0.02961817674804479,
+          "mean_absolute_probability_error": 7.190144281464356e-05,
+          "predicted_mask_dice_vs_real": 0.9988576496636581,
+          "predicted_mask_iou_vs_real": 0.9620041601974876,
+          "context": "source-side downstream skip and source-side mask embedding"
+        },
+        "blur": {
+          "probability_mse": 2.2944710151153102e-05,
+          "logits_mse": 0.7851720921961325,
+          "mean_absolute_probability_error": 0.0003325087699132819,
+          "predicted_mask_dice_vs_real": 0.9953597948970735,
+          "predicted_mask_iou_vs_real": 0.9550536203101324,
+          "context": "source-side downstream skip and source-side mask embedding"
+        }
+      },
+      "oracle_reliability": {
+        "confidence_rank": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.5000000689422618,
+            "auroc": 0.9618254037300777,
+            "auprc": 0.9996734780192518,
+            "spearman": 0.1341815998368422
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.19304488524119703,
+            "auroc": 0.8453570285385216,
+            "auprc": 0.9500804562042157,
+            "spearman": 0.26453705505891867
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5080869736504936,
+            "auroc": 0.9748342005092925,
+            "auprc": 0.9997592937106445,
+            "spearman": 0.10737056434966151
+          }
+        },
+        "gamma_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999993068367365,
+            "auroc": 0.9299099678989428,
+            "auprc": 0.999229886246804,
+            "spearman": 0.12841798937510646
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.38216493736459356,
+            "auroc": 0.8596709659413999,
+            "auprc": 0.9599643062358728,
+            "spearman": 0.3066163858034096
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5014389947018615,
+            "auroc": 0.9258709218717208,
+            "auprc": 0.9992526007326624,
+            "spearman": 0.09842259088898239
+          }
+        },
+        "blur_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999993017654965,
+            "auroc": 0.9615922535914976,
+            "auprc": 0.9996128915003814,
+            "spearman": 0.1274762436510023
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.20059975026020435,
+            "auroc": 0.7622185154579282,
+            "auprc": 0.9410864866691099,
+            "spearman": 0.18967040612568112
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.506265338918383,
+            "auroc": 0.9689522716022043,
+            "auprc": 0.9996713905939624,
+            "spearman": 0.10089273203296016
+          }
+        },
+        "pairwise_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.4999999295676692,
+            "auroc": 0.9680387469450735,
+            "auprc": 0.9997119540291275,
+            "spearman": 0.12857524468685091
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.17840572366615895,
+            "auroc": 0.7792642463907721,
+            "auprc": 0.9442653368302348,
+            "spearman": 0.20691166100352276
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5069727074467623,
+            "auroc": 0.978050378152663,
+            "auprc": 0.9997740401432587,
+            "spearman": 0.10234591629970567
+          }
+        },
+        "gamma_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.2960445118530852,
+            "auroc": 0.9602551620709995,
+            "auprc": 0.9996697059274536,
+            "spearman": 0.1318716859227078
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.1343425223762437,
+            "auroc": 0.8668896686566169,
+            "auprc": 0.9583825206781479,
+            "spearman": 0.28982578338004195
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.30047614767499936,
+            "auroc": 0.971183907672191,
+            "auprc": 0.999750137945494,
+            "spearman": 0.10470248558980687
+          }
+        },
+        "blur_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.29894667344022074,
+            "auroc": 0.971900604910091,
+            "auprc": 0.9997926496547092,
+            "spearman": 0.12915373501038563
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.0867892006440956,
+            "auroc": 0.8203623264605879,
+            "auprc": 0.9476132184317948,
+            "spearman": 0.23880513144759916
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.30462144425572557,
+            "auroc": 0.982649444236577,
+            "auprc": 0.999865510255654,
+            "spearman": 0.10306126941357234
+          }
+        },
+        "pairwise_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.3019413879895383,
+            "auroc": 0.9731473481334003,
+            "auprc": 0.9998048779945,
+            "spearman": 0.12923917002249474
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.08305072739811288,
+            "auroc": 0.8258104663654724,
+            "auprc": 0.9485801506534168,
+            "spearman": 0.2448560222085913
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3078470133056215,
+            "auroc": 0.9841619400739406,
+            "auprc": 0.9998764882618847,
+            "spearman": 0.10315578152753198
+          }
+        }
+      },
+      "region_reliability_means": {
+        "confidence_rank": {
+          "TP": 0.19023968724461043,
+          "FP": 0.030591128818332643,
+          "FN": 0.02456146331009672,
+          "TN": 0.5094849404355392
+        },
+        "gamma_world_stability": {
+          "TP": 0.39482021755062785,
+          "FP": 0.07858855194519795,
+          "FN": 0.02620960650828101,
+          "TN": 0.502619917089501
+        },
+        "blur_world_stability": {
+          "TP": 0.20372320318888507,
+          "FP": 0.037404573042995444,
+          "FN": 0.023887980633027193,
+          "TN": 0.5076040414403039
+        },
+        "pairwise_world_stability": {
+          "TP": 0.17953143602793,
+          "FP": 0.0282746830799989,
+          "FN": 0.022570463684183185,
+          "TN": 0.5083504526943453
+        },
+        "gamma_joint_product": {
+          "TP": 0.13560155228372237,
+          "FP": 0.014427218687987515,
+          "FN": 0.008194372188179666,
+          "TN": 0.3013524297394066
+        },
+        "blur_joint_product": {
+          "TP": 0.08723998361056931,
+          "FP": 0.007308803749780171,
+          "FN": 0.00544475720222185,
+          "TN": 0.3055446527928909
+        },
+        "pairwise_joint_product": {
+          "TP": 0.08321838218092871,
+          "FP": 0.006635072683849935,
+          "FN": 0.005414972290111294,
+          "TN": 0.3087848508085527
+        }
+      },
+      "context_dependency": {},
+      "descriptive_recommendation": "real gamma/blur augmentation enters this state; native-tail transplant recovery is measurable"
+    },
+    "final_decoder_stage_input": {
+      "state": {
+        "state_name": "final_decoder_stage_input",
+        "state_kind": "final_input",
+        "stage_idx": 4,
+        "location": "final transpconv + final encoder skip concat, before final decoder block (C)",
+        "tensor_shape": "1x64x192x192x192",
+        "channels": 64,
+        "spatial_resolution": "192x192x192",
+        "tensor_memory_mb": 864.0
+      },
+      "action_sensitivity": {
+        "gamma": {
+          "relative_delta_norm": 0.08329199853220157,
+          "normalized_mse": 0.00652998365694657,
+          "delta_rms": 0.08775259501167706,
+          "delta_l2_norm": 1835.381103515625,
+          "gamma_vs_blur_delta_cosine": -0.13020038267131895
+        },
+        "blur": {
+          "relative_delta_norm": 0.2830339936273439,
+          "normalized_mse": 0.07620454666071705,
+          "delta_rms": 0.2962593547999859,
+          "delta_l2_norm": 6225.560494559152,
+          "gamma_vs_blur_delta_cosine": -0.13020038267131895
+        }
+      },
+      "final_prediction_recovery": {
+        "gamma": {
+          "probability_mse": 1.7636331598299852e-07,
+          "logits_mse": 0.015629051240726506,
+          "mean_absolute_probability_error": 2.3710692760557654e-05,
+          "predicted_mask_dice_vs_real": 0.9995856656450165,
+          "predicted_mask_iou_vs_real": 0.9634575848310252,
+          "context": "source-side downstream skip and source-side mask embedding"
+        },
+        "blur": {
+          "probability_mse": 4.309957048016193e-06,
+          "logits_mse": 0.7073470247477027,
+          "mean_absolute_probability_error": 0.00015553773781513825,
+          "predicted_mask_dice_vs_real": 0.9985926099073128,
+          "predicted_mask_iou_vs_real": 0.9614764851750767,
+          "context": "source-side downstream skip and source-side mask embedding"
+        }
+      },
+      "oracle_reliability": {
+        "confidence_rank": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.5000000689422618,
+            "auroc": 0.9618254037300777,
+            "auprc": 0.9996734780192518,
+            "spearman": 0.1341815998368422
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.19304488524119703,
+            "auroc": 0.8453570285385216,
+            "auprc": 0.9500804562042157,
+            "spearman": 0.26453705505891867
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5080869736504936,
+            "auroc": 0.9748342005092925,
+            "auprc": 0.9997592937106445,
+            "spearman": 0.10737056434966151
+          }
+        },
+        "gamma_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999993186943215,
+            "auroc": 0.9308737911260689,
+            "auprc": 0.999234418205979,
+            "spearman": 0.12836918889893387
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.38292079455035993,
+            "auroc": 0.8626268600720322,
+            "auprc": 0.9600277752211159,
+            "spearman": 0.3095488229860945
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5014758812195449,
+            "auroc": 0.9273613144571188,
+            "auprc": 0.999254213293426,
+            "spearman": 0.09843724291684411
+          }
+        },
+        "blur_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999992991133835,
+            "auroc": 0.9634271141200209,
+            "auprc": 0.9996425513849023,
+            "spearman": 0.12776740579085383
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.18404228994412333,
+            "auroc": 0.7586557283649641,
+            "auprc": 0.9398122746821536,
+            "spearman": 0.1856789514681276
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5067028786624168,
+            "auroc": 0.9720162297292025,
+            "auprc": 0.9997035233815971,
+            "spearman": 0.1013926865993273
+          }
+        },
+        "pairwise_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.4999999287768644,
+            "auroc": 0.9695576600980392,
+            "auprc": 0.9997368852658405,
+            "spearman": 0.12875028083979242
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.16341576911166605,
+            "auroc": 0.7778829162195413,
+            "auprc": 0.9433679881774999,
+            "spearman": 0.20509487547103528
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5073834668716616,
+            "auroc": 0.9804474796545065,
+            "auprc": 0.999800279698955,
+            "spearman": 0.1026786698270225
+          }
+        },
+        "gamma_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.29608903210910215,
+            "auroc": 0.960456139831104,
+            "auprc": 0.9996726806480168,
+            "spearman": 0.13173670963403927
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.13654869640117112,
+            "auroc": 0.8679751689694262,
+            "auprc": 0.9583096843436729,
+            "spearman": 0.290785327713569
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3004702493101122,
+            "auroc": 0.9714740063817275,
+            "auprc": 0.9997531440756579,
+            "spearman": 0.10457703179800772
+          }
+        },
+        "blur_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.2987587134554095,
+            "auroc": 0.9729949040295394,
+            "auprc": 0.9998121014190907,
+            "spearman": 0.12928454583067933
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.07541955809044727,
+            "auroc": 0.8196886885636733,
+            "auprc": 0.947230670820349,
+            "spearman": 0.23784895253190425
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3047320260034398,
+            "auroc": 0.9842834724465802,
+            "auprc": 0.9998859412138221,
+            "spearman": 0.10329868654175539
+          }
+        },
+        "pairwise_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.30172905240779807,
+            "auroc": 0.9741037111425662,
+            "auprc": 0.9998230220259657,
+            "spearman": 0.12928248943379342
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.07291619558652775,
+            "auroc": 0.8256758268301031,
+            "auprc": 0.9482646024815445,
+            "spearman": 0.24440473853741765
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.30789863896639597,
+            "auroc": 0.9855588076331462,
+            "auprc": 0.999895548789495,
+            "spearman": 0.10329408965672708
+          }
+        }
+      },
+      "region_reliability_means": {
+        "confidence_rank": {
+          "TP": 0.19023968724461043,
+          "FP": 0.030591128818332643,
+          "FN": 0.02456146331009672,
+          "TN": 0.5094849404355392
+        },
+        "gamma_world_stability": {
+          "TP": 0.3955380633670996,
+          "FP": 0.077094315279117,
+          "FN": 0.025932824060725387,
+          "TN": 0.502659157513769
+        },
+        "blur_world_stability": {
+          "TP": 0.18579622492555659,
+          "FP": 0.03440790142494912,
+          "FN": 0.023922941204944655,
+          "TN": 0.5080525594162817
+        },
+        "pairwise_world_stability": {
+          "TP": 0.16333886850761478,
+          "FP": 0.025922011964584983,
+          "FN": 0.022530940277388743,
+          "TN": 0.5087700523860497
+        },
+        "gamma_joint_product": {
+          "TP": 0.13799720690058262,
+          "FP": 0.014215554143972969,
+          "FN": 0.008182379105236424,
+          "TN": 0.30134709085071537
+        },
+        "blur_joint_product": {
+          "TP": 0.0749522606205166,
+          "FP": 0.005932946169136989,
+          "FN": 0.005416916825475437,
+          "TN": 0.3056603577037843
+        },
+        "pairwise_joint_product": {
+          "TP": 0.07227843447852629,
+          "FP": 0.005390218523242453,
+          "FN": 0.005388065228277635,
+          "TN": 0.3088411028129984
+        }
+      },
+      "context_dependency": {
+        "gamma_source_mask_embedding": {
+          "probability_mse": 1.7636331598299852e-07,
+          "logits_mse": 0.015629051240726506,
+          "predicted_mask_dice_vs_real": 0.9995856656450165,
+          "predicted_mask_iou_vs_real": 0.9634575848310252,
+          "mean_absolute_probability_error": 2.3710692760557654e-05
+        },
+        "gamma_action_mask_embedding": {
+          "probability_mse": 0.0,
+          "logits_mse": 0.0,
+          "predicted_mask_dice_vs_real": 1.0,
+          "predicted_mask_iou_vs_real": 0.9642857142857143,
+          "mean_absolute_probability_error": 0.0
+        },
+        "blur_source_mask_embedding": {
+          "probability_mse": 4.309957048016193e-06,
+          "logits_mse": 0.7073470247477027,
+          "predicted_mask_dice_vs_real": 0.9985926099073128,
+          "predicted_mask_iou_vs_real": 0.9614764851750767,
+          "mean_absolute_probability_error": 0.00015553773781513825
+        },
+        "blur_action_mask_embedding": {
+          "probability_mse": 0.0,
+          "logits_mse": 0.0,
+          "predicted_mask_dice_vs_real": 1.0,
+          "predicted_mask_iou_vs_real": 0.9642857142857143,
+          "mean_absolute_probability_error": 0.0
+        }
+      },
+      "descriptive_recommendation": "real gamma/blur augmentation enters this state; native-tail transplant recovery is measurable; mask-embedding context dependency is explicitly measured"
+    },
+    "final_decoder_feature": {
+      "state": {
+        "state_name": "final_decoder_feature",
+        "state_kind": "final_output",
+        "stage_idx": 4,
+        "location": "last decoder stage output before native final mask projection (D)",
+        "tensor_shape": "1x32x192x192x192",
+        "channels": 32,
+        "spatial_resolution": "192x192x192",
+        "tensor_memory_mb": 432.0
+      },
+      "action_sensitivity": {
+        "gamma": {
+          "relative_delta_norm": 0.05550470522471836,
+          "normalized_mse": 0.0032002479336889727,
+          "delta_rms": 0.03933795168995857,
+          "delta_l2_norm": 581.5891276768276,
+          "gamma_vs_blur_delta_cosine": -0.10356750272746597
+        },
+        "blur": {
+          "relative_delta_norm": 0.1805750589285578,
+          "normalized_mse": 0.0333457746143852,
+          "delta_rms": 0.1277739139539855,
+          "delta_l2_norm": 1890.5320521763392,
+          "gamma_vs_blur_delta_cosine": -0.10356750272746597
+        }
+      },
+      "final_prediction_recovery": {
+        "gamma": {
+          "probability_mse": 1.7636331598299852e-07,
+          "logits_mse": 0.015629051240726506,
+          "mean_absolute_probability_error": 2.3710692760557654e-05,
+          "predicted_mask_dice_vs_real": 0.9995856656450165,
+          "predicted_mask_iou_vs_real": 0.9634575848310252,
+          "context": "source-side downstream skip and source-side mask embedding"
+        },
+        "blur": {
+          "probability_mse": 4.309957048016193e-06,
+          "logits_mse": 0.7073470247477027,
+          "mean_absolute_probability_error": 0.00015553773781513825,
+          "predicted_mask_dice_vs_real": 0.9985926099073128,
+          "predicted_mask_iou_vs_real": 0.9614764851750767,
+          "context": "source-side downstream skip and source-side mask embedding"
+        }
+      },
+      "oracle_reliability": {
+        "confidence_rank": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.5000000689422618,
+            "auroc": 0.9618254037300777,
+            "auprc": 0.9996734780192518,
+            "spearman": 0.1341815998368422
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.19304488524119703,
+            "auroc": 0.8453570285385216,
+            "auprc": 0.9500804562042157,
+            "spearman": 0.26453705505891867
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5080869736504936,
+            "auroc": 0.9748342005092925,
+            "auprc": 0.9997592937106445,
+            "spearman": 0.10737056434966151
+          }
+        },
+        "gamma_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999993186943215,
+            "auroc": 0.9308737911260689,
+            "auprc": 0.999234418205979,
+            "spearman": 0.12836918889893387
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.38292079455035993,
+            "auroc": 0.8626268600720322,
+            "auprc": 0.9600277752211159,
+            "spearman": 0.3095488229860945
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5014758812195449,
+            "auroc": 0.9273613144571188,
+            "auprc": 0.999254213293426,
+            "spearman": 0.09843724291684411
+          }
+        },
+        "blur_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999992991133835,
+            "auroc": 0.9634271141200209,
+            "auprc": 0.9996425513849023,
+            "spearman": 0.12776740579085383
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.18404228994412333,
+            "auroc": 0.7586557283649641,
+            "auprc": 0.9398122746821536,
+            "spearman": 0.1856789514681276
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5067028786624168,
+            "auroc": 0.9720162297292025,
+            "auprc": 0.9997035233815971,
+            "spearman": 0.1013926865993273
+          }
+        },
+        "pairwise_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.4999999287768644,
+            "auroc": 0.9695576600980392,
+            "auprc": 0.9997368852658405,
+            "spearman": 0.12875028083979242
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.16341576911166605,
+            "auroc": 0.7778829162195413,
+            "auprc": 0.9433679881774999,
+            "spearman": 0.20509487547103528
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5073834668716616,
+            "auroc": 0.9804474796545065,
+            "auprc": 0.999800279698955,
+            "spearman": 0.1026786698270225
+          }
+        },
+        "gamma_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.29608903210910215,
+            "auroc": 0.960456139831104,
+            "auprc": 0.9996726806480168,
+            "spearman": 0.13173670963403927
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.13654869640117112,
+            "auroc": 0.8679751689694262,
+            "auprc": 0.9583096843436729,
+            "spearman": 0.290785327713569
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3004702493101122,
+            "auroc": 0.9714740063817275,
+            "auprc": 0.9997531440756579,
+            "spearman": 0.10457703179800772
+          }
+        },
+        "blur_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.2987587134554095,
+            "auroc": 0.9729949040295394,
+            "auprc": 0.9998121014190907,
+            "spearman": 0.12928454583067933
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.07541955809044727,
+            "auroc": 0.8196886885636733,
+            "auprc": 0.947230670820349,
+            "spearman": 0.23784895253190425
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3047320260034398,
+            "auroc": 0.9842834724465802,
+            "auprc": 0.9998859412138221,
+            "spearman": 0.10329868654175539
+          }
+        },
+        "pairwise_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.30172905240779807,
+            "auroc": 0.9741037111425662,
+            "auprc": 0.9998230220259657,
+            "spearman": 0.12928248943379342
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.07291619558652775,
+            "auroc": 0.8256758268301031,
+            "auprc": 0.9482646024815445,
+            "spearman": 0.24440473853741765
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.30789863896639597,
+            "auroc": 0.9855588076331462,
+            "auprc": 0.999895548789495,
+            "spearman": 0.10329408965672708
+          }
+        }
+      },
+      "region_reliability_means": {
+        "confidence_rank": {
+          "TP": 0.19023968724461043,
+          "FP": 0.030591128818332643,
+          "FN": 0.02456146331009672,
+          "TN": 0.5094849404355392
+        },
+        "gamma_world_stability": {
+          "TP": 0.3955380633670996,
+          "FP": 0.077094315279117,
+          "FN": 0.025932824060725387,
+          "TN": 0.502659157513769
+        },
+        "blur_world_stability": {
+          "TP": 0.18579622492555659,
+          "FP": 0.03440790142494912,
+          "FN": 0.023922941204944655,
+          "TN": 0.5080525594162817
+        },
+        "pairwise_world_stability": {
+          "TP": 0.16333886850761478,
+          "FP": 0.025922011964584983,
+          "FN": 0.022530940277388743,
+          "TN": 0.5087700523860497
+        },
+        "gamma_joint_product": {
+          "TP": 0.13799720690058262,
+          "FP": 0.014215554143972969,
+          "FN": 0.008182379105236424,
+          "TN": 0.30134709085071537
+        },
+        "blur_joint_product": {
+          "TP": 0.0749522606205166,
+          "FP": 0.005932946169136989,
+          "FN": 0.005416916825475437,
+          "TN": 0.3056603577037843
+        },
+        "pairwise_joint_product": {
+          "TP": 0.07227843447852629,
+          "FP": 0.005390218523242453,
+          "FN": 0.005388065228277635,
+          "TN": 0.3088411028129984
+        }
+      },
+      "context_dependency": {
+        "gamma_source_mask_embedding": {
+          "probability_mse": 1.7636331598299852e-07,
+          "logits_mse": 0.015629051240726506,
+          "predicted_mask_dice_vs_real": 0.9995856656450165,
+          "predicted_mask_iou_vs_real": 0.9634575848310252,
+          "mean_absolute_probability_error": 2.3710692760557654e-05
+        },
+        "gamma_action_mask_embedding": {
+          "probability_mse": 0.0,
+          "logits_mse": 0.0,
+          "predicted_mask_dice_vs_real": 1.0,
+          "predicted_mask_iou_vs_real": 0.9642857142857143,
+          "mean_absolute_probability_error": 0.0
+        },
+        "blur_source_mask_embedding": {
+          "probability_mse": 4.309957048016193e-06,
+          "logits_mse": 0.7073470247477027,
+          "predicted_mask_dice_vs_real": 0.9985926099073128,
+          "predicted_mask_iou_vs_real": 0.9614764851750767,
+          "mean_absolute_probability_error": 0.00015553773781513825
+        },
+        "blur_action_mask_embedding": {
+          "probability_mse": 0.0,
+          "logits_mse": 0.0,
+          "predicted_mask_dice_vs_real": 1.0,
+          "predicted_mask_iou_vs_real": 0.9642857142857143,
+          "mean_absolute_probability_error": 0.0
+        }
+      },
+      "descriptive_recommendation": "real gamma/blur augmentation enters this state; native-tail transplant recovery is measurable; mask-embedding context dependency is explicitly measured"
+    },
+    "full_voxtell_reference": {
+      "state": {
+        "state_name": "full_voxtell_reference",
+        "state_kind": "native_final_prediction",
+        "stage_idx": null,
+        "location": "native complete VoxTell final prediction; no transplant",
+        "tensor_shape": "1x1x192x192x192",
+        "channels": 1,
+        "spatial_resolution": "192x192x192",
+        "tensor_memory_mb": 13.5
+      },
+      "action_sensitivity": {
+        "gamma": {
+          "relative_delta_norm": null,
+          "normalized_mse": null,
+          "delta_rms": null,
+          "delta_l2_norm": null,
+          "gamma_vs_blur_delta_cosine": null
+        },
+        "blur": {
+          "relative_delta_norm": null,
+          "normalized_mse": null,
+          "delta_rms": null,
+          "delta_l2_norm": null,
+          "gamma_vs_blur_delta_cosine": null
+        }
+      },
+      "final_prediction_recovery": {
+        "gamma": {
+          "probability_mse": null,
+          "logits_mse": null,
+          "mean_absolute_probability_error": null,
+          "predicted_mask_dice_vs_real": null,
+          "predicted_mask_iou_vs_real": null,
+          "context": "source-side downstream skip and source-side mask embedding"
+        },
+        "blur": {
+          "probability_mse": null,
+          "logits_mse": null,
+          "mean_absolute_probability_error": null,
+          "predicted_mask_dice_vs_real": null,
+          "predicted_mask_iou_vs_real": null,
+          "context": "source-side downstream skip and source-side mask embedding"
+        }
+      },
+      "oracle_reliability": {
+        "confidence_rank": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.5000000689422618,
+            "auroc": 0.9618254037300777,
+            "auprc": 0.9996734780192518,
+            "spearman": 0.1341815998368422
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.19304488524119703,
+            "auroc": 0.8453570285385216,
+            "auprc": 0.9500804562042157,
+            "spearman": 0.26453705505891867
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5080869736504936,
+            "auroc": 0.9748342005092925,
+            "auprc": 0.9997592937106445,
+            "spearman": 0.10737056434966151
+          }
+        },
+        "gamma_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.4999999326925065,
+            "auroc": 0.9304463204282368,
+            "auprc": 0.9992167711577469,
+            "spearman": 0.12348091267927762
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.38086162018374486,
+            "auroc": 0.8637625701257025,
+            "auprc": 0.9608895968553224,
+            "spearman": 0.31113759722260365
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.501566595857941,
+            "auroc": 0.9265621192818565,
+            "auprc": 0.9992344759084129,
+            "spearman": 0.09378463836641805
+          }
+        },
+        "blur_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.49999992977135704,
+            "auroc": 0.9652186329553895,
+            "auprc": 0.9996287001079093,
+            "spearman": 0.11770074372384264
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.1789562507329067,
+            "auroc": 0.753961702019453,
+            "auprc": 0.9372909551345395,
+            "spearman": 0.18044997120292275
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.5068027899044899,
+            "auroc": 0.9741598983442717,
+            "auprc": 0.9996850483797873,
+            "spearman": 0.09418856032816965
+          }
+        },
+        "pairwise_world_stability": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.4999999298516403,
+            "auroc": 0.9713786898806024,
+            "auprc": 0.9997344668239152,
+            "spearman": 0.11872401823868772
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.1585137575334816,
+            "auroc": 0.7753069781464934,
+            "auprc": 0.9418249894930637,
+            "spearman": 0.20239530200242484
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.507475533338105,
+            "auroc": 0.9823775231821298,
+            "auprc": 0.9997949875988587,
+            "spearman": 0.0954556052859994
+          }
+        },
+        "gamma_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.2971490909389895,
+            "auroc": 0.9608526408403716,
+            "auprc": 0.999676141540364,
+            "spearman": 0.1277545727579166
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.1375891392869833,
+            "auroc": 0.8684309613525847,
+            "auprc": 0.958561111030437,
+            "spearman": 0.2916644691644389
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3015532671919775,
+            "auroc": 0.9717271767337372,
+            "auprc": 0.9997560051637405,
+            "spearman": 0.10072586838804677
+          }
+        },
+        "blur_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.29777931321182116,
+            "auroc": 0.9748251652378901,
+            "auprc": 0.9998146187733148,
+            "spearman": 0.1195747617185965
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.0738727652740409,
+            "auroc": 0.8182081492840753,
+            "auprc": 0.9463329469337564,
+            "spearman": 0.236011421647622
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.30371719866565716,
+            "auroc": 0.9862188457376245,
+            "auprc": 0.9998875575195221,
+            "spearman": 0.09629669565665898
+          }
+        },
+        "pairwise_joint_product": {
+          "overall": {
+            "pseudo_accuracy": 0.9955788259153012,
+            "reliability_mean": 0.3011465977158382,
+            "auroc": 0.9759502981954371,
+            "auprc": 0.9998270211530286,
+            "spearman": 0.1196143240410889
+          },
+          "foreground": {
+            "pseudo_accuracy": 0.8826768252856264,
+            "reliability_mean": 0.0713557842216987,
+            "auroc": 0.8251163411558161,
+            "auprc": 0.947807966258736,
+            "spearman": 0.2437341079903166
+          },
+          "background": {
+            "pseudo_accuracy": 0.9970784817243997,
+            "reliability_mean": 0.3072989207813476,
+            "auroc": 0.9874302447808668,
+            "auprc": 0.9998983019399537,
+            "spearman": 0.09635923919437779
+          }
+        }
+      },
+      "region_reliability_means": {
+        "confidence_rank": {
+          "TP": 0.19023968724461043,
+          "FP": 0.030591128818332643,
+          "FN": 0.02456146331009672,
+          "TN": 0.5094849404355392
+        },
+        "gamma_world_stability": {
+          "TP": 0.3934802945012732,
+          "FP": 0.07790999753747843,
+          "FN": 0.025625044154758487,
+          "TN": 0.5027486065147647
+        },
+        "blur_world_stability": {
+          "TP": 0.18045255983438072,
+          "FP": 0.03226102609428051,
+          "FN": 0.024268187134699675,
+          "TN": 0.5081525333374286
+        },
+        "pairwise_world_stability": {
+          "TP": 0.15827984132141862,
+          "FP": 0.023995285449424517,
+          "FN": 0.02257791733440828,
+          "TN": 0.5088626789888947
+        },
+        "gamma_joint_product": {
+          "TP": 0.13921550336020685,
+          "FP": 0.014166158497213286,
+          "FN": 0.008072196414732929,
+          "TN": 0.30243540486058684
+        },
+        "blur_joint_product": {
+          "TP": 0.07343961788666607,
+          "FP": 0.004927231619567015,
+          "FN": 0.005297938261456912,
+          "TN": 0.30464310972724556
+        },
+        "pairwise_joint_product": {
+          "TP": 0.07077109752916434,
+          "FP": 0.0043912117892241,
+          "FN": 0.005259616060594442,
+          "TN": 0.3082408962578694
+        }
+      },
+      "context_dependency": {},
+      "descriptive_recommendation": "full native VoxTell reference for apples-to-apples oracle reliability; not a transplant candidate"
+    }
+  },
+  "outputs": {
+    "candidate_action_sensitivity": "outputs/v9_0_world_state_selection_audit/candidate_action_sensitivity.csv",
+    "candidate_final_prediction_recovery": "outputs/v9_0_world_state_selection_audit/candidate_final_prediction_recovery.csv",
+    "candidate_context_dependency": "outputs/v9_0_world_state_selection_audit/candidate_context_dependency.csv",
+    "candidate_oracle_reliability_metrics": "outputs/v9_0_world_state_selection_audit/candidate_oracle_reliability_metrics.csv",
+    "candidate_oracle_reliability_regions": "outputs/v9_0_world_state_selection_audit/candidate_oracle_reliability_regions.csv",
+    "candidate_ranking": "outputs/v9_0_world_state_selection_audit/candidate_ranking.csv",
+    "progress": "outputs/v9_0_world_state_selection_audit/progress.json",
+    "summary": "outputs/v9_0_world_state_selection_audit/summary.json"
+  }
+}
