@@ -78,16 +78,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--seed', type=int, default=2026)
     parser.add_argument('--case-limit', type=int, default=0, help='debug smoke-test limit; 0 uses all train cases')
     parser.add_argument('--patch-limit', type=int, default=0, help='debug smoke-test limit; 0 uses all selected patches')
+    parser.add_argument('--resume', action='store_true', help='append to an existing run and skip completed train cases')
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
 
 
 class CsvSink:
-    def __init__(self, path: Path, fields: tuple[str, ...]) -> None:
-        self.handle = path.open('w', newline='')
+    def __init__(self, path: Path, fields: tuple[str, ...], append: bool = False) -> None:
+        existing = append and path.exists() and path.stat().st_size > 0
+        self.handle = path.open('a' if existing else 'w', newline='')
         self.writer = csv.DictWriter(self.handle, fieldnames=list(fields), extrasaction='ignore')
-        self.writer.writeheader()
+        if not existing:
+            self.writer.writeheader()
         self.handle.flush()
 
     def write(self, row: dict[str, Any]) -> None:
@@ -223,6 +226,82 @@ def write_progress(path: Path, completed_cases: list[str], patch_rows: int, devi
         'completed_patch_rows': patch_rows,
         'memory': memory_status(device),
     }, indent=2))
+
+
+def load_resume_state(
+    output_dir: Path,
+    train_names: list[str],
+) -> tuple[list[str], int]:
+    progress_path = output_dir / 'progress.json'
+    if not progress_path.exists():
+        raise FileNotFoundError(f'--resume requested but progress file is missing: {progress_path}')
+    progress = json.loads(progress_path.read_text())
+    completed = [str(name) for name in progress.get('completed_cases', [])]
+    expected_prefix = train_names[:len(completed)]
+    if completed != expected_prefix:
+        raise AssertionError(
+            'Resume progress must contain an ordered prefix of the current train split; '
+            f'got {completed[-3:]}, expected prefix ending {expected_prefix[-3:]}'
+        )
+    patch_rows = int(progress.get('completed_patch_rows', 0))
+    if patch_rows < 0:
+        raise AssertionError('Resume progress has a negative completed_patch_rows')
+    return completed, patch_rows
+
+
+def restore_resume_aggregates(
+    output_dir: Path,
+    completed_cases: set[str],
+    global_metrics: dict[tuple[str, str, str], MetricAccumulator],
+    global_regions: dict[tuple[str, str, str], RegionAccumulator],
+) -> None:
+    """Restore case-level scalar aggregates without retaining patch tensors."""
+    metrics_path = output_dir / 'candidate_oracle_reliability_metrics.csv'
+    if metrics_path.exists():
+        with metrics_path.open(newline='') as handle:
+            for row in csv.DictReader(handle):
+                if row.get('case') not in completed_cases or row.get('aggregation') != 'case_patch_macro':
+                    continue
+                key = (row['candidate_state'], row['method'], row['scope'])
+                global_metrics.setdefault(key, MetricAccumulator()).update({
+                    name: None if row.get(name, '') in ('', 'None') else float(row[name])
+                    for name in METRIC_NAMES
+                })
+    regions_path = output_dir / 'candidate_oracle_reliability_regions.csv'
+    if regions_path.exists():
+        with regions_path.open(newline='') as handle:
+            for row in csv.DictReader(handle):
+                if row.get('case') not in completed_cases or row.get('aggregation') != 'case_patch_macro':
+                    continue
+                key = (row['candidate_state'], row['method'], row['region'])
+                accumulator = global_regions.setdefault(key, RegionAccumulator())
+                mean = row.get('reliability_mean', '')
+                if mean not in ('', 'None'):
+                    accumulator.values.update(float(mean))
+                count = row.get('voxel_count', '')
+                if count not in ('', 'None'):
+                    accumulator.voxel_count += int(float(count))
+
+
+def pad_selected_patches(
+    slicers: list[tuple],
+    patch_kinds: list[str],
+    required_count: int,
+) -> tuple[list[tuple], list[str]]:
+    """Deterministically repeat source-selected patches when a volume has <4 windows."""
+    if len(slicers) >= required_count:
+        return list(slicers[:required_count]), list(patch_kinds[:required_count])
+    if not slicers:
+        raise AssertionError('Patch selector returned no usable patches')
+    padded_slicers = list(slicers)
+    padded_kinds = list(patch_kinds)
+    source_pool = list(slicers)
+    repeat_index = 0
+    while len(padded_slicers) < required_count:
+        padded_slicers.append(source_pool[repeat_index % len(source_pool)])
+        padded_kinds.append('repeat_fill')
+        repeat_index += 1
+    return padded_slicers, padded_kinds
 
 
 def candidate_specs(interface: VoxTellStateInterface) -> dict[str, dict[str, Any]]:
@@ -452,6 +531,8 @@ def run(args: argparse.Namespace) -> None:
         raise AssertionError('Invalid patch protocol')
     if args.case_limit < 0 or args.patch_limit < 0:
         raise AssertionError('Debug limits must be non-negative')
+    if args.resume and (args.case_limit or args.patch_limit):
+        raise AssertionError('--resume cannot be combined with debug case/patch limits')
 
     set_seed(args.seed)
     device = resolve_device(args)
@@ -478,16 +559,17 @@ def run(args: argparse.Namespace) -> None:
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    action_sink = CsvSink(output_dir / 'candidate_action_sensitivity.csv', ACTION_FIELDS)
-    recovery_sink = CsvSink(output_dir / 'candidate_final_prediction_recovery.csv', RECOVERY_FIELDS)
-    context_sink = CsvSink(output_dir / 'candidate_context_dependency.csv', CONTEXT_FIELDS)
-    metric_sink = CsvSink(output_dir / 'candidate_oracle_reliability_metrics.csv', METRIC_FIELDS)
-    region_sink = CsvSink(output_dir / 'candidate_oracle_reliability_regions.csv', REGION_FIELDS)
-    ranking_sink = CsvSink(output_dir / 'candidate_ranking.csv', RANKING_FIELDS)
+    action_sink = CsvSink(output_dir / 'candidate_action_sensitivity.csv', ACTION_FIELDS, append=args.resume)
+    recovery_sink = CsvSink(output_dir / 'candidate_final_prediction_recovery.csv', RECOVERY_FIELDS, append=args.resume)
+    context_sink = CsvSink(output_dir / 'candidate_context_dependency.csv', CONTEXT_FIELDS, append=args.resume)
+    metric_sink = CsvSink(output_dir / 'candidate_oracle_reliability_metrics.csv', METRIC_FIELDS, append=args.resume)
+    region_sink = CsvSink(output_dir / 'candidate_oracle_reliability_regions.csv', REGION_FIELDS, append=args.resume)
+    ranking_sink = CsvSink(output_dir / 'candidate_ranking.csv', RANKING_FIELDS, append=False)
     progress_path = output_dir / 'progress.json'
-    completed_cases: list[str] = []
-    patch_rows = 0
-    write_progress(progress_path, completed_cases, patch_rows, device, 'initializing')
+    if args.resume:
+        completed_cases, patch_rows = load_resume_state(output_dir, train_names)
+    else:
+        completed_cases, patch_rows = [], 0
 
     global_metrics: dict[tuple[str, str, str], MetricAccumulator] = {}
     global_regions: dict[tuple[str, str, str], RegionAccumulator] = {}
@@ -495,6 +577,11 @@ def run(args: argparse.Namespace) -> None:
     recovery_rows: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     context_rows: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     state_metadata: dict[str, dict[str, Any]] = {}
+    if args.resume:
+        restore_resume_aggregates(output_dir, set(completed_cases), global_metrics, global_regions)
+        write_progress(progress_path, completed_cases, patch_rows, device, 'resuming')
+    else:
+        write_progress(progress_path, completed_cases, patch_rows, device, 'initializing')
 
     try:
         print('[V9.0] loading frozen VoxTell/base model; no World Predictor', flush=True)
@@ -514,6 +601,9 @@ def run(args: argparse.Namespace) -> None:
         write_progress(progress_path, completed_cases, patch_rows, device, 'running')
 
         for case_index, case in enumerate(train_cases, start=1):
+            if case.case in completed_cases:
+                print(f'[V9.0] case {case_index}/{len(train_cases)} skip completed {case.case}', flush=True)
+                continue
             print(f'[V9.0] case {case_index}/{len(train_cases)} start {case.case}', flush=True)
             image, label, _ = read_image_and_label(case)
             label_padded = pad_label_like_image(interface, label)
@@ -522,8 +612,9 @@ def run(args: argparse.Namespace) -> None:
                 args.patches_per_case, args.foreground_patches_per_case,
                 args.foreground_candidate_patches, args.foreground_threshold,
             )
-            if len(slicers) < args.patches_per_case:
-                raise AssertionError(f'Patch selector returned {len(slicers)} patches for {case.case}')
+            slicers, patch_kinds = pad_selected_patches(
+                slicers, patch_kinds, args.patches_per_case,
+            )
             if args.patch_limit:
                 slicers = slicers[:args.patch_limit]
                 patch_kinds = patch_kinds[:args.patch_limit]
@@ -848,6 +939,12 @@ def build_summary(
             'foreground_threshold': args.foreground_threshold,
             'prediction_threshold': args.prediction_threshold,
             'selection_uses_gt': False,
+            'short_volume_fill': 'deterministic repeat_fill of source-selected slicers when fewer than patches_per_case exist',
+        },
+        'resume': {
+            'enabled': args.resume,
+            'completed_cases_are_skipped': True,
+            'csv_case_rows_are_appended': args.resume,
         },
         'candidate_definitions': {
             **{name: specs[name] for name in specs},

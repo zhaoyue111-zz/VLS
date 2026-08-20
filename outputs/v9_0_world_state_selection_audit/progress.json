@@ -28,8 +28,8 @@
   "completed_case_count": 23,
   "completed_patch_rows": 92,
   "memory": {
-    "cpu_rss_mb": 6101.80859375,
+    "cpu_rss_mb": 6028.46875,
     "gpu_allocated_mb": 1743.01953125,
-    "gpu_reserved_mb": 2624.0
+    "gpu_reserved_mb": 3056.0
   }
 }
