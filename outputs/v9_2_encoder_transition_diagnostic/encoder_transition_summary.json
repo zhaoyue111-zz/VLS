@@ -1,0 +1,249 @@
+{
+  "stage": "V9.2 Encoder Transition Diagnostic",
+  "models_trained": false,
+  "world_predictor_loaded": false,
+  "decoder_modified": false,
+  "segmentation_head_added": false,
+  "gt_used": false,
+  "full_train_split_used": true,
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "train_case_count": 30,
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "patch_protocol": {
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "selection_uses_gt": false,
+    "short_volume_fill": "deterministic repeat_fill"
+  },
+  "encoder_layer_mapping": {
+    "encoder_stage_1": {
+      "encoder_index": 0,
+      "feature_shape": "1x32x192x192x192",
+      "channels": 32,
+      "spatial_resolution": "192x192x192",
+      "role": "encoder stage 1"
+    },
+    "encoder_stage_2": {
+      "encoder_index": 1,
+      "feature_shape": "1x64x96x96x96",
+      "channels": 64,
+      "spatial_resolution": "96x96x96",
+      "role": "encoder stage 2"
+    },
+    "encoder_stage_3": {
+      "encoder_index": 2,
+      "feature_shape": "1x128x48x48x48",
+      "channels": 128,
+      "spatial_resolution": "48x48x48",
+      "role": "encoder stage 3"
+    },
+    "encoder_stage_4": {
+      "encoder_index": 3,
+      "feature_shape": "1x256x24x24x24",
+      "channels": 256,
+      "spatial_resolution": "24x24x24",
+      "role": "encoder stage 4"
+    },
+    "encoder_stage_5": {
+      "encoder_index": 4,
+      "feature_shape": "1x320x12x12x12",
+      "channels": 320,
+      "spatial_resolution": "12x12x12",
+      "role": "encoder stage 5"
+    },
+    "encoder_bottleneck_deepest": {
+      "encoder_index": 5,
+      "feature_shape": "1x320x6x6x6",
+      "channels": 320,
+      "spatial_resolution": "6x6x6",
+      "role": "bottleneck/deepest"
+    }
+  },
+  "layers_sorted_shallow_to_deep": [
+    "encoder_stage_1",
+    "encoder_stage_2",
+    "encoder_stage_3",
+    "encoder_stage_4",
+    "encoder_stage_5",
+    "encoder_bottleneck_deepest"
+  ],
+  "per_layer_action_summary": {
+    "encoder_stage_1": {
+      "gamma": {
+        "count": 120,
+        "mean_delta_norm": 1629.8352996826172,
+        "mean_relative_delta": 0.13015168098111948,
+        "mean_cosine_similarity": 0.9914287969470024,
+        "mean_mse": 0.011896939501942446
+      },
+      "blur": {
+        "count": 120,
+        "mean_delta_norm": 5566.563077799479,
+        "mean_relative_delta": 0.44546463986237844,
+        "mean_cosine_similarity": 0.8973952487111092,
+        "mean_mse": 0.13878671834245324
+      }
+    },
+    "encoder_stage_2": {
+      "gamma": {
+        "count": 120,
+        "mean_delta_norm": 1125.8208755493165,
+        "mean_relative_delta": 0.1270438744376103,
+        "mean_cosine_similarity": 0.9917873909076055,
+        "mean_mse": 0.02275064690038562
+      },
+      "blur": {
+        "count": 120,
+        "mean_delta_norm": 3895.3171346028644,
+        "mean_relative_delta": 0.4396043134232362,
+        "mean_cosine_similarity": 0.9004850114385287,
+        "mean_mse": 0.2696916230022907
+      }
+    },
+    "encoder_stage_3": {
+      "gamma": {
+        "count": 120,
+        "mean_delta_norm": 587.3807184855143,
+        "mean_relative_delta": 0.1112668054178357,
+        "mean_cosine_similarity": 0.9936433280507724,
+        "mean_mse": 0.025056246567207077
+      },
+      "blur": {
+        "count": 120,
+        "mean_delta_norm": 1870.866244506836,
+        "mean_relative_delta": 0.35489890550573666,
+        "mean_cosine_similarity": 0.9360628719131152,
+        "mean_mse": 0.2484052561223507
+      }
+    },
+    "encoder_stage_4": {
+      "gamma": {
+        "count": 120,
+        "mean_delta_norm": 360.5603958129883,
+        "mean_relative_delta": 0.10936907641589641,
+        "mean_cosine_similarity": 0.9936602493127187,
+        "mean_mse": 0.03891134465423723
+      },
+      "blur": {
+        "count": 120,
+        "mean_delta_norm": 1071.3809056599935,
+        "mean_relative_delta": 0.32538765768210093,
+        "mean_cosine_similarity": 0.9472435096899668,
+        "mean_mse": 0.3266871117055416
+      }
+    },
+    "encoder_stage_5": {
+      "gamma": {
+        "count": 120,
+        "mean_delta_norm": 192.85450420379638,
+        "mean_relative_delta": 0.09467038307338953,
+        "mean_cosine_similarity": 0.9949366599321365,
+        "mean_mse": 0.07520143071499964
+      },
+      "blur": {
+        "count": 120,
+        "mean_delta_norm": 601.2004397074381,
+        "mean_relative_delta": 0.294402477145195,
+        "mean_cosine_similarity": 0.9545336951812108,
+        "mean_mse": 0.6766194567084313
+      }
+    },
+    "encoder_bottleneck_deepest": {
+      "gamma": {
+        "count": 120,
+        "mean_delta_norm": 71.36377553939819,
+        "mean_relative_delta": 0.08367981258779764,
+        "mean_cosine_similarity": 0.9959849134087563,
+        "mean_mse": 0.08414881651600202
+      },
+      "blur": {
+        "count": 120,
+        "mean_delta_norm": 222.116614596049,
+        "mean_relative_delta": 0.26022988694409527,
+        "mean_cosine_similarity": 0.9644372701644898,
+        "mean_mse": 0.7451270975172519
+      }
+    }
+  },
+  "mean_relative_delta_by_layer": {
+    "gamma": {
+      "encoder_stage_1": 0.13015168098111948,
+      "encoder_stage_2": 0.1270438744376103,
+      "encoder_stage_3": 0.1112668054178357,
+      "encoder_stage_4": 0.10936907641589641,
+      "encoder_stage_5": 0.09467038307338953,
+      "encoder_bottleneck_deepest": 0.08367981258779764
+    },
+    "blur": {
+      "encoder_stage_1": 0.44546463986237844,
+      "encoder_stage_2": 0.4396043134232362,
+      "encoder_stage_3": 0.35489890550573666,
+      "encoder_stage_4": 0.32538765768210093,
+      "encoder_stage_5": 0.294402477145195,
+      "encoder_bottleneck_deepest": 0.26022988694409527
+    }
+  },
+  "dominant_relative_delta_layer": {
+    "gamma": "encoder_stage_1",
+    "blur": "encoder_stage_1"
+  },
+  "deep_vs_shallow_mean_relative_delta": {
+    "gamma": {
+      "deepest": 0.08367981258779764,
+      "shallow_mean": 0.1285977777093649
+    },
+    "blur": {
+      "deepest": 0.26022988694409527,
+      "shallow_mean": 0.4425344766428073
+    }
+  },
+  "next_step_judgment": {
+    "gamma": "shallow_feature_change_exceeds_deepest_mean; consider_multi_level_WP_or_shallow_feature_prediction",
+    "blur": "shallow_feature_change_exceeds_deepest_mean; consider_multi_level_WP_or_shallow_feature_prediction"
+  },
+  "interpretation_rule": {
+    "A": "deepest feature relative delta is at least the shallow-layer mean: prioritize WP transition learning/delta-residual supervision",
+    "B": "shallow-layer relative delta exceeds deepest mean: consider multi-level WP or shallow feature prediction"
+  },
+  "outputs": {
+    "profile": "outputs/v9_2_encoder_transition_diagnostic/encoder_transition_profile.csv",
+    "summary": "outputs/v9_2_encoder_transition_diagnostic/encoder_transition_summary.json",
+    "progress": "outputs/v9_2_encoder_transition_diagnostic/progress.json"
+  }
+}
