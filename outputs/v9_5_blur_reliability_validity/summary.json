@@ -1,0 +1,413 @@
+{
+  "stage": "V9.5 blur reliability validity diagnostic",
+  "evaluation_only": true,
+  "models_trained": false,
+  "sfda_run": false,
+  "voxtell_modified": false,
+  "v93_wp_modified": false,
+  "loss_modified": false,
+  "segmentation_head_added": false,
+  "test_case_count": 8,
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "fixed_manifest_patch_count": 32,
+  "action_protocol": {
+    "blur_sigma": 1.5
+  },
+  "checkpoint": {
+    "path": "outputs/v9_3_hierarchical_residual_world_predictor/best_hierarchical_world_predictor.pt",
+    "stage": "V9.3 hierarchical residual World Predictor",
+    "selected_epoch": 20,
+    "selected_encoder_levels": [
+      "encoder_stage_2",
+      "encoder_stage_3",
+      "encoder_stage_4",
+      "encoder_stage_5",
+      "encoder_bottleneck_deepest"
+    ],
+    "level_channels": {
+      "encoder_stage_2": 64,
+      "encoder_stage_3": 128,
+      "encoder_stage_4": 256,
+      "encoder_stage_5": 320,
+      "encoder_bottleneck_deepest": 320
+    },
+    "hidden_channels": 16,
+    "text_delta_dim": 2560,
+    "train_case_count": 30,
+    "test_case_count": 8
+  },
+  "patch_manifest": "outputs/v9_3_hierarchical_residual_world_predictor/test_patch_manifest.json",
+  "gt_usage": "GT is used only to label source pseudo-label voxel correctness and compute source/real-blur GT Dice drop.",
+  "reliability_definition": {
+    "confidence": "tie-aware percentile rank of max(source_probability, 1-source_probability)",
+    "real_blur": "1 - tie-aware percentile rank(abs(source_probability-real_blur_probability))",
+    "imagined_blur": "1 - tie-aware percentile rank(abs(source_probability-correct_action_wp_blur_probability))",
+    "higher_is_more_reliable": true,
+    "metric_aggregation": "patch macro; TP/FP/FN/TN means are voxel-count weighted"
+  },
+  "scopes": {
+    "overall": "all fixed manifest voxels",
+    "foreground": "GT foreground voxels only"
+  },
+  "reliability_metrics": [
+    {
+      "method": "confidence",
+      "scope": "overall",
+      "patch_count": 32,
+      "valid_auroc_count": 26,
+      "pseudo_accuracy": 0.9898449138358788,
+      "reliability_mean": 0.5000000668889437,
+      "auroc": 0.8767170643575649,
+      "auprc": 0.9991000215949095,
+      "spearman": 0.2076269979939588,
+      "aggregation": "patch_macro"
+    },
+    {
+      "method": "confidence",
+      "scope": "foreground",
+      "patch_count": 32,
+      "valid_auroc_count": 20,
+      "pseudo_accuracy": 0.5855311957463053,
+      "reliability_mean": 0.13268296641554078,
+      "auroc": 0.5613562210095806,
+      "auprc": 0.6963002066824877,
+      "spearman": 0.03775882114146213,
+      "aggregation": "patch_macro"
+    },
+    {
+      "method": "real_blur",
+      "scope": "overall",
+      "patch_count": 32,
+      "valid_auroc_count": 26,
+      "pseudo_accuracy": 0.9898449138358788,
+      "reliability_mean": 0.4999999345456332,
+      "auroc": 0.9102072058157522,
+      "auprc": 0.9989254747602391,
+      "spearman": 0.18595839997396546,
+      "aggregation": "patch_macro"
+    },
+    {
+      "method": "real_blur",
+      "scope": "foreground",
+      "patch_count": 32,
+      "valid_auroc_count": 20,
+      "pseudo_accuracy": 0.5855311957463053,
+      "reliability_mean": 0.10426748580992067,
+      "auroc": 0.5360791404845114,
+      "auprc": 0.7123547727144011,
+      "spearman": 0.01634616526652661,
+      "aggregation": "patch_macro"
+    },
+    {
+      "method": "imagined_blur",
+      "scope": "overall",
+      "patch_count": 32,
+      "valid_auroc_count": 26,
+      "pseudo_accuracy": 0.9898449138358788,
+      "reliability_mean": 0.49999993255966996,
+      "auroc": 0.8656208998741654,
+      "auprc": 0.9988082068524569,
+      "spearman": 0.20060107785511638,
+      "aggregation": "patch_macro"
+    },
+    {
+      "method": "imagined_blur",
+      "scope": "foreground",
+      "patch_count": 32,
+      "valid_auroc_count": 20,
+      "pseudo_accuracy": 0.5855311957463053,
+      "reliability_mean": 0.16366166085356057,
+      "auroc": 0.5951570523079609,
+      "auprc": 0.7324373503469203,
+      "spearman": 0.09394212542364025,
+      "aggregation": "patch_macro"
+    }
+  ],
+  "region_reliability_means": {
+    "confidence": {
+      "overall": {
+        "TP": 0.04722415137565998,
+        "FP": 0.07366950172134519,
+        "FN": 0.05179855833119507,
+        "TN": 0.5122933964054533
+      },
+      "foreground": {
+        "TP": 0.04722415137565998,
+        "FP": null,
+        "FN": 0.05179855833119507,
+        "TN": null
+      }
+    },
+    "real_blur": {
+      "overall": {
+        "TP": 0.055253134434439605,
+        "FP": 0.08144584630582184,
+        "FN": 0.0488031602897618,
+        "TN": 0.5121608833740857
+      },
+      "foreground": {
+        "TP": 0.055253134434439605,
+        "FP": null,
+        "FN": 0.0488031602897618,
+        "TN": null
+      }
+    },
+    "imagined_blur": {
+      "overall": {
+        "TP": 0.09879688165277528,
+        "FP": 0.13825923450684718,
+        "FN": 0.052173305252911244,
+        "TN": 0.5112510413487638
+      },
+      "foreground": {
+        "TP": 0.09879688165277528,
+        "FP": null,
+        "FN": 0.052173305252911244,
+        "TN": null
+      }
+    }
+  },
+  "direction_judgment": {
+    "confidence": {
+      "overall": {
+        "correct_region_reliability_mean": 0.5045432576121746,
+        "incorrect_region_reliability_mean": 0.05716244273713981,
+        "correct_minus_incorrect": 0.4473808148750347,
+        "auroc": 0.8767170643575649,
+        "spearman": 0.2076269979939588,
+        "direction_correct": true
+      },
+      "foreground": {
+        "correct_region_reliability_mean": 0.04722415137565998,
+        "incorrect_region_reliability_mean": 0.05179855833119507,
+        "correct_minus_incorrect": -0.004574406955535092,
+        "auroc": 0.5613562210095806,
+        "spearman": 0.03775882114146213,
+        "direction_correct": false
+      }
+    },
+    "real_blur": {
+      "overall": {
+        "correct_region_reliability_mean": 0.5045467516983178,
+        "incorrect_region_reliability_mean": 0.05680883207841219,
+        "correct_minus_incorrect": 0.44773791961990556,
+        "auroc": 0.9102072058157522,
+        "spearman": 0.18595839997396546,
+        "direction_correct": true
+      },
+      "foreground": {
+        "correct_region_reliability_mean": 0.055253134434439605,
+        "incorrect_region_reliability_mean": 0.0488031602897618,
+        "correct_minus_incorrect": 0.006449974144677802,
+        "auroc": 0.5360791404845114,
+        "spearman": 0.01634616526652661,
+        "direction_correct": true
+      }
+    },
+    "imagined_blur": {
+      "overall": {
+        "correct_region_reliability_mean": 0.5043777057806285,
+        "incorrect_region_reliability_mean": 0.07328601928903306,
+        "correct_minus_incorrect": 0.4310916864915954,
+        "auroc": 0.8656208998741654,
+        "spearman": 0.20060107785511638,
+        "direction_correct": true
+      },
+      "foreground": {
+        "correct_region_reliability_mean": 0.09879688165277528,
+        "incorrect_region_reliability_mean": 0.052173305252911244,
+        "correct_minus_incorrect": 0.04662357639986404,
+        "auroc": 0.5951570523079609,
+        "spearman": 0.09394212542364025,
+        "direction_correct": true
+      }
+    }
+  },
+  "imagined_blur_vs_confidence": {
+    "overall": {
+      "scope": "overall",
+      "method": "imagined_blur",
+      "reference": "confidence",
+      "method_metrics": {
+        "auroc": 0.8656208998741654,
+        "auprc": 0.9988082068524569,
+        "spearman": 0.20060107785511638,
+        "reliability_mean": 0.49999993255966996
+      },
+      "reference_metrics": {
+        "auroc": 0.8767170643575649,
+        "auprc": 0.9991000215949095,
+        "spearman": 0.2076269979939588,
+        "reliability_mean": 0.5000000668889437
+      },
+      "deltas_method_minus_reference": {
+        "auroc": -0.011096164483399562,
+        "auprc": -0.00029181474245265626,
+        "spearman": -0.007025920138842429
+      },
+      "better_on": [],
+      "all_available_metrics_strictly_better": false
+    },
+    "foreground": {
+      "scope": "foreground",
+      "method": "imagined_blur",
+      "reference": "confidence",
+      "method_metrics": {
+        "auroc": 0.5951570523079609,
+        "auprc": 0.7324373503469203,
+        "spearman": 0.09394212542364025,
+        "reliability_mean": 0.16366166085356057
+      },
+      "reference_metrics": {
+        "auroc": 0.5613562210095806,
+        "auprc": 0.6963002066824877,
+        "spearman": 0.03775882114146213,
+        "reliability_mean": 0.13268296641554078
+      },
+      "deltas_method_minus_reference": {
+        "auroc": 0.033800831298380296,
+        "auprc": 0.03613714366443255,
+        "spearman": 0.05618330428217812
+      },
+      "better_on": [
+        "auroc",
+        "auprc",
+        "spearman"
+      ],
+      "all_available_metrics_strictly_better": true
+    }
+  },
+  "imagined_blur_vs_real_blur_oracle_gap": {
+    "overall": {
+      "auroc": -0.04458630594158686,
+      "auprc": -0.00011726790778221474,
+      "spearman": 0.014642677881150923
+    },
+    "foreground": {
+      "auroc": 0.05907791182344946,
+      "auprc": 0.020082577632519194,
+      "spearman": 0.07759596015711365
+    }
+  },
+  "patch_disagreement_vs_real_blur_gt_dice_drop": {
+    "overall": {
+      "real_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 32,
+          "pearson": 0.4969568734822663,
+          "spearman": 0.44703848288854103
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 32,
+          "pearson": 0.4763162720686372,
+          "spearman": 0.42818975639537005
+        }
+      },
+      "imagined_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 32,
+          "pearson": 0.454822953333301,
+          "spearman": 0.4143284535398797
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 32,
+          "pearson": 0.4416058558702101,
+          "spearman": 0.37857422150851944
+        }
+      }
+    },
+    "context": {
+      "real_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 18,
+          "pearson": 0.5962308963523989,
+          "spearman": 0.7406532059186597
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 18,
+          "pearson": 0.6102637667804779,
+          "spearman": 0.6973171140829934
+        }
+      },
+      "imagined_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 18,
+          "pearson": 0.6239062065263061,
+          "spearman": 0.7745929076757152
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 18,
+          "pearson": 0.5887608265882421,
+          "spearman": 0.7489530727526514
+        }
+      }
+    },
+    "foreground": {
+      "real_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 14,
+          "pearson": 0.1876919077333711,
+          "spearman": 0.1912087912087912
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 14,
+          "pearson": 0.1076873903858892,
+          "spearman": 0.0989010989010989
+        }
+      },
+      "imagined_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 14,
+          "pearson": 0.009435754745761898,
+          "spearman": 0.006593406593406593
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 14,
+          "pearson": 0.0070267559852658515,
+          "spearman": -0.14285714285714285
+        }
+      }
+    },
+    "context_fill": {
+      "real_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 2,
+          "pearson": null,
+          "spearman": null
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 2,
+          "pearson": null,
+          "spearman": null
+        }
+      },
+      "imagined_blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 2,
+          "pearson": null,
+          "spearman": null
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 2,
+          "pearson": null,
+          "spearman": null
+        }
+      }
+    }
+  },
+  "outputs": {
+    "patch_reliability_metrics": "outputs/v9_5_blur_reliability_validity/patch_reliability_metrics.csv",
+    "voxel_reliability_regions": "outputs/v9_5_blur_reliability_validity/voxel_reliability_regions.csv",
+    "reliability_metrics": "outputs/v9_5_blur_reliability_validity/reliability_metrics.csv",
+    "summary": "outputs/v9_5_blur_reliability_validity/summary.json"
+  }
+}
