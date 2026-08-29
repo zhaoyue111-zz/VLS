@@ -1,0 +1,189 @@
+{
+  "stage": "V9.4 hierarchical residual WP matched-action evaluation-only diagnostic",
+  "evaluation_only": true,
+  "models_trained": false,
+  "sfda_run": false,
+  "voxtell_modified": false,
+  "v93_network_modified": false,
+  "loss_modified": false,
+  "checkpoint_modified": false,
+  "segmentation_head_added": false,
+  "test_case_count": 8,
+  "test_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "manifest_records_evaluated": 32,
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "comparison_groups": [
+    "identity_source",
+    "correct_action_wp",
+    "wrong_action_wp",
+    "real_action_oracle"
+  ],
+  "grouping": {
+    "overall": "all fixed test-manifest patches",
+    "foreground": "patch_kind == foreground",
+    "context": "patch_kind in {context, context_fill}",
+    "case": "all fixed manifest patches within each test case"
+  },
+  "checkpoint": {
+    "path": "outputs/v9_3_hierarchical_residual_world_predictor/best_hierarchical_world_predictor.pt",
+    "stage": "V9.3 hierarchical residual World Predictor",
+    "selected_epoch": 20,
+    "selected_encoder_levels": [
+      "encoder_stage_2",
+      "encoder_stage_3",
+      "encoder_stage_4",
+      "encoder_stage_5",
+      "encoder_bottleneck_deepest"
+    ],
+    "level_channels": {
+      "encoder_stage_2": 64,
+      "encoder_stage_3": 128,
+      "encoder_stage_4": 256,
+      "encoder_stage_5": 320,
+      "encoder_bottleneck_deepest": 320
+    },
+    "hidden_channels": 16,
+    "text_delta_dim": 2560,
+    "train_case_count": 30,
+    "test_case_count": 8
+  },
+  "patch_manifest": "outputs/v9_3_hierarchical_residual_world_predictor/test_patch_manifest.json",
+  "encoder_fidelity_definition": "Each group state is compared with the real-action feature at every V9.3 predicted encoder level; delta cosine and magnitude ratio use (group-source) versus (real-source).",
+  "final_fidelity_definition": "Each group final probability/mask is compared with the real augmented image native VoxTell final prediction.",
+  "blur_automatic_judgment": {
+    "correct_wp_better_than_identity": {
+      "left": "correct_action_wp",
+      "right": "identity_source",
+      "left_metrics": {
+        "probability_mse_to_real_oracle": 0.004556031864922261,
+        "probability_mae_to_real_oracle": 0.00724655418162261,
+        "mask_dice_to_real_oracle": 0.810097056941879,
+        "mask_iou_to_real_oracle": 0.72676104480246
+      },
+      "right_metrics": {
+        "probability_mse_to_real_oracle": 0.005012840701965615,
+        "probability_mae_to_real_oracle": 0.007761335626130679,
+        "mask_dice_to_real_oracle": 0.8012855592393391,
+        "mask_iou_to_real_oracle": 0.7141312577273495
+      },
+      "metric_wise": {
+        "probability_mse_to_real_oracle": true,
+        "probability_mae_to_real_oracle": true,
+        "mask_dice_to_real_oracle": true,
+        "mask_iou_to_real_oracle": true
+      },
+      "all_four_strict": true,
+      "probability_primary_strict": true,
+      "mask_non_worse": true
+    },
+    "correct_wp_better_than_wrong_action": {
+      "left": "correct_action_wp",
+      "right": "wrong_action_wp",
+      "left_metrics": {
+        "probability_mse_to_real_oracle": 0.004556031864922261,
+        "probability_mae_to_real_oracle": 0.00724655418162261,
+        "mask_dice_to_real_oracle": 0.810097056941879,
+        "mask_iou_to_real_oracle": 0.72676104480246
+      },
+      "right_metrics": {
+        "probability_mse_to_real_oracle": 0.005009153221180895,
+        "probability_mae_to_real_oracle": 0.007765773181747867,
+        "mask_dice_to_real_oracle": 0.8011292430371327,
+        "mask_iou_to_real_oracle": 0.7140589019904484
+      },
+      "metric_wise": {
+        "probability_mse_to_real_oracle": true,
+        "probability_mae_to_real_oracle": true,
+        "mask_dice_to_real_oracle": true,
+        "mask_iou_to_real_oracle": true
+      },
+      "all_four_strict": true,
+      "probability_primary_strict": true,
+      "mask_non_worse": true
+    },
+    "correct_wp_final_mask_closer_than_identity": {
+      "correct_action_wp_mask_dice": 0.810097056941879,
+      "identity_source_mask_dice": 0.8012855592393391,
+      "correct_action_wp_mask_iou": 0.72676104480246,
+      "identity_source_mask_iou": 0.7141312577273495,
+      "correct_wp_mask_closer_than_identity": true
+    },
+    "main_pass_rule": "Primary pass requires correct_action_wp to have strictly lower probability MSE and MAE than the comparator; mask closeness is reported separately because tied empty/unchanged thresholded masks can hide probability improvement."
+  },
+  "gamma_diagnostic": {
+    "correct_vs_identity": {
+      "left": "correct_action_wp",
+      "right": "identity_source",
+      "left_metrics": {
+        "probability_mse_to_real_oracle": 0.0012138944056232503,
+        "probability_mae_to_real_oracle": 0.002899965868664497,
+        "mask_dice_to_real_oracle": 0.9543014474117042,
+        "mask_iou_to_real_oracle": 0.9158788680407839
+      },
+      "right_metrics": {
+        "probability_mse_to_real_oracle": 0.001215611093471125,
+        "probability_mae_to_real_oracle": 0.0028943674117273424,
+        "mask_dice_to_real_oracle": 0.9544399139673707,
+        "mask_iou_to_real_oracle": 0.9160831678485619
+      },
+      "metric_wise": {
+        "probability_mse_to_real_oracle": true,
+        "probability_mae_to_real_oracle": false,
+        "mask_dice_to_real_oracle": false,
+        "mask_iou_to_real_oracle": false
+      },
+      "all_four_strict": false,
+      "probability_primary_strict": false,
+      "mask_non_worse": false
+    },
+    "correct_vs_wrong_action": {
+      "left": "correct_action_wp",
+      "right": "wrong_action_wp",
+      "left_metrics": {
+        "probability_mse_to_real_oracle": 0.0012138944056232503,
+        "probability_mae_to_real_oracle": 0.002899965868664497,
+        "mask_dice_to_real_oracle": 0.9543014474117042,
+        "mask_iou_to_real_oracle": 0.9158788680407839
+      },
+      "right_metrics": {
+        "probability_mse_to_real_oracle": 0.0017836870567862206,
+        "probability_mae_to_real_oracle": 0.003765151846892226,
+        "mask_dice_to_real_oracle": 0.9370419689241978,
+        "mask_iou_to_real_oracle": 0.8865041826869038
+      },
+      "metric_wise": {
+        "probability_mse_to_real_oracle": true,
+        "probability_mae_to_real_oracle": true,
+        "mask_dice_to_real_oracle": true,
+        "mask_iou_to_real_oracle": true
+      },
+      "all_four_strict": true,
+      "probability_primary_strict": true,
+      "mask_non_worse": true
+    },
+    "excluded_from_main_pass_condition": true
+  },
+  "row_counts": {
+    "encoder": 1280,
+    "final": 256,
+    "grouped": 528
+  },
+  "outputs": {
+    "encoder_transition_fidelity": "outputs/v9_4_hierarchical_wp_matched_diagnostic/encoder_transition_fidelity.csv",
+    "final_prediction_fidelity": "outputs/v9_4_hierarchical_wp_matched_diagnostic/final_prediction_fidelity.csv",
+    "grouped_fidelity": "outputs/v9_4_hierarchical_wp_matched_diagnostic/grouped_fidelity.csv",
+    "summary": "outputs/v9_4_hierarchical_wp_matched_diagnostic/summary.json"
+  }
+}
