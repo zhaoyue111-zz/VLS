@@ -1,0 +1,77 @@
+{
+  "stage": "V9.3 hierarchical residual World Predictor",
+  "models_trained": true,
+  "encoder_modified": false,
+  "decoder_structure_modified": false,
+  "segmentation_head_modified": false,
+  "loss": "mean over per-level normalized_mse(predicted_feature, real_feature)",
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001
+  },
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "train_case_count": 30,
+  "test_case_count": 8,
+  "full_train_split_used": true,
+  "selected_encoder_levels": [
+    "encoder_stage_2",
+    "encoder_stage_3",
+    "encoder_stage_4",
+    "encoder_stage_5",
+    "encoder_bottleneck_deepest"
+  ],
+  "level_channels": {
+    "encoder_stage_2": 64,
+    "encoder_stage_3": 128,
+    "encoder_stage_4": 256,
+    "encoder_stage_5": 320,
+    "encoder_bottleneck_deepest": 320
+  },
+  "stage1_prediction": false,
+  "decoder_input_contract": "stage1 source skip auxiliary; stage2-stage5 and bottleneck/deepest replaced by predicted residual features",
+  "action_protocol": {
+    "gamma": 0.3,
+    "blur": 1.5
+  },
+  "checkpoint": "outputs/v9_3_hierarchical_residual_world_predictor/best_hierarchical_world_predictor.pt",
+  "training_curve": "outputs/v9_3_hierarchical_residual_world_predictor/training_curve.csv",
+  "validation_curve": "outputs/v9_3_hierarchical_residual_world_predictor/validation_curve.csv",
+  "encoder_transition_fidelity": "outputs/v9_3_hierarchical_residual_world_predictor/encoder_transition_fidelity.csv",
+  "decoder_transition_fidelity": "outputs/v9_3_hierarchical_residual_world_predictor/decoder_transition_fidelity.csv",
+  "manifests": {
+    "train": "outputs/v9_3_hierarchical_residual_world_predictor/train_patch_manifest.json",
+    "test": "outputs/v9_3_hierarchical_residual_world_predictor/test_patch_manifest.json"
+  }
+}

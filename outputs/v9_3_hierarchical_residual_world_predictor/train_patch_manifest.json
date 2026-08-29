@@ -1,0 +1,3242 @@
+[
+  {
+    "case": "HEM_PA99.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA99.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        168,
+        360,
+        null
+      ],
+      [
+        553,
+        745,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA99.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        252,
+        444,
+        null
+      ],
+      [
+        553,
+        745,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA99.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        335,
+        527,
+        null
+      ],
+      [
+        646,
+        838,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10140276_20170721.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10140276_20170721.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        307,
+        499,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10140276_20170721.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        59,
+        251,
+        null
+      ],
+      [
+        230,
+        422,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10140276_20170721.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        118,
+        310,
+        null
+      ],
+      [
+        230,
+        422,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA97.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA97.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        78,
+        270,
+        null
+      ],
+      [
+        540,
+        732,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA97.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        157,
+        349,
+        null
+      ],
+      [
+        540,
+        732,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA97.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "context_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        236,
+        428,
+        null
+      ],
+      [
+        180,
+        372,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA69.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA69.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        90,
+        282,
+        null
+      ],
+      [
+        830,
+        1022,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA69.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        180,
+        372,
+        null
+      ],
+      [
+        646,
+        838,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA69.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        269,
+        461,
+        null
+      ],
+      [
+        461,
+        653,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10076307_20130925.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10076307_20130925.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        319,
+        511,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10076307_20130925.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        74,
+        266,
+        null
+      ],
+      [
+        239,
+        431,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10076307_20130925.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        239,
+        431,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA20.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA20.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        240,
+        432,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA20.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        52,
+        244,
+        null
+      ],
+      [
+        240,
+        432,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA20.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        52,
+        244,
+        null
+      ],
+      [
+        160,
+        352,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA56.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA56.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        76,
+        268,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA56.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        228,
+        420,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA56.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        177,
+        369,
+        null
+      ],
+      [
+        228,
+        420,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10136895_20170421.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10136895_20170421.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        298,
+        490,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10136895_20170421.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        84,
+        276,
+        null
+      ],
+      [
+        224,
+        416,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10136895_20170421.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        169,
+        361,
+        null
+      ],
+      [
+        224,
+        416,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA13.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA13.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        74,
+        266,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA13.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        176,
+        368,
+        null
+      ],
+      [
+        221,
+        413,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA13.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        221,
+        413,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10074592_20130816.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10074592_20130816.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        308,
+        500,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10074592_20130816.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        144,
+        336,
+        null
+      ],
+      [
+        231,
+        423,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10074592_20130816.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        72,
+        264,
+        null
+      ],
+      [
+        231,
+        423,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA19.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA19.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        89,
+        281,
+        null
+      ],
+      [
+        73,
+        265,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA19.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        177,
+        369,
+        null
+      ],
+      [
+        219,
+        411,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA19.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        89,
+        281,
+        null
+      ],
+      [
+        219,
+        411,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA13.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA13.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        89,
+        281,
+        null
+      ],
+      [
+        78,
+        270,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA13.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        177,
+        369,
+        null
+      ],
+      [
+        235,
+        427,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA13.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        89,
+        281,
+        null
+      ],
+      [
+        235,
+        427,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10142924_20170911.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10142924_20170911.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        319,
+        511,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10142924_20170911.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        50,
+        242,
+        null
+      ],
+      [
+        239,
+        431,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10142924_20170911.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        101,
+        293,
+        null
+      ],
+      [
+        239,
+        431,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA25.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA25.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        74,
+        266,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA25.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        221,
+        413,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA25.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        176,
+        368,
+        null
+      ],
+      [
+        221,
+        413,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10147777_20171222.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10147777_20171222.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        287,
+        479,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10147777_20171222.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        62,
+        254,
+        null
+      ],
+      [
+        191,
+        383,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10147777_20171222.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        124,
+        316,
+        null
+      ],
+      [
+        191,
+        383,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_PA0.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_PA0.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        78,
+        270,
+        null
+      ],
+      [
+        234,
+        426,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_PA0.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        156,
+        348,
+        null
+      ],
+      [
+        312,
+        504,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_PA0.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "context_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        234,
+        426,
+        null
+      ],
+      [
+        78,
+        270,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA37.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA37.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        86,
+        278,
+        null
+      ],
+      [
+        93,
+        285,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA37.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        173,
+        365,
+        null
+      ],
+      [
+        186,
+        378,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA37.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        86,
+        278,
+        null
+      ],
+      [
+        186,
+        378,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "ICC_PA18.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "ICC_PA18.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        77,
+        269,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "ICC_PA18.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        176,
+        368,
+        null
+      ],
+      [
+        230,
+        422,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "ICC_PA18.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        230,
+        422,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10081574_20140213.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10081574_20140213.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        284,
+        476,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10081574_20140213.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        86,
+        278,
+        null
+      ],
+      [
+        284,
+        476,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HCC_10081574_20140213.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        86,
+        278,
+        null
+      ],
+      [
+        189,
+        381,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA19.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA19.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        72,
+        264,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA19.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        176,
+        368,
+        null
+      ],
+      [
+        218,
+        410,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "MET_PA19.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        218,
+        410,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA24.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA24.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        86,
+        278,
+        null
+      ],
+      [
+        70,
+        262,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA24.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        173,
+        365,
+        null
+      ],
+      [
+        210,
+        402,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA24.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        173,
+        365,
+        null
+      ],
+      [
+        140,
+        332,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA74.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA74.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        74,
+        266,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA74.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        175,
+        367,
+        null
+      ],
+      [
+        220,
+        412,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA74.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        88,
+        280,
+        null
+      ],
+      [
+        220,
+        412,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA34.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA34.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        89,
+        281,
+        null
+      ],
+      [
+        74,
+        266,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA34.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        179,
+        371,
+        null
+      ],
+      [
+        224,
+        416,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA34.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        89,
+        281,
+        null
+      ],
+      [
+        224,
+        416,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA32.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA32.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        64,
+        256,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA32.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        127,
+        319,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA32.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA10.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA10.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        90,
+        282,
+        null
+      ],
+      [
+        74,
+        266,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA10.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        179,
+        371,
+        null
+      ],
+      [
+        221,
+        413,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "FNH_PA10.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        90,
+        282,
+        null
+      ],
+      [
+        221,
+        413,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA54.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA54.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        85,
+        277,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA54.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA54.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        85,
+        277,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA53.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA53.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        68,
+        260,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA53.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA53.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        68,
+        260,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA38.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA38.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        52,
+        244,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA38.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        105,
+        297,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "CYST_PA38.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA66.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA66.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        64,
+        256,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA66.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        127,
+        319,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA66.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA56.nii.gz",
+    "patch_index": 0,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA56.nii.gz",
+    "patch_index": 1,
+    "patch_kind": "context",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        56,
+        248,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA56.nii.gz",
+    "patch_index": 2,
+    "patch_kind": "foreground",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        112,
+        304,
+        null
+      ]
+    ]
+  },
+  {
+    "case": "HEM_PA56.nii.gz",
+    "patch_index": 3,
+    "patch_kind": "repeat_fill",
+    "slicer": [
+      [
+        null,
+        null,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ],
+      [
+        0,
+        192,
+        null
+      ]
+    ]
+  }
+]
