@@ -293,7 +293,7 @@ def train_epoch(
     losses = []
     for case_name, case_records in grouped.items():
         image, _ = read_image(cases_by_name[case_name])
-        source_padded, _, _ = padded_image_and_slicers(interface.predictor, image)
+        source_padded, _ = padded_image_and_slicers(interface.predictor, image)
         action_padded = {
             action: padded_visual_action_and_slicers(interface.predictor, image, action, strength)[0]
             for action, strength in ACTION_PROTOCOL
@@ -396,7 +396,7 @@ def evaluate_records(
     decoder_rows = []
     for case_name, case_records in grouped.items():
         image, _ = read_image(cases_by_name[case_name])
-        source_padded, _, _ = padded_image_and_slicers(interface.predictor, image)
+        source_padded, _ = padded_image_and_slicers(interface.predictor, image)
         action_padded = {
             action: padded_visual_action_and_slicers(interface.predictor, image, action, strength)[0]
             for action, strength in ACTION_PROTOCOL
@@ -532,7 +532,7 @@ def run(args: argparse.Namespace) -> None:
     cases_by_name = {case.case: case for case in [*train_cases, *test_cases]}
     with torch.inference_mode():
         sample_image, _ = read_image(train_cases[0])
-        sample_padded, _, _ = padded_image_and_slicers(interface.predictor, sample_image)
+        sample_padded, _ = padded_image_and_slicers(interface.predictor, sample_image)
         sample_slicer = deserialize_slicer(train_manifest[0]['slicer'])
         sample_patch = torch.clone(sample_padded[sample_slicer][None])
         sample_features = encode_patch(interface, sample_patch)

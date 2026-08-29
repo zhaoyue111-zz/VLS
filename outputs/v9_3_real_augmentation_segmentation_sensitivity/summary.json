@@ -1,0 +1,373 @@
+{
+  "stage": "V9.3 real augmentation segmentation prediction sensitivity diagnostic",
+  "split": "train",
+  "train_case_count": 30,
+  "patch_count": 120,
+  "gt_available_case_count": 30,
+  "gt_available_patch_count": 120,
+  "models_trained": false,
+  "world_predictor_loaded": false,
+  "decoder_modified": false,
+  "segmentation_head_modified": false,
+  "action_protocol": {
+    "gamma_strength": 0.3,
+    "blur_sigma": 1.5
+  },
+  "patch_protocol": {
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "selection_uses_gt": false,
+    "short_volume_fill": "deterministic repeat_fill",
+    "patch_manifest": "outputs/v9_3_hierarchical_residual_world_predictor/train_patch_manifest.json"
+  },
+  "prediction_definition": "sigmoid of native VoxTell final_prediction logits for the single liver prompt",
+  "patch_kind_summary": {
+    "context": {
+      "patch_count": 60,
+      "gt_patch_count": 60,
+      "prediction_disagreement": {
+        "original_vs_gamma": {
+          "probability_mse": 0.0003793006860159947,
+          "probability_mae": 0.000672873883885449,
+          "mask_dice": 0.9505994320933014,
+          "mask_iou": 0.9260256934154594
+        },
+        "original_vs_blur": {
+          "probability_mse": 0.0015994319728049036,
+          "probability_mae": 0.002328871908674042,
+          "mask_dice": 0.8415427471958974,
+          "mask_iou": 0.7738868625470413
+        },
+        "gamma_vs_blur": {
+          "probability_mse": 0.0013793756773672246,
+          "probability_mae": 0.0021041029051964465,
+          "mask_dice": 0.8529906638641883,
+          "mask_iou": 0.7853794295809452
+        }
+      },
+      "gt_performance": {
+        "original": {
+          "dice": 0.7688034604159036,
+          "iou": 0.7125794859292641
+        },
+        "gamma": {
+          "dice": 0.7666621145351079,
+          "iou": 0.7102156013385306
+        },
+        "blur": {
+          "dice": 0.7410790347762138,
+          "iou": 0.6763612009785384
+        }
+      },
+      "disagreement_performance_relationship": {
+        "gamma": {
+          "probability_mse_vs_gt_dice_drop": {
+            "n": 60,
+            "pearson": 0.006167396875799326,
+            "spearman": 0.19141429143600341
+          },
+          "probability_mae_vs_gt_dice_drop": {
+            "n": 60,
+            "pearson": 0.006128020060804816,
+            "spearman": 0.18635913655831668
+          },
+          "probability_mse_vs_gt_iou_drop": {
+            "n": 60,
+            "pearson": -0.011302478170009763,
+            "spearman": 0.19311827622623493
+          },
+          "probability_mae_vs_gt_iou_drop": {
+            "n": 60,
+            "pearson": -0.0025838227463031377,
+            "spearman": 0.18658633453034754
+          }
+        },
+        "blur": {
+          "probability_mse_vs_gt_dice_drop": {
+            "n": 60,
+            "pearson": -0.07894436820285941,
+            "spearman": 0.4635269919278037
+          },
+          "probability_mae_vs_gt_dice_drop": {
+            "n": 60,
+            "pearson": -0.046175263139230316,
+            "spearman": 0.4447216205447678
+          },
+          "probability_mse_vs_gt_iou_drop": {
+            "n": 60,
+            "pearson": -0.03463364125389594,
+            "spearman": 0.46934366836159563
+          },
+          "probability_mae_vs_gt_iou_drop": {
+            "n": 60,
+            "pearson": 0.0036893544029278145,
+            "spearman": 0.4610986706981625
+          }
+        }
+      }
+    },
+    "foreground": {
+      "patch_count": 50,
+      "gt_patch_count": 50,
+      "prediction_disagreement": {
+        "original_vs_gamma": {
+          "probability_mse": 0.00041638245200082904,
+          "probability_mae": 0.001549407869514098,
+          "mask_dice": 0.9807143839541763,
+          "mask_iou": 0.9625897149019444
+        },
+        "original_vs_blur": {
+          "probability_mse": 0.004673009152154353,
+          "probability_mae": 0.007819243039111353,
+          "mask_dice": 0.8971974593157515,
+          "mask_iou": 0.8180057298923836
+        },
+        "gamma_vs_blur": {
+          "probability_mse": 0.004879825544356505,
+          "probability_mae": 0.008057402179228736,
+          "mask_dice": 0.8948670321325674,
+          "mask_iou": 0.814642648260743
+        }
+      },
+      "gt_performance": {
+        "original": {
+          "dice": 0.9127890777694566,
+          "iou": 0.8413836838098204
+        },
+        "gamma": {
+          "dice": 0.9126562585646144,
+          "iou": 0.8408418527283853
+        },
+        "blur": {
+          "dice": 0.8500335794924689,
+          "iou": 0.7453196130807481
+        }
+      },
+      "disagreement_performance_relationship": {
+        "gamma": {
+          "probability_mse_vs_gt_dice_drop": {
+            "n": 50,
+            "pearson": -0.7739736870492657,
+            "spearman": -0.07236494597839135
+          },
+          "probability_mae_vs_gt_dice_drop": {
+            "n": 50,
+            "pearson": -0.6987550091517448,
+            "spearman": -0.13843937575030013
+          },
+          "probability_mse_vs_gt_iou_drop": {
+            "n": 50,
+            "pearson": -0.7501479439227836,
+            "spearman": -0.07822328931572628
+          },
+          "probability_mae_vs_gt_iou_drop": {
+            "n": 50,
+            "pearson": -0.6822681976833406,
+            "spearman": -0.14525810324129654
+          }
+        },
+        "blur": {
+          "probability_mse_vs_gt_dice_drop": {
+            "n": 50,
+            "pearson": 0.5665039133792447,
+            "spearman": 0.7684513805522208
+          },
+          "probability_mae_vs_gt_dice_drop": {
+            "n": 50,
+            "pearson": 0.4133405821341668,
+            "spearman": 0.560720288115246
+          },
+          "probability_mse_vs_gt_iou_drop": {
+            "n": 50,
+            "pearson": 0.5808455200418873,
+            "spearman": 0.7416566626650659
+          },
+          "probability_mae_vs_gt_iou_drop": {
+            "n": 50,
+            "pearson": 0.4201523157088811,
+            "spearman": 0.526626650660264
+          }
+        }
+      }
+    },
+    "context_fill": {
+      "patch_count": 10,
+      "gt_patch_count": 10,
+      "prediction_disagreement": {
+        "original_vs_gamma": {
+          "probability_mse": 0.00013661933264426542,
+          "probability_mae": 0.000571142481794327,
+          "mask_dice": 0.984635598105239,
+          "mask_iou": 0.970071526735761
+        },
+        "original_vs_blur": {
+          "probability_mse": 0.0035858471917274864,
+          "probability_mae": 0.0050830453813104,
+          "mask_dice": 0.8224492481995597,
+          "mask_iou": 0.7640609784891643
+        },
+        "gamma_vs_blur": {
+          "probability_mse": 0.0036051391648967515,
+          "probability_mae": 0.0050890602014279,
+          "mask_dice": 0.8206223584189611,
+          "mask_iou": 0.7614500493835773
+        }
+      },
+      "gt_performance": {
+        "original": {
+          "dice": 0.8047043769702305,
+          "iou": 0.7347850439943804
+        },
+        "gamma": {
+          "dice": 0.8065121251937558,
+          "iou": 0.7362119521151571
+        },
+        "blur": {
+          "dice": 0.7938198922756565,
+          "iou": 0.7082294227901136
+        }
+      },
+      "disagreement_performance_relationship": {
+        "gamma": {
+          "probability_mse_vs_gt_dice_drop": {
+            "n": 10,
+            "pearson": -0.9244749017366135,
+            "spearman": 0.07878787878787878
+          },
+          "probability_mae_vs_gt_dice_drop": {
+            "n": 10,
+            "pearson": -0.9327948832370226,
+            "spearman": -0.28484848484848485
+          },
+          "probability_mse_vs_gt_iou_drop": {
+            "n": 10,
+            "pearson": -0.8862892595187086,
+            "spearman": 0.07878787878787878
+          },
+          "probability_mae_vs_gt_iou_drop": {
+            "n": 10,
+            "pearson": -0.9007569846513142,
+            "spearman": -0.28484848484848485
+          }
+        },
+        "blur": {
+          "probability_mse_vs_gt_dice_drop": {
+            "n": 10,
+            "pearson": -0.3230796998965695,
+            "spearman": -0.12727272727272726
+          },
+          "probability_mae_vs_gt_dice_drop": {
+            "n": 10,
+            "pearson": -0.18083435552148855,
+            "spearman": -0.006060606060606061
+          },
+          "probability_mse_vs_gt_iou_drop": {
+            "n": 10,
+            "pearson": -0.16518817977320693,
+            "spearman": -0.11515151515151514
+          },
+          "probability_mae_vs_gt_iou_drop": {
+            "n": 10,
+            "pearson": -0.02812014166229328,
+            "spearman": -0.01818181818181818
+          }
+        }
+      }
+    }
+  },
+  "overall_summary": {
+    "patch_count": 120,
+    "gt_patch_count": 120,
+    "prediction_disagreement": {
+      "original_vs_gamma": {
+        "probability_mse": 0.00037452797572869824,
+        "probability_mae": 0.0010296187610564593,
+        "mask_dice": 0.9659836758696606,
+        "mask_iou": 0.9449311884781865
+      },
+      "original_vs_blur": {
+        "probability_mse": 0.0030456237324440554,
+        "probability_mae": 0.004846041002409285,
+        "mask_dice": 0.8631410856628086,
+        "mask_iou": 0.7914509002694442
+      },
+      "gamma_vs_blur": {
+        "probability_mse": 0.0030233767459068857,
+        "probability_mae": 0.004833390710729189,
+        "mask_dice": 0.8677417918555773,
+        "mask_iou": 0.795578322347747
+      }
+    },
+    "gt_performance": {
+      "original": {
+        "dice": 0.8317892106927445,
+        "iou": 0.7680983648849223
+      },
+      "gamma": {
+        "dice": 0.8308138421022895,
+        "iou": 0.7668095686490223
+      },
+      "blur": {
+        "dice": 0.790871833199607,
+        "iou": 0.7077495578387573
+      }
+    },
+    "disagreement_performance_relationship": {
+      "gamma": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 120,
+          "pearson": -0.1664753097205492,
+          "spearman": 0.028538572776295415
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 120,
+          "pearson": -0.27491809672269,
+          "spearman": -0.010630992812553839
+        },
+        "probability_mse_vs_gt_iou_drop": {
+          "n": 120,
+          "pearson": -0.22361718862398428,
+          "spearman": 0.027528419461865333
+        },
+        "probability_mae_vs_gt_iou_drop": {
+          "n": 120,
+          "pearson": -0.3488660302032303,
+          "spearman": -0.012414435905616607
+        }
+      },
+      "blur": {
+        "probability_mse_vs_gt_dice_drop": {
+          "n": 120,
+          "pearson": 0.080448065184762,
+          "spearman": 0.622188960703261
+        },
+        "probability_mae_vs_gt_dice_drop": {
+          "n": 120,
+          "pearson": 0.09959540697337524,
+          "spearman": 0.5690785786602084
+        },
+        "probability_mse_vs_gt_iou_drop": {
+          "n": 120,
+          "pearson": 0.16918439439785246,
+          "spearman": 0.6438937931970085
+        },
+        "probability_mae_vs_gt_iou_drop": {
+          "n": 120,
+          "pearson": 0.18352501527857978,
+          "spearman": 0.598354702514391
+        }
+      }
+    }
+  },
+  "interpretation": {
+    "prediction_changed": "Use nonzero original_vs_gamma/original_vs_blur probability MAE or MSE and mask Dice/IoU below 1 as evidence of prediction change.",
+    "performance_decline": "GT Dice/IoU drop is original performance minus the corresponding gamma or blur performance; positive means degradation.",
+    "relationship": "Positive Pearson/Spearman disagreement-versus-drop values indicate that stronger prediction disagreement tends to accompany larger GT performance decline; correlation is descriptive, not causal."
+  },
+  "outputs": {
+    "csv": "outputs/output_1/augmentation_prediction_sensitivity.csv",
+    "summary": "outputs/output_1/summary.json"
+  }
+}
