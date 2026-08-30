@@ -1,0 +1,344 @@
+{
+  "stage": "V1 full-window uncertainty-gated pseudo-label fusion",
+  "status": "complete",
+  "smoke_only": false,
+  "output_dir": "output_2/v1_uncertainty_weighted_pseudo",
+  "source_voxtell_modified": false,
+  "world_predictor_updated_during_adaptation": false,
+  "blur_used": false,
+  "prompt_actions_used": false,
+  "train_cases": [
+    "HEM_PA99.nii.gz",
+    "HCC_10140276_20170721.nii.gz",
+    "HEM_PA97.nii.gz",
+    "CYST_PA69.nii.gz",
+    "HCC_10076307_20130925.nii.gz",
+    "CYST_PA20.nii.gz",
+    "CYST_PA56.nii.gz",
+    "HCC_10136895_20170421.nii.gz",
+    "MET_PA13.nii.gz",
+    "HCC_10074592_20130816.nii.gz",
+    "CYST_PA19.nii.gz",
+    "HEM_PA13.nii.gz",
+    "HCC_10142924_20170911.nii.gz",
+    "MET_PA25.nii.gz",
+    "HCC_10147777_20171222.nii.gz",
+    "HCC_PA0.nii.gz",
+    "CYST_PA37.nii.gz",
+    "ICC_PA18.nii.gz",
+    "HCC_10081574_20140213.nii.gz",
+    "MET_PA19.nii.gz",
+    "HEM_PA24.nii.gz",
+    "CYST_PA74.nii.gz",
+    "HEM_PA34.nii.gz",
+    "FNH_PA32.nii.gz",
+    "FNH_PA10.nii.gz",
+    "CYST_PA54.nii.gz",
+    "CYST_PA53.nii.gz",
+    "CYST_PA38.nii.gz",
+    "HEM_PA66.nii.gz",
+    "HEM_PA56.nii.gz"
+  ],
+  "evaluation_cases": [
+    "CYST_PA62.nii.gz",
+    "HEM_PA29.nii.gz",
+    "HEP_PA28.nii.gz",
+    "HEM_PA107.nii.gz",
+    "HEM_PA81.nii.gz",
+    "HEM_PA89.nii.gz",
+    "HEM_PA101.nii.gz",
+    "HCC_10020116_20180118.nii.gz"
+  ],
+  "case_overlap": [],
+  "world_checkpoint": {
+    "path": "output_2/v1_multi_action_world_predictor/best_multi_action_world_predictor.pt",
+    "stage": "V1 full-window multi-action World Predictor",
+    "selected_epoch": 5,
+    "action_protocol": {
+      "actions": [
+        "gamma:-0.30",
+        "gamma:+0.30",
+        "gaussian_noise:+0.02",
+        "gaussian_noise:+0.05",
+        "bias_field:+0.05",
+        "bias_field:+0.15"
+      ],
+      "families": [
+        "bias_field",
+        "gamma",
+        "gaussian_noise"
+      ],
+      "includes_blur": false,
+      "language_action_used": false,
+      "excluded_as_preprocessing_invariant": [
+        "intensity_scale",
+        "intensity_shift"
+      ],
+      "stochastic_realization": {
+        "gaussian_noise": "stable per case/action/seed",
+        "bias_field": "stable per case/action/seed",
+        "warning": "compact action code does not reveal the full random field; inspect per-action WP identity bias"
+      }
+    },
+    "patch_protocol": {
+      "full_native_sliding_window": true,
+      "case_balanced_optimizer_step": true,
+      "patch_limit_per_case": 0,
+      "patch_count": 574,
+      "per_case_patch_counts": {
+        "CYST_PA69.nii.gz": 60,
+        "CYST_PA37.nii.gz": 16,
+        "CYST_PA53.nii.gz": 2,
+        "HEM_PA24.nii.gz": 16,
+        "CYST_PA74.nii.gz": 20,
+        "FNH_PA32.nii.gz": 3,
+        "HCC_10074592_20130816.nii.gz": 15,
+        "HCC_10142924_20170911.nii.gz": 15,
+        "ICC_PA18.nii.gz": 20,
+        "HCC_10081574_20140213.nii.gz": 12,
+        "FNH_PA10.nii.gz": 20,
+        "HEM_PA66.nii.gz": 3,
+        "CYST_PA54.nii.gz": 2,
+        "CYST_PA56.nii.gz": 20,
+        "HCC_10140276_20170721.nii.gz": 15,
+        "HEM_PA13.nii.gz": 20,
+        "HEM_PA99.nii.gz": 80,
+        "MET_PA25.nii.gz": 20,
+        "HEM_PA97.nii.gz": 50,
+        "HCC_PA0.nii.gz": 25,
+        "HCC_10147777_20171222.nii.gz": 12,
+        "HEM_PA34.nii.gz": 20,
+        "MET_PA13.nii.gz": 20,
+        "CYST_PA38.nii.gz": 3,
+        "MET_PA19.nii.gz": 20,
+        "CYST_PA20.nii.gz": 12,
+        "HEM_PA56.nii.gz": 3,
+        "HCC_10136895_20170421.nii.gz": 15,
+        "HCC_10076307_20130925.nii.gz": 15,
+        "CYST_PA19.nii.gz": 20
+      }
+    },
+    "train_case_count": 30,
+    "smoke_only": false
+  },
+  "wp_actions": [
+    "gamma:-0.30",
+    "gamma:+0.30",
+    "gaussian_noise:+0.02",
+    "gaussian_noise:+0.05",
+    "bias_field:+0.05",
+    "bias_field:+0.15"
+  ],
+  "wp_action_families": [
+    "bias_field",
+    "gamma",
+    "gaussian_noise"
+  ],
+  "variants": [
+    "B_source_hard_pseudo",
+    "C_uncertainty_weighted_soft_pseudo"
+  ],
+  "formula": {
+    "prediction_stack": "[source:liver + imagined predictions for every configured gamma/Gaussian-noise/bias-field action]",
+    "raw_uncertainty": "U = population variance(prediction_stack)",
+    "global_calibration": "scale=max(train_global_p99,0.0001); U_gate=clip(U/scale,0,1)^1",
+    "source_pseudo": "Y_source = 1[source_probability>0.5]",
+    "ensemble_probability": "P_ensemble = mean(prediction_stack)",
+    "uncertainty_weighted_pseudo": "Y_soft=(1-U_gate)*Y_source+U_gate*P_ensemble",
+    "adaptation_loss": "class-balanced BCE(logits,Y_soft,inverse-overlap Gaussian weight)"
+  },
+  "patch_protocol": {
+    "full_native_sliding_window": true,
+    "patch_limit_per_case": 0,
+    "optimizer_step": "one update after gradient accumulation over every tile in one case",
+    "case_balanced": true,
+    "overlap_weighting": "Gaussian tile importance divided by accumulated case coverage",
+    "gt_patch_selection": false
+  },
+  "uncertainty_calibration": {
+    "calibration_scope": "all train cases and all native sliding-window tiles",
+    "percentile": 99.0,
+    "scale": 0.0001,
+    "empirical_percentile_scale": 3.7721926560152497e-07,
+    "minimum_scale": 0.0001,
+    "minimum_scale_applied": true,
+    "sample_count": 2351104,
+    "patch_count": 574,
+    "raw_mean": 1.1136635639914659e-05,
+    "raw_std": 0.0007944042263719055,
+    "raw_p50": 6.424867989399016e-17,
+    "raw_p90": 2.8421551136886825e-12,
+    "raw_p95": 7.203668911381911e-11,
+    "raw_p99": 3.7721926560152497e-07,
+    "group_uncertainty": {
+      "combined": {
+        "prediction_count": 7,
+        "raw_mean": 1.1136635639914659e-05,
+        "raw_p95": 7.203668911381911e-11,
+        "raw_p99": 3.7721926560152497e-07
+      },
+      "gamma": {
+        "prediction_count": 3,
+        "raw_mean": 1.2336780785267791e-06,
+        "raw_p95": 1.3839138168769693e-11,
+        "raw_p99": 1.0568859210025039e-07
+      },
+      "action/gamma:-0.30": {
+        "prediction_count": 2,
+        "raw_mean": 1.1262822191823887e-06,
+        "raw_p95": 1.033117341675549e-11,
+        "raw_p99": 6.429263521567918e-08
+      },
+      "action/gamma:+0.30": {
+        "prediction_count": 2,
+        "raw_mean": 9.320424918313166e-07,
+        "raw_p95": 7.201467720763244e-12,
+        "raw_p99": 3.580229446242811e-08
+      },
+      "gaussian_noise": {
+        "prediction_count": 3,
+        "raw_mean": 3.5248473975341614e-06,
+        "raw_p95": 2.4365644918367124e-11,
+        "raw_p99": 1.3466771520143084e-07
+      },
+      "action/gaussian_noise:+0.02": {
+        "prediction_count": 2,
+        "raw_mean": 1.941139267285319e-06,
+        "raw_p95": 1.2579326469364105e-11,
+        "raw_p99": 6.374881422743783e-08
+      },
+      "action/gaussian_noise:+0.05": {
+        "prediction_count": 2,
+        "raw_mean": 5.09948044445575e-06,
+        "raw_p95": 2.401778255445297e-11,
+        "raw_p99": 1.3429962564259768e-07
+      },
+      "bias_field": {
+        "prediction_count": 3,
+        "raw_mean": 1.720835802424461e-05,
+        "raw_p95": 7.206666513548399e-11,
+        "raw_p99": 3.724382793279801e-07
+      },
+      "action/bias_field:+0.05": {
+        "prediction_count": 2,
+        "raw_mean": 4.73544651480313e-06,
+        "raw_p95": 1.57266803746392e-11,
+        "raw_p99": 8.834250309064373e-08
+      },
+      "action/bias_field:+0.15": {
+        "prediction_count": 2,
+        "raw_mean": 2.177508742180312e-05,
+        "raw_p95": 7.31402299836148e-11,
+        "raw_p99": 3.6904657463310286e-07
+      }
+    },
+    "per_patch_minmax_used": false,
+    "gt_used": false
+  },
+  "training": {
+    "epochs": 1,
+    "base_voxtell_frozen": true,
+    "trainable_scope": "LoRA packed QKV only",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "lora_rank": 4,
+    "lora_alpha": 8.0,
+    "lora_dropout": 0.0,
+    "target_modules": [
+      "transformer_decoder.layers.0.self_attn",
+      "transformer_decoder.layers.0.multihead_attn",
+      "transformer_decoder.layers.1.self_attn",
+      "transformer_decoder.layers.1.multihead_attn",
+      "transformer_decoder.layers.2.self_attn",
+      "transformer_decoder.layers.2.multihead_attn",
+      "transformer_decoder.layers.3.self_attn",
+      "transformer_decoder.layers.3.multihead_attn",
+      "transformer_decoder.layers.4.self_attn",
+      "transformer_decoder.layers.4.multihead_attn",
+      "transformer_decoder.layers.5.self_attn",
+      "transformer_decoder.layers.5.multihead_attn"
+    ]
+  },
+  "gt_usage": "pseudo-label diagnostics and final full-volume evaluation only",
+  "final_metrics": [
+    {
+      "variant": "A_init_no_adaptation",
+      "order": "full_window_case_balanced",
+      "step": 0,
+      "scope": "full_volume",
+      "case_count": 8,
+      "mean_dice": 0.6520916101761964,
+      "std_dice": 0.13238929747043005,
+      "mean_foreground_iou": 0.4978613482812652,
+      "std_foreground_iou": 0.14371277241249905,
+      "mean_precision": 0.8000337016988557,
+      "mean_recall": 0.5725646154433671,
+      "mean_iou": 0.4978613482812652,
+      "mean_foreground_dice": 0.6520916101761964,
+      "delta_mean_dice_vs_A_init": 0.0,
+      "delta_mean_iou_vs_A_init": 0.0,
+      "source_pseudo_dice_macro": null,
+      "fused_pseudo_dice_macro": null,
+      "delta_pseudo_dice_macro": null,
+      "background_to_foreground_voxels_mean": null,
+      "foreground_to_background_voxels_mean": null,
+      "uncertainty_gate_mean": null
+    },
+    {
+      "variant": "B_source_hard_pseudo",
+      "order": "full_window_case_balanced",
+      "step": 30,
+      "scope": "full_volume",
+      "case_count": 8,
+      "mean_dice": 0.7164950998063682,
+      "std_dice": 0.07859084680316286,
+      "mean_foreground_iou": 0.5638762891782191,
+      "std_foreground_iou": 0.09226974627240718,
+      "mean_precision": 0.7048276542365711,
+      "mean_recall": 0.7389492235402677,
+      "mean_iou": 0.5638762891782191,
+      "mean_foreground_dice": 0.7164950998063682,
+      "delta_mean_dice_vs_A_init": 0.06440348963017173,
+      "delta_mean_iou_vs_A_init": 0.06601494089695387,
+      "source_pseudo_dice_macro": 0.8785115970807076,
+      "fused_pseudo_dice_macro": 0.8785115970807076,
+      "delta_pseudo_dice_macro": 0.0,
+      "background_to_foreground_voxels_mean": 0.0,
+      "foreground_to_background_voxels_mean": 0.0,
+      "uncertainty_gate_mean": 0.0
+    },
+    {
+      "variant": "C_uncertainty_weighted_soft_pseudo",
+      "order": "full_window_case_balanced",
+      "step": 30,
+      "scope": "full_volume",
+      "case_count": 8,
+      "mean_dice": 0.6559151334444767,
+      "std_dice": 0.13228240530438312,
+      "mean_foreground_iou": 0.5020533840793822,
+      "std_foreground_iou": 0.1431557211366927,
+      "mean_precision": 0.7911731044210663,
+      "mean_recall": 0.5800939459614491,
+      "mean_iou": 0.5020533840793822,
+      "mean_foreground_dice": 0.6559151334444767,
+      "delta_mean_dice_vs_A_init": 0.003823523268280282,
+      "delta_mean_iou_vs_A_init": 0.004192035798116944,
+      "source_pseudo_dice_macro": 0.8785115970807076,
+      "fused_pseudo_dice_macro": 0.8785221877981099,
+      "delta_pseudo_dice_macro": 1.0590717402307141e-05,
+      "background_to_foreground_voxels_mean": 10955.9,
+      "foreground_to_background_voxels_mean": 4998.233333333334,
+      "uncertainty_gate_mean": 0.003948455395035021
+    }
+  ],
+  "outputs": {
+    "summary": "output_2/v1_uncertainty_weighted_pseudo/summary.json",
+    "metrics": "output_2/v1_uncertainty_weighted_pseudo/metrics.csv",
+    "per_case": "output_2/v1_uncertainty_weighted_pseudo/per_case.csv",
+    "pseudo_label_stats": "output_2/v1_uncertainty_weighted_pseudo/pseudo_label_stats.csv",
+    "training_loss": "output_2/v1_uncertainty_weighted_pseudo/training_loss.csv",
+    "train_patch_manifest": "output_2/v1_uncertainty_weighted_pseudo/train_patch_manifest.json",
+    "uncertainty_calibration": "output_2/v1_uncertainty_weighted_pseudo/uncertainty_calibration.json",
+    "parameter_stats": "output_2/v1_uncertainty_weighted_pseudo/parameter_stats.json"
+  }
+}

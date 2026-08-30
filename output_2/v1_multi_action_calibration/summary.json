@@ -1,0 +1,167 @@
+{
+  "stage": "V1 multi-action WP disagreement calibration",
+  "status": "calibration_complete",
+  "sfda_run": false,
+  "gt_used": false,
+  "prompt_actions_used": false,
+  "blur_used": false,
+  "wp_actions": [
+    "gamma:-0.30",
+    "gamma:+0.30",
+    "gaussian_noise:+0.02",
+    "gaussian_noise:+0.05",
+    "bias_field:+0.05",
+    "bias_field:+0.15"
+  ],
+  "world_checkpoint": {
+    "path": "output_2/v1_multi_action_world_predictor/best_multi_action_world_predictor.pt",
+    "stage": "V1 full-window multi-action World Predictor",
+    "selected_epoch": 5,
+    "action_protocol": {
+      "actions": [
+        "gamma:-0.30",
+        "gamma:+0.30",
+        "gaussian_noise:+0.02",
+        "gaussian_noise:+0.05",
+        "bias_field:+0.05",
+        "bias_field:+0.15"
+      ],
+      "families": [
+        "bias_field",
+        "gamma",
+        "gaussian_noise"
+      ],
+      "includes_blur": false,
+      "language_action_used": false,
+      "excluded_as_preprocessing_invariant": [
+        "intensity_scale",
+        "intensity_shift"
+      ],
+      "stochastic_realization": {
+        "gaussian_noise": "stable per case/action/seed",
+        "bias_field": "stable per case/action/seed",
+        "warning": "compact action code does not reveal the full random field; inspect per-action WP identity bias"
+      }
+    },
+    "patch_protocol": {
+      "full_native_sliding_window": true,
+      "case_balanced_optimizer_step": true,
+      "patch_limit_per_case": 0,
+      "patch_count": 574,
+      "per_case_patch_counts": {
+        "CYST_PA69.nii.gz": 60,
+        "CYST_PA37.nii.gz": 16,
+        "CYST_PA53.nii.gz": 2,
+        "HEM_PA24.nii.gz": 16,
+        "CYST_PA74.nii.gz": 20,
+        "FNH_PA32.nii.gz": 3,
+        "HCC_10074592_20130816.nii.gz": 15,
+        "HCC_10142924_20170911.nii.gz": 15,
+        "ICC_PA18.nii.gz": 20,
+        "HCC_10081574_20140213.nii.gz": 12,
+        "FNH_PA10.nii.gz": 20,
+        "HEM_PA66.nii.gz": 3,
+        "CYST_PA54.nii.gz": 2,
+        "CYST_PA56.nii.gz": 20,
+        "HCC_10140276_20170721.nii.gz": 15,
+        "HEM_PA13.nii.gz": 20,
+        "HEM_PA99.nii.gz": 80,
+        "MET_PA25.nii.gz": 20,
+        "HEM_PA97.nii.gz": 50,
+        "HCC_PA0.nii.gz": 25,
+        "HCC_10147777_20171222.nii.gz": 12,
+        "HEM_PA34.nii.gz": 20,
+        "MET_PA13.nii.gz": 20,
+        "CYST_PA38.nii.gz": 3,
+        "MET_PA19.nii.gz": 20,
+        "CYST_PA20.nii.gz": 12,
+        "HEM_PA56.nii.gz": 3,
+        "HCC_10136895_20170421.nii.gz": 15,
+        "HCC_10076307_20130925.nii.gz": 15,
+        "CYST_PA19.nii.gz": 20
+      }
+    },
+    "train_case_count": 30,
+    "smoke_only": false
+  },
+  "uncertainty_calibration": {
+    "calibration_scope": "all train cases and all native sliding-window tiles",
+    "percentile": 99.0,
+    "scale": 0.0001,
+    "empirical_percentile_scale": 3.7721926560152497e-07,
+    "minimum_scale": 0.0001,
+    "minimum_scale_applied": true,
+    "sample_count": 2351104,
+    "patch_count": 574,
+    "raw_mean": 1.1136635639914659e-05,
+    "raw_std": 0.0007944042263719055,
+    "raw_p50": 6.424867989399016e-17,
+    "raw_p90": 2.8421551136886825e-12,
+    "raw_p95": 7.203668911381911e-11,
+    "raw_p99": 3.7721926560152497e-07,
+    "group_uncertainty": {
+      "combined": {
+        "prediction_count": 7,
+        "raw_mean": 1.1136635639914659e-05,
+        "raw_p95": 7.203668911381911e-11,
+        "raw_p99": 3.7721926560152497e-07
+      },
+      "gamma": {
+        "prediction_count": 3,
+        "raw_mean": 1.2336780785267791e-06,
+        "raw_p95": 1.3839138168769693e-11,
+        "raw_p99": 1.0568859210025039e-07
+      },
+      "action/gamma:-0.30": {
+        "prediction_count": 2,
+        "raw_mean": 1.1262822191823887e-06,
+        "raw_p95": 1.033117341675549e-11,
+        "raw_p99": 6.429263521567918e-08
+      },
+      "action/gamma:+0.30": {
+        "prediction_count": 2,
+        "raw_mean": 9.320424918313166e-07,
+        "raw_p95": 7.201467720763244e-12,
+        "raw_p99": 3.580229446242811e-08
+      },
+      "gaussian_noise": {
+        "prediction_count": 3,
+        "raw_mean": 3.5248473975341614e-06,
+        "raw_p95": 2.4365644918367124e-11,
+        "raw_p99": 1.3466771520143084e-07
+      },
+      "action/gaussian_noise:+0.02": {
+        "prediction_count": 2,
+        "raw_mean": 1.941139267285319e-06,
+        "raw_p95": 1.2579326469364105e-11,
+        "raw_p99": 6.374881422743783e-08
+      },
+      "action/gaussian_noise:+0.05": {
+        "prediction_count": 2,
+        "raw_mean": 5.09948044445575e-06,
+        "raw_p95": 2.401778255445297e-11,
+        "raw_p99": 1.3429962564259768e-07
+      },
+      "bias_field": {
+        "prediction_count": 3,
+        "raw_mean": 1.720835802424461e-05,
+        "raw_p95": 7.206666513548399e-11,
+        "raw_p99": 3.724382793279801e-07
+      },
+      "action/bias_field:+0.05": {
+        "prediction_count": 2,
+        "raw_mean": 4.73544651480313e-06,
+        "raw_p95": 1.57266803746392e-11,
+        "raw_p99": 8.834250309064373e-08
+      },
+      "action/bias_field:+0.15": {
+        "prediction_count": 2,
+        "raw_mean": 2.177508742180312e-05,
+        "raw_p95": 7.31402299836148e-11,
+        "raw_p99": 3.6904657463310286e-07
+      }
+    },
+    "per_patch_minmax_used": false,
+    "gt_used": false
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "calibration_scope": "all train cases and all native sliding-window tiles",
+  "percentile": 99.0,
+  "scale": 0.0001,
+  "empirical_percentile_scale": 3.7721926560152497e-07,
+  "minimum_scale": 0.0001,
+  "minimum_scale_applied": true,
+  "sample_count": 2351104,
+  "patch_count": 574,
+  "raw_mean": 1.1136635639914659e-05,
+  "raw_std": 0.0007944042263719055,
+  "raw_p50": 6.424867989399016e-17,
+  "raw_p90": 2.8421551136886825e-12,
+  "raw_p95": 7.203668911381911e-11,
+  "raw_p99": 3.7721926560152497e-07,
+  "group_uncertainty": {
+    "combined": {
+      "prediction_count": 7,
+      "raw_mean": 1.1136635639914659e-05,
+      "raw_p95": 7.203668911381911e-11,
+      "raw_p99": 3.7721926560152497e-07
+    },
+    "gamma": {
+      "prediction_count": 3,
+      "raw_mean": 1.2336780785267791e-06,
+      "raw_p95": 1.3839138168769693e-11,
+      "raw_p99": 1.0568859210025039e-07
+    },
+    "action/gamma:-0.30": {
+      "prediction_count": 2,
+      "raw_mean": 1.1262822191823887e-06,
+      "raw_p95": 1.033117341675549e-11,
+      "raw_p99": 6.429263521567918e-08
+    },
+    "action/gamma:+0.30": {
+      "prediction_count": 2,
+      "raw_mean": 9.320424918313166e-07,
+      "raw_p95": 7.201467720763244e-12,
+      "raw_p99": 3.580229446242811e-08
+    },
+    "gaussian_noise": {
+      "prediction_count": 3,
+      "raw_mean": 3.5248473975341614e-06,
+      "raw_p95": 2.4365644918367124e-11,
+      "raw_p99": 1.3466771520143084e-07
+    },
+    "action/gaussian_noise:+0.02": {
+      "prediction_count": 2,
+      "raw_mean": 1.941139267285319e-06,
+      "raw_p95": 1.2579326469364105e-11,
+      "raw_p99": 6.374881422743783e-08
+    },
+    "action/gaussian_noise:+0.05": {
+      "prediction_count": 2,
+      "raw_mean": 5.09948044445575e-06,
+      "raw_p95": 2.401778255445297e-11,
+      "raw_p99": 1.3429962564259768e-07
+    },
+    "bias_field": {
+      "prediction_count": 3,
+      "raw_mean": 1.720835802424461e-05,
+      "raw_p95": 7.206666513548399e-11,
+      "raw_p99": 3.724382793279801e-07
+    },
+    "action/bias_field:+0.05": {
+      "prediction_count": 2,
+      "raw_mean": 4.73544651480313e-06,
+      "raw_p95": 1.57266803746392e-11,
+      "raw_p99": 8.834250309064373e-08
+    },
+    "action/bias_field:+0.15": {
+      "prediction_count": 2,
+      "raw_mean": 2.177508742180312e-05,
+      "raw_p95": 7.31402299836148e-11,
+      "raw_p99": 3.6904657463310286e-07
+    }
+  },
+  "per_patch_minmax_used": false,
+  "gt_used": false
+}

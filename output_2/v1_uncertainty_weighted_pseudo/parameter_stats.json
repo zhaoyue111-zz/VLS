@@ -1,0 +1,46 @@
+{
+  "variants": [
+    {
+      "variant": "B_source_hard_pseudo",
+      "target_modules": [
+        "transformer_decoder.layers.0.self_attn",
+        "transformer_decoder.layers.0.multihead_attn",
+        "transformer_decoder.layers.1.self_attn",
+        "transformer_decoder.layers.1.multihead_attn",
+        "transformer_decoder.layers.2.self_attn",
+        "transformer_decoder.layers.2.multihead_attn",
+        "transformer_decoder.layers.3.self_attn",
+        "transformer_decoder.layers.3.multihead_attn",
+        "transformer_decoder.layers.4.self_attn",
+        "transformer_decoder.layers.4.multihead_attn",
+        "transformer_decoder.layers.5.self_attn",
+        "transformer_decoder.layers.5.multihead_attn"
+      ],
+      "base_trainable_parameters": 0,
+      "lora_parameter_count": 589824,
+      "lora_checkpoint": "output_2/v1_uncertainty_weighted_pseudo/B_source_hard_pseudo_lora.pt",
+      "updates": 30
+    },
+    {
+      "variant": "C_uncertainty_weighted_soft_pseudo",
+      "target_modules": [
+        "transformer_decoder.layers.0.self_attn",
+        "transformer_decoder.layers.0.multihead_attn",
+        "transformer_decoder.layers.1.self_attn",
+        "transformer_decoder.layers.1.multihead_attn",
+        "transformer_decoder.layers.2.self_attn",
+        "transformer_decoder.layers.2.multihead_attn",
+        "transformer_decoder.layers.3.self_attn",
+        "transformer_decoder.layers.3.multihead_attn",
+        "transformer_decoder.layers.4.self_attn",
+        "transformer_decoder.layers.4.multihead_attn",
+        "transformer_decoder.layers.5.self_attn",
+        "transformer_decoder.layers.5.multihead_attn"
+      ],
+      "base_trainable_parameters": 0,
+      "lora_parameter_count": 589824,
+      "lora_checkpoint": "output_2/v1_uncertainty_weighted_pseudo/C_uncertainty_weighted_soft_pseudo_lora.pt",
+      "updates": 30
+    }
+  ]
+}
