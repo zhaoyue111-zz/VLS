@@ -97,6 +97,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--mask-threshold", type=float, default=0.5)
     parser.add_argument("--nonzero-delta-threshold", type=float, default=1e-4)
     parser.add_argument("--severe-performance-drop", type=float, default=0.10)
+    parser.add_argument(
+        "--meaningful-negative-drop",
+        type=float,
+        default=0.005,
+        help="Count a Dice/mIoU decrease as negative only when change <= -this value.",
+    )
     parser.add_argument("--persistent-negative-rate", type=float, default=0.50)
     parser.add_argument("--bias-sigma-fraction", type=float, default=0.12)
     parser.add_argument("--max-patches-per-case", type=int, default=0)
@@ -473,6 +479,7 @@ def aggregate_rows(
     *,
     nonzero_delta_threshold: float,
     severe_performance_drop: float,
+    meaningful_negative_drop: float,
     persistent_negative_rate: float,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     """Return action/strength summaries, family descriptions, and concrete rankings."""
@@ -589,8 +596,12 @@ def aggregate_rows(
             (dice_change <= -severe_performance_drop) or (miou_change <= -severe_performance_drop)
             for dice_change, miou_change in zip(dice_changes, miou_changes)
         )
-        negative_dice_change_rate = mean_or_zero(change < 0.0 for change in dice_changes)
-        negative_miou_change_rate = mean_or_zero(change < 0.0 for change in miou_changes)
+        negative_dice_change_rate = mean_or_zero(
+            change <= -meaningful_negative_drop for change in dice_changes
+        )
+        negative_miou_change_rate = mean_or_zero(
+            change <= -meaningful_negative_drop for change in miou_changes
+        )
         persistent_negative_action = bool(
             negative_dice_change_rate >= persistent_negative_rate
             or negative_miou_change_rate >= persistent_negative_rate
@@ -623,6 +634,7 @@ def aggregate_rows(
             "severe_performance_drop_rate": severe_drop_rate,
             "negative_dice_change_rate": negative_dice_change_rate,
             "negative_miou_change_rate": negative_miou_change_rate,
+            "meaningful_negative_drop": meaningful_negative_drop,
             "persistent_negative_action": persistent_negative_action,
             "mean_case_dice_change": mean_or_zero(dice_changes),
             "mean_case_miou_change": mean_or_zero(miou_changes),
@@ -632,20 +644,19 @@ def aggregate_rows(
                 "prefer stable non-zero transition, case heterogeneity, and low severe-drop rate; "
                 "exclude persistent negative Dice/mIoU actions; "
                 f"eligible requires nonzero_transition_rate>=0.50 and negative rates<{persistent_negative_rate:.2f}; "
+                f"meaningful negative drop={meaningful_negative_drop:.3f}; "
                 f"severe drop threshold={severe_performance_drop:.3f}"
             ),
         })
-    ranking_rows.sort(
-        key=lambda row: (
-            bool(row["persistent_negative_action"]),
-            -float(row["ranking_score"]),
-        )
-    )
+    ranking_rows.sort(key=lambda row: float(row["ranking_score"]), reverse=True)
     rank = 1
     for row in ranking_rows:
         if row["persistent_negative_action"]:
             row["rank"] = None
             row["ranking_status"] = "excluded_persistent_negative"
+        elif not row["eligible_preferred_action"]:
+            row["rank"] = None
+            row["ranking_status"] = "excluded_insufficient_transition"
         else:
             row["rank"] = rank
             row["ranking_status"] = "ranked_candidate"
@@ -754,6 +765,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         rows,
         nonzero_delta_threshold=args.nonzero_delta_threshold,
         severe_performance_drop=args.severe_performance_drop,
+        meaningful_negative_drop=args.meaningful_negative_drop,
         persistent_negative_rate=args.persistent_negative_rate,
     )
     per_sample_path = output_dir / "per_sample.csv"
@@ -809,10 +821,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "excluded_persistent_negative_actions": [
             row for row in ranking_rows if row["persistent_negative_action"]
         ],
+        "excluded_insufficient_transition_actions": [
+            row for row in ranking_rows if row["ranking_status"] == "excluded_insufficient_transition"
+        ],
         "action_ranking": ranking_rows,
         "ranking_note": (
             "Ranking favors stable non-zero latent/input sensitivity, case-level performance heterogeneity, "
-            "and avoidance of persistent severe performance drops. Inspect action_strength_summary.csv and "
+            "and avoidance of persistent meaningful negative performance changes. Negative rates use "
+            f"meaningful_negative_drop={args.meaningful_negative_drop:.3f}. Inspect action_strength_summary.csv and "
             "per_sample.csv before selecting the next-stage action."
         ),
     }
