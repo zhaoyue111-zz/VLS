@@ -252,7 +252,8 @@ def rankdata(values: np.ndarray) -> np.ndarray:
 
 
 def tie_aware_percentile_rank(values: np.ndarray) -> np.ndarray:
-    """Vectorized equivalent of the V7/V8 tie-aware percentile rank."""
+    """Vectorized equivalent of the V7/V8 tie-aware percentile rank.
+    数组里出现多个相等数值；普通排序会给相同值分配不同名次，这个函数对相同数值赋予相同的中间秩，再归一化到[0,1]区间输出"""
     values = np.asarray(values, dtype=np.float32).reshape(-1)
     if values.size == 0:
         return np.asarray([], dtype=np.float32)
