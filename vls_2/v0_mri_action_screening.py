@@ -26,12 +26,8 @@ from typing import Any, Iterable
 
 import numpy as np
 import torch
-from acvl_utils.cropping_and_padding.padding import pad_nd_image
-from scipy.ndimage import gaussian_filter
 
 from vls.config import DEFAULT_LABEL_VALUE, DEFAULT_PROMPTS, ProjectPaths
-from vls.data import binary_gt_from_label, iter_cases, read_image_and_label
-from vls.voxtell_states import VoxTellStateInterface
 
 
 OUTPUT_DIR = Path("output_2/v0_mri_action_screening")
@@ -52,10 +48,10 @@ class ActionVariant:
 
 
 DEFAULT_ACTION_VARIANTS: tuple[ActionVariant, ...] = (
-    ActionVariant("gamma", "mild", "darken", "gamma", 0.90),
-    ActionVariant("gamma", "mild", "brighten", "gamma", 1.10),
-    ActionVariant("gamma", "moderate", "darken", "gamma", 0.70),
-    ActionVariant("gamma", "moderate", "brighten", "gamma", 1.30),
+    ActionVariant("gamma", "mild", "brighten", "gamma", 0.90),
+    ActionVariant("gamma", "mild", "darken", "gamma", 1.10),
+    ActionVariant("gamma", "moderate", "brighten", "gamma", 0.70),
+    ActionVariant("gamma", "moderate", "darken", "gamma", 1.30),
     ActionVariant("intensity_scale", "mild", "down", "scale", 0.90),
     ActionVariant("intensity_scale", "mild", "up", "scale", 1.10),
     ActionVariant("intensity_scale", "moderate", "down", "scale", 0.70),
@@ -70,6 +66,14 @@ DEFAULT_ACTION_VARIANTS: tuple[ActionVariant, ...] = (
     ActionVariant("bias_field", "moderate", "fixed", "amplitude", 0.15),
 )
 
+SMOKE_ACTION_VARIANTS: tuple[ActionVariant, ...] = (
+    DEFAULT_ACTION_VARIANTS[0],
+    DEFAULT_ACTION_VARIANTS[4],
+    DEFAULT_ACTION_VARIANTS[8],
+    DEFAULT_ACTION_VARIANTS[12],
+    DEFAULT_ACTION_VARIANTS[14],
+)
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -82,7 +86,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-dir", default=str(ProjectPaths().voxtell_model_dir))
     parser.add_argument("--data-root", default=str(ProjectPaths().data_root))
     parser.add_argument("--split-json", default=str(ProjectPaths().split_json))
-    parser.add_argument("--split", default="test", choices=["train", "test", "train_cases", "test_cases"])
+    parser.add_argument("--split", default="train", choices=["train", "test", "train_cases", "test_cases"])
     parser.add_argument("--output-dir", default=str(OUTPUT_DIR))
     parser.add_argument("--prompts", nargs="+", default=DEFAULT_PROMPTS)
     parser.add_argument("--label-value", type=int, default=DEFAULT_LABEL_VALUE)
@@ -93,8 +97,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--mask-threshold", type=float, default=0.5)
     parser.add_argument("--nonzero-delta-threshold", type=float, default=1e-4)
     parser.add_argument("--severe-performance-drop", type=float, default=0.10)
+    parser.add_argument("--persistent-negative-rate", type=float, default=0.50)
     parser.add_argument("--bias-sigma-fraction", type=float, default=0.12)
     parser.add_argument("--max-patches-per-case", type=int, default=0)
+    parser.add_argument(
+        "--smoke-only",
+        action="store_true",
+        help="Run exactly 1 case, 1 encoder patch, and 5 representative mild actions.",
+    )
     return parser.parse_args()
 
 
@@ -119,13 +129,37 @@ def stable_seed(case_name: str, variant: ActionVariant, seed: int) -> int:
     return int.from_bytes(hashlib.sha256(token).digest()[:8], "little") % (2**32)
 
 
-def robust_range(image: np.ndarray) -> float:
+def support_mask(image: np.ndarray) -> np.ndarray:
+    """Return the exact non-zero support used to protect the preprocessing bbox."""
+    return np.asarray(image) != 0
+
+
+def robust_range(image: np.ndarray, support: np.ndarray | None = None) -> float:
     values = np.asarray(image, dtype=np.float32)
-    low, high = np.percentile(values, [5.0, 95.0])
+    if support is None:
+        support = support_mask(values)
+    supported_values = values[support]
+    if supported_values.size == 0:
+        return 1.0
+    low, high = np.percentile(supported_values, [5.0, 95.0])
     result = float(high - low)
     if not math.isfinite(result) or result < EPS:
-        result = float(np.max(values) - np.min(values))
+        result = float(np.max(supported_values) - np.min(supported_values))
     return max(result, 1.0)
+
+
+def preserve_original_support(
+    original: np.ndarray,
+    transformed: np.ndarray,
+    support: np.ndarray,
+) -> np.ndarray:
+    """Keep zeros outside support and prevent an action from creating/removing support."""
+    result = np.asarray(transformed, dtype=np.float32).copy()
+    result[~support] = original[~support]
+    newly_zero = support & (result == 0)
+    if np.any(newly_zero):
+        result[newly_zero] = np.copysign(np.finfo(np.float32).tiny, original[newly_zero])
+    return result
 
 
 def apply_action(
@@ -138,29 +172,35 @@ def apply_action(
 ) -> np.ndarray:
     """Apply one intensity-only action without changing array geometry."""
     x = np.asarray(image, dtype=np.float32)
-    value_range = robust_range(x)
+    support = support_mask(x)
+    if not np.any(support):
+        return x.copy()
+    value_range = robust_range(x, support)
 
     if variant.action_family == "gamma":
-        lo = float(np.min(x))
-        hi = float(np.max(x))
+        supported_values = x[support]
+        lo = float(np.min(supported_values))
+        hi = float(np.max(supported_values))
         if hi - lo < EPS:
             return x.copy()
         normalized = (x - lo) / (hi - lo)
         transformed = np.power(np.clip(normalized, 0.0, 1.0), variant.parameter_value)
-        return (transformed * (hi - lo) + lo).astype(np.float32, copy=False)
+        return preserve_original_support(x, transformed * (hi - lo) + lo, support)
 
     if variant.action_family == "intensity_scale":
-        return (x * variant.parameter_value).astype(np.float32, copy=False)
+        return preserve_original_support(x, x * variant.parameter_value, support)
 
     if variant.action_family == "intensity_shift":
-        return (x + variant.parameter_value * value_range).astype(np.float32, copy=False)
+        return preserve_original_support(x, x + variant.parameter_value * value_range, support)
 
     rng = np.random.default_rng(stable_seed(case_name, variant, seed))
     if variant.action_family == "gaussian_noise":
         noise = rng.normal(0.0, variant.parameter_value * value_range, size=x.shape)
-        return (x + noise.astype(np.float32)).astype(np.float32, copy=False)
+        return preserve_original_support(x, x + noise.astype(np.float32), support)
 
     if variant.action_family == "bias_field":
+        from scipy.ndimage import gaussian_filter
+
         spatial_shape = x.shape[-3:]
         noise = rng.normal(0.0, 1.0, size=spatial_shape).astype(np.float32)
         sigma = max(1.0, float(min(spatial_shape)) * bias_sigma_fraction)
@@ -170,7 +210,7 @@ def apply_action(
         multiplier = np.clip(1.0 + variant.parameter_value * field, 0.5, 1.5)
         if x.ndim == 4:
             multiplier = multiplier[None, ...]
-        return (x * multiplier).astype(np.float32, copy=False)
+        return preserve_original_support(x, x * multiplier, support)
 
     raise ValueError(f"Unsupported action family: {variant.action_family}")
 
@@ -182,7 +222,9 @@ def action_variants() -> tuple[ActionVariant, ...]:
 def padded_preprocessed_and_slicers(
     predictor: Any,
     preprocessed: torch.Tensor,
-) -> tuple[torch.Tensor, list[tuple]]:
+) -> tuple[torch.Tensor, list[tuple], tuple[int, ...]]:
+    from acvl_utils.cropping_and_padding.padding import pad_nd_image
+
     padded, _ = pad_nd_image(
         preprocessed,
         predictor.patch_size,
@@ -192,10 +234,13 @@ def padded_preprocessed_and_slicers(
         None,
     )
     slicers = predictor._internal_get_sliding_window_slicers(padded.shape[1:])
-    return padded, slicers
+    return padded, slicers, tuple(int(value) for value in preprocessed.shape)
 
 
-def preprocess_image(predictor: Any, image: np.ndarray) -> tuple[torch.Tensor, list[tuple]]:
+def preprocess_image(
+    predictor: Any,
+    image: np.ndarray,
+) -> tuple[torch.Tensor, list[tuple], tuple[int, ...]]:
     preprocessed, _, _ = predictor.preprocess(image)
     preprocessed = torch.as_tensor(preprocessed).float()
     return padded_preprocessed_and_slicers(predictor, preprocessed)
@@ -217,11 +262,61 @@ def prepare_action_input(
         seed=seed,
         bias_sigma_fraction=bias_sigma_fraction,
     )
-    return preprocess_image(predictor, action_image)
+    padded, slicers, _ = preprocess_image(predictor, action_image)
+    return padded, slicers
 
 
 def clone_patch(padded: torch.Tensor, slicer: tuple) -> torch.Tensor:
     return torch.clone(padded[slicer][None], memory_format=torch.contiguous_format)
+
+
+def assert_action_geometry_unchanged(
+    source_image: np.ndarray,
+    action_image: np.ndarray,
+    source_preprocessed_shape: tuple[int, ...],
+    action_preprocessed_shape: tuple[int, ...],
+    source_padded: torch.Tensor,
+    action_padded: torch.Tensor,
+    source_slicers: list[tuple],
+    action_slicers: list[tuple],
+) -> dict[str, Any]:
+    """Fail fast if an intensity action can alter preprocessing geometry."""
+    if source_image.shape != action_image.shape:
+        raise ValueError(
+            f"Action changed raw image shape: {source_image.shape} vs {action_image.shape}"
+        )
+    source_support = support_mask(source_image)
+    action_support = support_mask(action_image)
+    raw_support_identical = bool(np.array_equal(source_support, action_support))
+    raw_outside_values_identical = bool(
+        np.array_equal(action_image[~source_support], source_image[~source_support])
+    )
+    if not raw_support_identical or not raw_outside_values_identical:
+        raise ValueError("Action changed raw non-zero support or values outside support")
+
+    preprocessed_shape_identical = source_preprocessed_shape == action_preprocessed_shape
+    padded_shape_identical = tuple(source_padded.shape) == tuple(action_padded.shape)
+    sliding_window_topology_identical = source_slicers == action_slicers
+    if not preprocessed_shape_identical or not padded_shape_identical or not sliding_window_topology_identical:
+        raise ValueError(
+            "Action changed preprocessing/sliding-window geometry: "
+            f"preprocessed={source_preprocessed_shape}/{action_preprocessed_shape}, "
+            f"padded={tuple(source_padded.shape)}/{tuple(action_padded.shape)}, "
+            f"topology={sliding_window_topology_identical}"
+        )
+    return {
+        "raw_support_voxels_before": int(np.count_nonzero(source_support)),
+        "raw_support_voxels_after": int(np.count_nonzero(action_support)),
+        "raw_support_identical": raw_support_identical,
+        "raw_outside_support_values_identical": raw_outside_values_identical,
+        "preprocessed_shape_before": json.dumps([int(value) for value in source_preprocessed_shape]),
+        "preprocessed_shape_after": json.dumps([int(value) for value in action_preprocessed_shape]),
+        "preprocessed_shape_identical": preprocessed_shape_identical,
+        "padded_shape_identical": padded_shape_identical,
+        "sliding_window_count_before": len(source_slicers),
+        "sliding_window_count_after": len(action_slicers),
+        "sliding_window_topology_identical": sliding_window_topology_identical,
+    }
 
 
 def tensor_relative_delta(source: torch.Tensor, action: torch.Tensor) -> float:
@@ -317,6 +412,8 @@ def variant_case_row(
     gt: np.ndarray,
     layer_values: dict[str, list[float]],
     mask_threshold: float,
+    geometry_checks: dict[str, Any],
+    nonzero_delta_threshold: float,
 ) -> list[dict[str, Any]]:
     source_mask = source_probability >= mask_threshold
     action_mask = action_probability >= mask_threshold
@@ -342,7 +439,7 @@ def variant_case_row(
             "encoder_layer": layer_name,
             "encoder_relative_delta": float(np.mean(values)),
             "encoder_relative_delta_std": float(np.std(values)),
-            "encoder_nonzero_patch_fraction": float(np.mean(values > 0.0)),
+            "encoder_nonzero_patch_fraction": float(np.mean(values > nonzero_delta_threshold)),
             "patch_count": int(values.size),
             **prob,
             "mask_consistency_dice": consistency_dice,
@@ -355,7 +452,7 @@ def variant_case_row(
             "case_miou_change": action_miou - source_miou,
             "source_foreground_iou": foreground_iou(source_mask, gt),
             "action_foreground_iou": foreground_iou(action_mask, gt),
-            "action_source_input_geometry_unchanged": True,
+            **geometry_checks,
             "labels_reused_without_change": True,
         })
     return rows
@@ -376,8 +473,9 @@ def aggregate_rows(
     *,
     nonzero_delta_threshold: float,
     severe_performance_drop: float,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    """Return action/strength rows and action-level ranking rows."""
+    persistent_negative_rate: float,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Return action/strength summaries, family descriptions, and concrete rankings."""
     grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
         grouped[(str(row["prompt"]), str(row["action_family"]), str(row["strength"]))].append(row)
@@ -420,11 +518,47 @@ def aggregate_rows(
             }, sort_keys=True),
         })
 
-    ranking_grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    family_summary_rows = []
+    family_grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
-        ranking_grouped[(str(row["prompt"]), str(row["action_family"]))].append(row)
+        family_grouped[(str(row["prompt"]), str(row["action_family"]))].append(row)
+    for (prompt, action_family), group in sorted(family_grouped.items()):
+        unique_case_variants = {}
+        for row in group:
+            unique_case_variants[(row["case"], row["variant_id"])] = row
+        family_summary_rows.append({
+            "prompt": prompt,
+            "action_family": action_family,
+            "strength": "all",
+            "direction": "all",
+            "variant_count": len(unique_case_variants),
+            "case_count": len({row["case"] for row in group}),
+            "encoder_relative_delta_mean": mean_or_zero(row["encoder_relative_delta"] for row in group),
+            "prediction_probability_mse_mean": mean_or_zero(row["prediction_probability_mse"] for row in group),
+            "prediction_probability_mae_mean": mean_or_zero(row["prediction_probability_mae"] for row in group),
+            "mask_consistency_dice_mean": mean_or_zero(row["mask_consistency_dice"] for row in group),
+            "mask_consistency_iou_mean": mean_or_zero(row["mask_consistency_iou"] for row in group),
+            "source_case_dice_mean": mean_or_zero(unique_case_variants[key]["source_case_dice"] for key in unique_case_variants),
+            "action_case_dice_mean": mean_or_zero(unique_case_variants[key]["action_case_dice"] for key in unique_case_variants),
+            "case_dice_change_mean": mean_or_zero(unique_case_variants[key]["case_dice_change"] for key in unique_case_variants),
+            "source_case_miou_mean": mean_or_zero(unique_case_variants[key]["source_case_miou"] for key in unique_case_variants),
+            "action_case_miou_mean": mean_or_zero(unique_case_variants[key]["action_case_miou"] for key in unique_case_variants),
+            "case_miou_change_mean": mean_or_zero(unique_case_variants[key]["case_miou_change"] for key in unique_case_variants),
+            "descriptive_only": True,
+        })
+
+    ranking_grouped: dict[tuple[str, str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        ranking_grouped[
+            (
+                str(row["prompt"]),
+                str(row["action_family"]),
+                str(row["strength"]),
+                str(row["direction"]),
+            )
+        ].append(row)
     ranking_rows = []
-    for (prompt, action_family), group in sorted(ranking_grouped.items()):
+    for (prompt, action_family, strength, direction), group in sorted(ranking_grouped.items()):
         case_variant_groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
         for row in group:
             case_variant_groups[(str(row["case"]), str(row["variant_id"]))].append(row)
@@ -455,16 +589,28 @@ def aggregate_rows(
             (dice_change <= -severe_performance_drop) or (miou_change <= -severe_performance_drop)
             for dice_change, miou_change in zip(dice_changes, miou_changes)
         )
-        ranking_score = (
-            0.35 * nonzero_rate
-            + 0.25 * stability_score
-            + 0.20 * heterogeneity_score
-            + 0.20 * (1.0 - severe_drop_rate)
+        negative_dice_change_rate = mean_or_zero(change < 0.0 for change in dice_changes)
+        negative_miou_change_rate = mean_or_zero(change < 0.0 for change in miou_changes)
+        persistent_negative_action = bool(
+            negative_dice_change_rate >= persistent_negative_rate
+            or negative_miou_change_rate >= persistent_negative_rate
         )
-        eligible = bool(nonzero_rate >= 0.50 and severe_drop_rate < 0.50)
+        ranking_score = (
+            0.30 * nonzero_rate
+            + 0.20 * stability_score
+            + 0.15 * heterogeneity_score
+            + 0.15 * (1.0 - severe_drop_rate)
+            + 0.20 * (1.0 - (negative_dice_change_rate + negative_miou_change_rate) / 2.0)
+        )
+        eligible = bool(nonzero_rate >= 0.50 and not persistent_negative_action)
         ranking_rows.append({
             "prompt": prompt,
             "action_family": action_family,
+            "strength": strength,
+            "direction": direction,
+            "variant_id": group[0]["variant_id"],
+            "parameter_name": group[0]["parameter_name"],
+            "parameter_value": group[0]["parameter_value"],
             "ranking_score": ranking_score,
             "eligible_preferred_action": eligible,
             "nonzero_transition_rate": nonzero_rate,
@@ -475,20 +621,36 @@ def aggregate_rows(
             "case_dice_change_std": std_or_zero(dice_changes),
             "case_miou_change_std": std_or_zero(miou_changes),
             "severe_performance_drop_rate": severe_drop_rate,
+            "negative_dice_change_rate": negative_dice_change_rate,
+            "negative_miou_change_rate": negative_miou_change_rate,
+            "persistent_negative_action": persistent_negative_action,
             "mean_case_dice_change": mean_or_zero(dice_changes),
             "mean_case_miou_change": mean_or_zero(miou_changes),
             "mean_prediction_probability_mse": mean_or_zero(probability_mse),
             "strengths_evaluated": ",".join(sorted({str(row["strength"]) for row in group})),
             "selection_rule": (
                 "prefer stable non-zero transition, case heterogeneity, and low severe-drop rate; "
-                f"eligible requires nonzero_transition_rate>=0.50 and severe_drop_rate<0.50; "
+                "exclude persistent negative Dice/mIoU actions; "
+                f"eligible requires nonzero_transition_rate>=0.50 and negative rates<{persistent_negative_rate:.2f}; "
                 f"severe drop threshold={severe_performance_drop:.3f}"
             ),
         })
-    ranking_rows.sort(key=lambda row: float(row["ranking_score"]), reverse=True)
-    for index, row in enumerate(ranking_rows, start=1):
-        row["rank"] = index
-    return summary_rows, ranking_rows
+    ranking_rows.sort(
+        key=lambda row: (
+            bool(row["persistent_negative_action"]),
+            -float(row["ranking_score"]),
+        )
+    )
+    rank = 1
+    for row in ranking_rows:
+        if row["persistent_negative_action"]:
+            row["rank"] = None
+            row["ranking_status"] = "excluded_persistent_negative"
+        else:
+            row["rank"] = rank
+            row["ranking_status"] = "ranked_candidate"
+            rank += 1
+    return summary_rows, family_summary_rows, ranking_rows
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> None:
@@ -500,6 +662,9 @@ def write_csv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> 
 
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
+    from vls.data import binary_gt_from_label, iter_cases, read_image_and_label
+    from vls.voxtell_states import VoxTellStateInterface
+
     set_seed(args.seed)
     device = resolve_device(args)
     output_dir = Path(args.output_dir)
@@ -517,8 +682,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         voxtell_root=paths.voxtell_root,
     )
     interface.network.eval()
-    cases = iter_cases(paths, split=args.split, limit=args.limit_cases)
-    variants = action_variants()
+    effective_limit = 1 if args.smoke_only else args.limit_cases
+    cases = iter_cases(paths, split=args.split, limit=effective_limit)
+    variants = SMOKE_ACTION_VARIANTS if args.smoke_only else action_variants()
+    effective_max_patches = 1 if args.smoke_only else args.max_patches_per_case
     if not cases:
         raise ValueError("No cases found for the selected split")
 
@@ -530,7 +697,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         source_probability_map = predictor.predict_single_image(
             image, args.prompts, output_type="probabilities"
         )
-        source_padded, source_slicers = preprocess_image(predictor, image)
+        source_padded, source_slicers, source_preprocessed_shape = preprocess_image(predictor, image)
         for variant in variants:
             action_image = apply_action(
                 image,
@@ -542,15 +709,23 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             action_probability_map = predictor.predict_single_image(
                 action_image, args.prompts, output_type="probabilities"
             )
-            action_padded, action_slicers = preprocess_image(predictor, action_image)
-            if len(source_slicers) != len(action_slicers):
-                raise ValueError("Action changed sliding-window topology")
+            action_padded, action_slicers, action_preprocessed_shape = preprocess_image(predictor, action_image)
+            geometry_checks = assert_action_geometry_unchanged(
+                image,
+                action_image,
+                source_preprocessed_shape,
+                action_preprocessed_shape,
+                source_padded,
+                action_padded,
+                source_slicers,
+                action_slicers,
+            )
             layer_values = encoder_layer_deltas(
                 interface,
                 source_padded,
                 action_padded,
                 source_slicers,
-                args.max_patches_per_case,
+                effective_max_patches,
             )
             for prompt_index, prompt in enumerate(args.prompts):
                 source_probability = as_probability_array(source_probability_map, prompt_index)
@@ -569,20 +744,25 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     gt=gt,
                     layer_values=layer_values,
                     mask_threshold=args.mask_threshold,
+                    geometry_checks=geometry_checks,
+                    nonzero_delta_threshold=args.nonzero_delta_threshold,
                 ))
-            del action_image, action_probability_map, action_padded, layer_values
+            del action_image, action_probability_map, action_padded, action_preprocessed_shape, layer_values
         del image, label_map, source_probability_map, source_padded
 
-    summary_rows, ranking_rows = aggregate_rows(
+    summary_rows, family_summary_rows, ranking_rows = aggregate_rows(
         rows,
         nonzero_delta_threshold=args.nonzero_delta_threshold,
         severe_performance_drop=args.severe_performance_drop,
+        persistent_negative_rate=args.persistent_negative_rate,
     )
     per_sample_path = output_dir / "per_sample.csv"
     summary_path = output_dir / "action_strength_summary.csv"
+    family_summary_path = output_dir / "action_family_summary.csv"
     ranking_path = output_dir / "action_ranking.csv"
     write_csv(per_sample_path, rows, list(rows[0].keys()))
     write_csv(summary_path, summary_rows, list(summary_rows[0].keys()))
+    write_csv(family_summary_path, family_summary_rows, list(family_summary_rows[0].keys()))
     write_csv(ranking_path, ranking_rows, list(ranking_rows[0].keys()))
 
     preferred = [row for row in ranking_rows if row["eligible_preferred_action"]]
@@ -607,16 +787,28 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             ],
             "labels_unchanged": True,
             "source_vls_untouched": True,
+            "geometry_checks": [
+                "raw support and outside-support values identical",
+                "preprocessed shape identical",
+                "padded shape identical",
+                "sliding-window topology identical",
+            ],
         },
         "args": vars(args),
         "num_cases": len(cases),
         "cases": [case.case for case in cases],
         "num_per_sample_rows": len(rows),
         "num_action_strength_rows": len(summary_rows),
+        "num_action_family_rows": len(family_summary_rows),
         "per_sample_csv": str(per_sample_path),
         "action_strength_summary_csv": str(summary_path),
+        "action_family_summary_csv": str(family_summary_path),
         "action_ranking_csv": str(ranking_path),
+        "smoke_only": args.smoke_only,
         "preferred_actions": preferred,
+        "excluded_persistent_negative_actions": [
+            row for row in ranking_rows if row["persistent_negative_action"]
+        ],
         "action_ranking": ranking_rows,
         "ranking_note": (
             "Ranking favors stable non-zero latent/input sensitivity, case-level performance heterogeneity, "
