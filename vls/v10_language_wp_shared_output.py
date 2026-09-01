@@ -14,6 +14,7 @@ import json
 import random
 import shlex
 import sys
+from contextlib import nullcontext
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -63,6 +64,8 @@ class LanguageResidualWP(nn.Module):
     def forward(self, source_shared: torch.Tensor, text_delta: torch.Tensor) -> torch.Tensor:
         if source_shared.ndim != 2 or text_delta.ndim != 2:
             raise ValueError("LanguageResidualWP expects [batch, feature] tensors")
+        source_shared = source_shared.float()
+        text_delta = text_delta.float()
         return source_shared + self.fusion(
             self.source_projection(source_shared) + self.delta_projection(text_delta)
         )
@@ -348,9 +351,15 @@ def summarize_language_rows(patch_rows: list[dict[str, Any]]) -> tuple[list[dict
 
 def decode_from_shared_output(interface: VoxTellStateInterface, source_context: dict[str, Any], shared_output: torch.Tensor) -> torch.Tensor:
     network = interface.network
-    mask_embeddings = [projection(shared_output) for projection in network.project_to_decoder_channels]
-    decoder = source_context["decoder_audit"]["decoder"]
-    output = decoder(source_context["decoder_audit"]["skips"], mask_embeddings)
+    shared_output = shared_output.float()
+    autocast_context = (
+        torch.autocast(interface.device.type, enabled=True)
+        if interface.device.type == "cuda" else nullcontext()
+    )
+    with autocast_context:
+        mask_embeddings = [projection(shared_output) for projection in network.project_to_decoder_channels]
+        decoder = source_context["decoder_audit"]["decoder"]
+        output = decoder(source_context["decoder_audit"]["skips"], mask_embeddings)
     if isinstance(output, (list, tuple)):
         output = output[0]
     return output
@@ -383,7 +392,7 @@ def full_volume_case(
     padded, slicer_revert = pad_nd_image(preprocessed, predictor.patch_size, "constant", {"value": 0}, True, None)
     slicers = predictor._internal_get_sliding_window_slicers(padded.shape[1:])
     gaussian = compute_gaussian(tuple(predictor.patch_size), sigma_scale=1.0 / 8, value_scaling_factor=10, device=torch.device("cpu"))
-    accumulators = {
+    logit_accumulators = {
         name: torch.zeros((1, *padded.shape[1:]), dtype=torch.float32, device="cpu")
         for name in ("source", "target_the_liver", "target_human_liver", "target_hepatic_organ", "wp_the_liver", "wp_human_liver", "wp_hepatic_organ")
     }
@@ -392,24 +401,28 @@ def full_volume_case(
     for tile_slice in slicers:
         patch = torch.clone(padded[tile_slice][None], memory_format=torch.contiguous_format)
         source_context = interface.forward_with_audit_context(patch, source_embedding)
-        source_probability = torch.sigmoid(source_context["final_prediction"][:, :1])[0].cpu()
-        shared_source = source_context["shared_prompt_outputs"][:, 0]
+        source_logits = source_context["final_prediction"][:, :1][0].float().cpu()
+        shared_source = source_context["shared_prompt_outputs"][:, 0].float()
         for target_index, target_name in enumerate(TARGET_PROMPTS, start=1):
             target_context = interface.forward_with_audit_context(
                 patch, prompt_embeddings[:, target_index:target_index + 1],
             )
-            target_probability = torch.sigmoid(target_context["final_prediction"][:, :1])[0].cpu()
-            predicted_shared = model(shared_source, target_deltas[target_index - 1][None].to(device))
+            target_logits = target_context["final_prediction"][:, :1][0].float().cpu()
+            predicted_shared = model(
+                shared_source,
+                target_deltas[target_index - 1][None].to(device).float(),
+            )
             predicted_logits = decode_from_shared_output(interface, source_context, predicted_shared[:, None])
-            predicted_probability = torch.sigmoid(predicted_logits)[0].cpu()
-            accumulators[f"target_{target_name.replace(' ', '_')}"][tile_slice] += target_probability * gaussian
-            accumulators[f"wp_{target_name.replace(' ', '_')}"][tile_slice] += predicted_probability * gaussian
-        accumulators["source"][tile_slice] += source_probability * gaussian
+            predicted_logits = predicted_logits[:, :1][0].float().cpu()
+            logit_accumulators[f"target_{target_name.replace(' ', '_')}"][tile_slice] += target_logits * gaussian
+            logit_accumulators[f"wp_{target_name.replace(' ', '_')}"][tile_slice] += predicted_logits * gaussian
+        logit_accumulators["source"][tile_slice] += source_logits * gaussian
         counts[tile_slice[1:]] += gaussian
-    probabilities = {
+    logits = {
         name: restore_volume(value / counts.clamp_min(1e-8), slicer_revert, tuple(int(size) for size in original_shape[-3:]), bbox)
-        for name, value in accumulators.items()
+        for name, value in logit_accumulators.items()
     }
+    probabilities = {name: 1.0 / (1.0 + np.exp(-np.clip(value, -80.0, 80.0))) for name, value in logits.items()}
     gt = binary_gt_from_label(label, label_value).astype(bool)
     rows = []
     for target_name in TARGET_PROMPTS:
@@ -438,7 +451,13 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     if not rows:
         path.write_text("")
         return
-    fields = list(rows[0])
+    fields = []
+    seen = set()
+    for row in rows:
+        for field in row:
+            if field not in seen:
+                fields.append(field)
+                seen.add(field)
     with path.open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
         writer.writeheader()
