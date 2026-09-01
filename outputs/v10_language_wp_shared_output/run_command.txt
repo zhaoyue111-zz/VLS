@@ -1,0 +1,1 @@
+python -u vls/v10_language_wp_shared_output.py --device cpu --model-dir D:\pythonCode\VoxTell_from_disk\model --voxtell-root D:\pythonCode\VoxTell_from_disk --data-root D:\pythonCode\VoxTell_from_disk --split-json worst_zeroshot_split_p0\worst_zeroshot_split.json --output-dir outputs\v10_language_wp_shared_output

@@ -1,0 +1,16 @@
+{
+  "status": "blocked_before_experiment",
+  "command": "python -u vls/v10_language_wp_shared_output.py --device cpu --model-dir D:\\pythonCode\\VoxTell_from_disk\\model --voxtell-root D:\\pythonCode\\VoxTell_from_disk --data-root D:\\pythonCode\\VoxTell_from_disk --split-json worst_zeroshot_split_p0\\worst_zeroshot_split.json --output-dir outputs\\v10_language_wp_shared_output",
+  "blocking_checks": {
+    "python": "D:\\anaconda\\python.exe 3.11.5",
+    "torch": "2.6.0+cpu",
+    "cuda_available": false,
+    "missing_python_packages": ["nnunetv2", "acvl_utils", "einops", "transformers"],
+    "formal_split_data_available": false,
+    "visible_p0_image_count": 7,
+    "formal_split_required_case_count": 38,
+    "visible_labels": false
+  },
+  "result_tables_written": false,
+  "note": "No patch-level, case-level, summary CSV/JSON, or checkpoint was fabricated because the formal experiment could not start in this workspace."
+}

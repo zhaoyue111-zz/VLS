@@ -134,6 +134,7 @@ class VoxTellStateInterface:
             "final_prediction": decoder_audit["final_prediction"],
             "decoder_audit": decoder_audit,
             "selected_encoder_feature": selected_feature,
+            "shared_prompt_outputs": mask_embedding,
             "text_embedding": text_embedding,
         }
 
@@ -183,6 +184,7 @@ class VoxTellStateInterface:
             "decoder_states": _stack_prompt_state_dicts(per_prompt_states),
             "intermediate_predictions": _cat_prompt_prediction_dicts(per_prompt_intermediate),
             "selected_encoder_feature": selected_feature,
+            "shared_prompt_outputs": mask_embedding,
             "text_embedding": text_embedding,
         }
 
