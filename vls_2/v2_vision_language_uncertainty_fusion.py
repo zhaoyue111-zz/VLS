@@ -716,8 +716,12 @@ def train_variant(
         raise AssertionError(f"Base VoxTell parameters must remain frozen, got {base_trainable}")
     optimizer = torch.optim.AdamW(trainable, lr=args.learning_rate, weight_decay=args.weight_decay)
     uses_uncertainty = variant == "C_uncertainty_weighted_soft_pseudo"
-    world_predictor.to(device).eval()
-    language_world_predictor.to(device).eval()
+    if uses_uncertainty:
+        world_predictor.to(device).eval()
+        language_world_predictor.to(device).eval()
+    else:
+        world_predictor.to(torch.device("cpu")).eval()
+        language_world_predictor.to(torch.device("cpu")).eval()
 
     loss_rows: list[dict[str, Any]] = []
     pseudo_rows: list[dict[str, Any]] = []
@@ -738,12 +742,12 @@ def train_variant(
                 patch = torch.clone(padded[slicer][None], memory_format=torch.contiguous_format).to(device)
                 with lora_disabled(student):
                     source_context = source_context_from_network(interface, student, patch, embedding, device)
-                source_probability, vision_outputs, language_outputs = imagined_predictions(
-                    interface, student, world_predictor, language_world_predictor, source_context,
-                    actions, text_delta, language_text_deltas, device,
-                )
-                predictions = combined_predictions(source_probability, vision_outputs, language_outputs)
                 if uses_uncertainty:
+                    source_probability, vision_outputs, language_outputs = imagined_predictions(
+                        interface, student, world_predictor, language_world_predictor, source_context,
+                        actions, text_delta, language_text_deltas, device,
+                    )
+                    predictions = combined_predictions(source_probability, vision_outputs, language_outputs)
                     raw, gate, pseudo = uncertainty_and_pseudo(
                         predictions, args.prediction_threshold,
                         calibration_scale, args.uncertainty_power,
@@ -779,12 +783,9 @@ def train_variant(
                     loss, _ = class_balanced_loss(logits, pseudo.detach(), weight)
                     scaled_loss = loss / float(len(slicers))
                 scaled_loss.backward()
-                if not any(
-                    parameter.grad is not None
-                    and bool(torch.isfinite(parameter.grad).all())
-                    for parameter in trainable
-                ):
-                    raise AssertionError("LoRA backward sanity check failed: no finite gradient")
+                gradients = [parameter.grad for parameter in trainable if parameter.grad is not None]
+                if not gradients or not all(bool(torch.isfinite(gradient).all()) for gradient in gradients):
+                    raise AssertionError("LoRA backward sanity check failed: missing or non-finite gradient")
                 patch_losses.append(float(loss.detach().cpu()))
                 del patch, source_context, source_probability, source_hard, raw, gate
                 del pseudo, gt, result, logits, weight, loss, scaled_loss
@@ -816,7 +817,7 @@ def train_variant(
             })
             pseudo_rows.append(finalize_diagnostic(diagnostic, variant, epoch, case.case))
             print(
-                f"[v1_uncertainty_pseudo] {variant} epoch={epoch}/{args.training_epochs} "
+                f"[v2_vision_language_uncertainty_pseudo] {variant} epoch={epoch}/{args.training_epochs} "
                 f"case={case_position}/{len(train_cases)} {case.case} "
                 f"patches={len(slicers)} loss={loss_rows[-1]['mean_patch_loss']:.6f}",
                 flush=True,
@@ -1165,10 +1166,10 @@ if __name__ == "__main__":
     run(parse_args())
 
 '''
-只检查每个 action 是否仍接近 identity，不运行 SFDA
-python -u vls_2/v1_uncertainty_fusion.py \
+只运行 V2 的统一 10-member calibration，不运行 SFDA
+python -u vls_2/v2_vision_language_uncertainty_fusion.py \
   --calibration-only \
-  --gpu 0 \
   --world-checkpoint output_2/v1_multi_action_world_predictor/best_multi_action_world_predictor.pt \
-  --output-dir output_2/v1_multi_action_calibration
+  --language-world-checkpoint outputs/v10_language_wp_shared_output/language_wp_final.pt \
+  --output-dir output_2/v2_vision_language_uncertainty_weighted_pseudo
 '''
