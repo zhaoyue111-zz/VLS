@@ -1,0 +1,51 @@
+{
+  "calibration_scope": "all train cases and all native sliding-window tiles",
+  "percentile": 99.0,
+  "scale": 0.0001,
+  "empirical_percentile_scale": 6.116461463534506e-06,
+  "minimum_scale": 0.0001,
+  "minimum_scale_applied": true,
+  "sample_count": 2351104,
+  "patch_count": 574,
+  "prediction_count": 10,
+  "prediction_member_names": [
+    "source",
+    "vision_gamma_-0.30",
+    "vision_gamma_+0.30",
+    "vision_gaussian_noise_+0.02",
+    "vision_gaussian_noise_+0.05",
+    "vision_bias_field_+0.05",
+    "vision_bias_field_+0.15",
+    "language_the_liver",
+    "language_human_liver",
+    "language_hepatic_organ"
+  ],
+  "raw_mean": 7.056471117946051e-05,
+  "raw_std": 0.0022404161591425085,
+  "raw_p50": 6.245997659647161e-16,
+  "raw_p90": 1.845841014758154e-11,
+  "raw_p95": 4.837910072552631e-10,
+  "raw_p99": 6.116461463534506e-06,
+  "group_uncertainty": {
+    "combined": {
+      "prediction_count": 10,
+      "prediction_member_names": [
+        "source",
+        "vision_gamma_-0.30",
+        "vision_gamma_+0.30",
+        "vision_gaussian_noise_+0.02",
+        "vision_gaussian_noise_+0.05",
+        "vision_bias_field_+0.05",
+        "vision_bias_field_+0.15",
+        "language_the_liver",
+        "language_human_liver",
+        "language_hepatic_organ"
+      ],
+      "raw_mean": 7.056471117946051e-05,
+      "raw_p95": 4.837910072552631e-10,
+      "raw_p99": 6.116461463534506e-06
+    }
+  },
+  "per_patch_minmax_used": false,
+  "gt_used": false
+}
