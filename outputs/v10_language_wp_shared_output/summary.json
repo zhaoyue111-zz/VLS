@@ -1,0 +1,273 @@
+{
+  "stage": "V10 pre-projection shared-output Language WP",
+  "status": "completed",
+  "source_prompt": "liver",
+  "target_prompts": [
+    "the liver",
+    "human liver",
+    "hepatic organ"
+  ],
+  "wrong_prompts_test_only": [
+    "spleen",
+    "left kidney",
+    "right kidney"
+  ],
+  "voxtell_frozen": true,
+  "voxtell_network_frozen": true,
+  "voxtell_text_backbone_frozen": true,
+  "full_train_split_used": true,
+  "loss": "NMSE(M_hat_t, M_t) only; no multi-level projection loss and no segmentation loss",
+  "shared_output_definition": "transformer_decoder output after repeat to [B,N,Q], before project_to_decoder_channels",
+  "shared_output_shape": [
+    1,
+    2048
+  ],
+  "train_case_count": 30,
+  "test_case_count": 8,
+  "train_patch_count": 120,
+  "test_patch_count": 32,
+  "train_sample_count": 360,
+  "test_sample_count": 96,
+  "patch_protocol": {
+    "patches_per_case": 4,
+    "foreground_patches_per_case": 2,
+    "foreground_candidate_patches": 16,
+    "foreground_threshold": 0.5,
+    "patch_size": [
+      192,
+      192,
+      192
+    ]
+  },
+  "full_volume_sliding_window_tiles_by_case": {
+    "CYST_PA62.nii.gz": 50,
+    "HEM_PA29.nii.gz": 70,
+    "HEP_PA28.nii.gz": 28,
+    "HEM_PA107.nii.gz": 50,
+    "HEM_PA81.nii.gz": 60,
+    "HEM_PA89.nii.gz": 35,
+    "HEM_PA101.nii.gz": 60,
+    "HCC_10020116_20180118.nii.gz": 12
+  },
+  "checkpoint": "outputs/v10_language_wp_shared_output/language_wp_final.pt",
+  "outputs": {
+    "patch_metrics": "outputs/v10_language_wp_shared_output/shared_output_patch_metrics.csv",
+    "case_metrics": "outputs/v10_language_wp_shared_output/shared_output_case_metrics.csv",
+    "table1": "outputs/v10_language_wp_shared_output/table1_shared_output_summary.csv",
+    "full_volume_case_metrics": "outputs/v10_language_wp_shared_output/full_volume_case_metrics.csv",
+    "table2": "outputs/v10_language_wp_shared_output/table2_full_volume_summary.csv",
+    "training_curve": "outputs/v10_language_wp_shared_output/training_curve.csv",
+    "run_command": "outputs/v10_language_wp_shared_output/run_command.txt"
+  },
+  "table1": [
+    {
+      "target_prompt": "the liver",
+      "action": "source_identity",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.09999272727873176,
+      "predicted_change_rate_case_macro": 0.0,
+      "change_direction_cosine_case_macro": null,
+      "relative_target_nmse_case_macro": 0.012843768301536329
+    },
+    {
+      "target_prompt": "the liver",
+      "action": "correct_action",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.09999272727873176,
+      "predicted_change_rate_case_macro": 0.08712116756942123,
+      "change_direction_cosine_case_macro": 0.9073396408930421,
+      "relative_target_nmse_case_macro": 0.004586392769851955,
+      "correct_nmse_improvement_vs_source_pct_case_macro": 80.0552638283402,
+      "correct_nmse_improvement_vs_source_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_spleen_pct_case_macro": 52.92355532438335,
+      "correct_nmse_improvement_vs_wrong_spleen_win_rate": 0.875,
+      "correct_nmse_improvement_vs_wrong_left_kidney_pct_case_macro": 86.26208239302748,
+      "correct_nmse_improvement_vs_wrong_left_kidney_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_right_kidney_pct_case_macro": 90.82426841609627,
+      "correct_nmse_improvement_vs_wrong_right_kidney_win_rate": 1.0
+    },
+    {
+      "target_prompt": "the liver",
+      "action": "wrong_spleen",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.09999272727873176,
+      "predicted_change_rate_case_macro": 0.0790210283594206,
+      "change_direction_cosine_case_macro": 0.7987398505210876,
+      "relative_target_nmse_case_macro": 0.005900143823964754
+    },
+    {
+      "target_prompt": "the liver",
+      "action": "wrong_left_kidney",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.09999272727873176,
+      "predicted_change_rate_case_macro": 0.10857587540522218,
+      "change_direction_cosine_case_macro": 0.421842516050674,
+      "relative_target_nmse_case_macro": 0.019610325965913944
+    },
+    {
+      "target_prompt": "the liver",
+      "action": "wrong_right_kidney",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.09999272727873176,
+      "predicted_change_rate_case_macro": 0.13625488011166453,
+      "change_direction_cosine_case_macro": 0.3374502278165892,
+      "relative_target_nmse_case_macro": 0.028397400565154385
+    },
+    {
+      "target_prompt": "human liver",
+      "action": "source_identity",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.17994360299780965,
+      "predicted_change_rate_case_macro": 0.0,
+      "change_direction_cosine_case_macro": null,
+      "relative_target_nmse_case_macro": 0.038256211249972694
+    },
+    {
+      "target_prompt": "human liver",
+      "action": "correct_action",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.17994360299780965,
+      "predicted_change_rate_case_macro": 0.19062682474032044,
+      "change_direction_cosine_case_macro": 0.9566949475556612,
+      "relative_target_nmse_case_macro": 0.0055793327092033,
+      "correct_nmse_improvement_vs_source_pct_case_macro": 87.82441031999035,
+      "correct_nmse_improvement_vs_source_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_spleen_pct_case_macro": 86.40123800964938,
+      "correct_nmse_improvement_vs_wrong_spleen_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_left_kidney_pct_case_macro": 70.9044455967011,
+      "correct_nmse_improvement_vs_wrong_left_kidney_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_right_kidney_pct_case_macro": 84.52669485673418,
+      "correct_nmse_improvement_vs_wrong_right_kidney_win_rate": 1.0
+    },
+    {
+      "target_prompt": "human liver",
+      "action": "wrong_spleen",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.17994360299780965,
+      "predicted_change_rate_case_macro": 0.0790210283594206,
+      "change_direction_cosine_case_macro": 0.34784144535660744,
+      "relative_target_nmse_case_macro": 0.034282093205547426
+    },
+    {
+      "target_prompt": "human liver",
+      "action": "wrong_left_kidney",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.17994360299780965,
+      "predicted_change_rate_case_macro": 0.10857587540522218,
+      "change_direction_cosine_case_macro": 0.7623868510127068,
+      "relative_target_nmse_case_macro": 0.015532870500464924
+    },
+    {
+      "target_prompt": "human liver",
+      "action": "wrong_right_kidney",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.17994360299780965,
+      "predicted_change_rate_case_macro": 0.13625488011166453,
+      "change_direction_cosine_case_macro": 0.45468911435455084,
+      "relative_target_nmse_case_macro": 0.029713173236814328
+    },
+    {
+      "target_prompt": "hepatic organ",
+      "action": "source_identity",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.2543951834086329,
+      "predicted_change_rate_case_macro": 0.0,
+      "change_direction_cosine_case_macro": null,
+      "relative_target_nmse_case_macro": 0.09247057246102486
+    },
+    {
+      "target_prompt": "hepatic organ",
+      "action": "correct_action",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.2543951834086329,
+      "predicted_change_rate_case_macro": 0.23733125650323927,
+      "change_direction_cosine_case_macro": 0.9561391063034534,
+      "relative_target_nmse_case_macro": 0.024151575604264508,
+      "correct_nmse_improvement_vs_source_pct_case_macro": 87.19353743658098,
+      "correct_nmse_improvement_vs_source_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_spleen_pct_case_macro": 85.86787201821255,
+      "correct_nmse_improvement_vs_wrong_spleen_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_left_kidney_pct_case_macro": 79.79462051799807,
+      "correct_nmse_improvement_vs_wrong_left_kidney_win_rate": 1.0,
+      "correct_nmse_improvement_vs_wrong_right_kidney_pct_case_macro": 72.89140218604338,
+      "correct_nmse_improvement_vs_wrong_right_kidney_win_rate": 1.0
+    },
+    {
+      "target_prompt": "hepatic organ",
+      "action": "wrong_spleen",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.2543951834086329,
+      "predicted_change_rate_case_macro": 0.0790210283594206,
+      "change_direction_cosine_case_macro": 0.27454809355549514,
+      "relative_target_nmse_case_macro": 0.08463673967344221
+    },
+    {
+      "target_prompt": "hepatic organ",
+      "action": "wrong_left_kidney",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.2543951834086329,
+      "predicted_change_rate_case_macro": 0.10857587540522218,
+      "change_direction_cosine_case_macro": 0.5867589274421334,
+      "relative_target_nmse_case_macro": 0.058321138843894005
+    },
+    {
+      "target_prompt": "hepatic organ",
+      "action": "wrong_right_kidney",
+      "case_macro_n": 8,
+      "real_change_rate_case_macro": 0.2543951834086329,
+      "predicted_change_rate_case_macro": 0.13625488011166453,
+      "change_direction_cosine_case_macro": 0.7830544952303171,
+      "relative_target_nmse_case_macro": 0.04413624174048891
+    }
+  ],
+  "table2": [
+    {
+      "target_prompt": "the liver",
+      "case_macro_n": 8,
+      "source_dice_case_macro": 0.6524455534987137,
+      "source_iou_case_macro": 0.4982212301709957,
+      "real_target_dice_case_macro": 0.6325459934011342,
+      "real_target_iou_case_macro": 0.4789866855923193,
+      "wp_dice_case_macro": 0.6410666333589351,
+      "wp_iou_case_macro": 0.4861536429575336,
+      "wp_dice_absolute_improvement_case_macro": -0.011378920139778655,
+      "wp_iou_absolute_improvement_case_macro": -0.012067587213462051,
+      "wp_dice_relative_improvement_pct_case_macro": -1.9355104984413283,
+      "wp_iou_relative_improvement_pct_case_macro": -2.737596414280401,
+      "wp_dice_win_rate_vs_source": 0.0,
+      "wp_iou_win_rate_vs_source": 0.0
+    },
+    {
+      "target_prompt": "human liver",
+      "case_macro_n": 8,
+      "source_dice_case_macro": 0.6524455534987137,
+      "source_iou_case_macro": 0.4982212301709957,
+      "real_target_dice_case_macro": 0.5890660720102742,
+      "real_target_iou_case_macro": 0.43597859841264636,
+      "wp_dice_case_macro": 0.5922873403822144,
+      "wp_iou_case_macro": 0.4375374886852972,
+      "wp_dice_absolute_improvement_case_macro": -0.060158213116499284,
+      "wp_iou_absolute_improvement_case_macro": -0.060683741485698474,
+      "wp_dice_relative_improvement_pct_case_macro": -10.253104240365557,
+      "wp_iou_relative_improvement_pct_case_macro": -13.83915526668368,
+      "wp_dice_win_rate_vs_source": 0.0,
+      "wp_iou_win_rate_vs_source": 0.0
+    },
+    {
+      "target_prompt": "hepatic organ",
+      "case_macro_n": 8,
+      "source_dice_case_macro": 0.6524455534987137,
+      "source_iou_case_macro": 0.4982212301709957,
+      "real_target_dice_case_macro": 0.5909885709181504,
+      "real_target_iou_case_macro": 0.4397762003165772,
+      "wp_dice_case_macro": 0.6247912182239153,
+      "wp_iou_case_macro": 0.46917367559100803,
+      "wp_dice_absolute_improvement_case_macro": -0.027654335274798422,
+      "wp_iou_absolute_improvement_case_macro": -0.02904755457998755,
+      "wp_dice_relative_improvement_pct_case_macro": -4.650393135466342,
+      "wp_iou_relative_improvement_pct_case_macro": -6.478191012736113,
+      "wp_dice_win_rate_vs_source": 0.0,
+      "wp_iou_win_rate_vs_source": 0.0
+    }
+  ]
+}
